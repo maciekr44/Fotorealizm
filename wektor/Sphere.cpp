@@ -4,8 +4,7 @@
 
 #include "Sphere.h"
 
-Sphere::Sphere() {
-}
+Sphere::Sphere(Vector v, float r) : Center_(v), Radius_(r) {}
 
 const Vector &Sphere::getCenter() const {
     return Center_;
@@ -22,3 +21,8 @@ float Sphere::getRadius() const {
 void Sphere::setRadius(float radius) {
     Radius_ = radius;
 }
+
+bool Sphere::Hit(Ray ray, float t_min, float t_max) const {
+    return false;
+}
+
