@@ -6,8 +6,43 @@
 #define WEKTORY_RAY_H
 
 
-class Ray {
+#include "Vector.h"
 
+class Ray {
+public:
+    Ray();
+    Ray(Vector origin, Vector direction);
+    Ray(Vector origin, float dis);
+    Ray(Vector origin, Vector direction, float dis);
+
+    Vector Origin() const {return Origin_;}
+    void Origin(Vector o) {Origin_ =o;}
+    Vector Destination() const {return Destination_;}
+    void Destination(Vector d) {Destination_=d;}
+    Vector Direction() const {return Direction_;}
+    void Direction(Vector d) {Direction_=d;}
+    float Distance() const {return Distance_;}
+    void Distance(float d) {Distance_=d;}
+
+    friend std::ostream& operator<<(std::ostream& os, const Ray& ray);
+
+    const Vector &getOrigin() const;
+    void setOrigin(const Vector &origin);
+
+    const Vector &getDestination() const;
+    void setDestination(const Vector &destination);
+
+    const Vector &getDirection() const;
+    void setDirection(const Vector &direction);
+
+    float getDistance() const;
+    void setDistance(float distance);
+
+private:
+    Vector Origin_;
+    Vector Destination_;
+    Vector Direction_;
+    float Distance_;
 };
 
 
