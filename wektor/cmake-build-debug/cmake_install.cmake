@@ -1,4 +1,4 @@
-# Install script for directory: D:/zzz.. archiwum/semestr 5/Matematyka grafiki komputerowej/wektor
+# Install script for directory: C:/Users/Maciek/Desktop/Studia/Fotorealistyczna Grafik Komputerowa/Fotorealizm/wektor
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/zzz.. archiwum/semestr 5/Matematyka grafiki komputerowej/wektor/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Maciek/Desktop/Studia/Fotorealistyczna Grafik Komputerowa/Fotorealizm/wektor/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
