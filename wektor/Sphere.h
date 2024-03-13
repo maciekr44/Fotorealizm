@@ -9,9 +9,6 @@
 
 class Sphere {
     public:
-        Sphere();
-        Sphere(float r);
-        Sphere(Vector v);
         Sphere(Vector v, float r);
 
         bool Hit(Ray ray, float t_min, float t_max) const;
@@ -24,11 +21,9 @@ class Sphere {
         friend std::ostream& operator <<(std::ostream& os, const Sphere& sph);
 
     const Vector &getCenter() const;
-
     void setCenter(const Vector &center);
 
     float getRadius() const;
-
     void setRadius(float radius);
 
 private:
