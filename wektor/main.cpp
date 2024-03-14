@@ -18,8 +18,12 @@ int main() {
     Vector w4 = *new Vector(5, 5, 0);
     Vector w5 = *new Vector(4, 5, 1);
     Vector w6 = *new Vector(4, 1, 3);
-    Vector spher_point = *new Vector(0, 0, 0);
+
+    Vector spher_point = *new Vector(0, 0, 20);
     Sphere s1 = *new Sphere(spher_point, 10);
+
+    Vector ray_point = *new Vector(0, 0, 40);
+    Ray r1 = *new Ray(ray_point, spher_point);
 
     cout << "\nZad1\n" <<endl;
     cout << "Zaimplementowalismy klase wektor wraz ze wszystkimi dzialaniami." <<endl;
@@ -53,6 +57,7 @@ int main() {
 
     cout << "\nZad7\n";
     cout << "S1: " <<s1.showCoordinates() << endl;
-    w1.add(w2);
 
+    cout << "\nZad8\n";
+    cout << "R1: " <<r1.showCoordinates() << endl;
 }

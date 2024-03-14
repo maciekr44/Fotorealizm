@@ -10,10 +10,9 @@
 
 class Ray {
 public:
-    Ray();
+
     Ray(Vector origin, Vector direction);
-    Ray(Vector origin, float dis);
-    Ray(Vector origin, Vector direction, float dis);
+
 
     Vector Origin() const {return Origin_;}
     void Origin(Vector o) {Origin_ =o;}
@@ -32,11 +31,13 @@ public:
     const Vector &getDestination() const;
     void setDestination(const Vector &destination);
 
-    const Vector &getDirection() const;
+    const Vector & getDirection();
     void setDirection(const Vector &direction);
 
     float getDistance() const;
     void setDistance(float distance);
+
+    std::string showCoordinates() const;
 
 private:
     Vector Origin_;

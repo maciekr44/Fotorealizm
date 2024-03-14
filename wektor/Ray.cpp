@@ -3,8 +3,9 @@
 //
 
 #include "Ray.h"
+using namespace std;
 
-Ray::Ray(Vector origin, float dis) {
+Ray::Ray(Vector origin, Vector dis) {
 
 }
 
@@ -24,20 +25,19 @@ void Ray::setDestination(const Vector &destination) {
     Destination_ = destination;
 }
 
-const Vector &Ray::getDirection() const {
-    return Direction_;
-}
-
-void Ray::setDirection(const Vector &direction) {
-    Direction_ = direction;
-}
-
 float Ray::getDistance() const {
     return Distance_;
 }
 
 void Ray::setDistance(float distance) {
     Distance_ = distance;
+}
+
+string Ray::showCoordinates() const {
+    return string("[(") + to_string(getOrigin().getX()) + string(", ") + to_string(getOrigin().getY()) + string(", ") + to_string(getOrigin().getZ()) +
+    string("), (") + to_string(getDestination().getX()) + string(", ") + to_string(getDestination().getY()) + string(", ") + to_string(getDestination().getZ()) +
+    string("),") +
+    to_string(getDistance()) +  string("]");
 }
 
 
