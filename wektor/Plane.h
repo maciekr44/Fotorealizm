@@ -6,7 +6,26 @@
 #define WEKTORY_PLANE_H
 
 
+#include "Vector.h"
+
 class Plane {
+public:
+    Plane();
+    Plane(Vector normal_vector, Vector point); //plaszczyzne definiujemy za pomoca wektora i punktu (3 punkty zawierajace sie w plaszcyznie)
+
+    Vector Normal_vector() const {return Normal_vector_;}
+    Vector Point() const {return Point_;}
+
+    const Vector &getNormalVector() const;
+    void setNormalVector(const Vector &normalVector);
+
+    const Vector &getPoint() const;
+    void setPoint(const Vector &point);
+
+
+private:
+    Vector Normal_vector_;
+    Vector Point_;
 
 };
 
