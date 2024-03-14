@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Vector.h"
-//egrsrbh TATASSS
+//egrsrbh TATASSS titis and boobas and cock
 using namespace std;
 
 float angle(Vector v1, Vector v2) {
