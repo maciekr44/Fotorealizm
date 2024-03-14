@@ -1,3 +1,0 @@
-E:/politechnika/magister/fotorealistyczna_grafika_komputerowa/yetetet/Fotorealizm/wektor/cmake-build-debug/CMakeFiles/Wektory.dir
-E:/politechnika/magister/fotorealistyczna_grafika_komputerowa/yetetet/Fotorealizm/wektor/cmake-build-debug/CMakeFiles/edit_cache.dir
-E:/politechnika/magister/fotorealistyczna_grafika_komputerowa/yetetet/Fotorealizm/wektor/cmake-build-debug/CMakeFiles/rebuild_cache.dir
