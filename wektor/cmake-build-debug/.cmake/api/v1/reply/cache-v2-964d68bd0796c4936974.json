@@ -11,7 +11,7 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "Path to a program."
+					"value" : "Path to a program. TITIES"
 				}
 			],
 			"type" : "FILEPATH",
