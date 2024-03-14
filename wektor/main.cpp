@@ -19,10 +19,10 @@ int main() {
     Vector w5 = *new Vector(4, 5, 1);
     Vector w6 = *new Vector(4, 1, 3);
 
-    Vector spher_point = *new Vector(0, 0, 20);
+    Vector spher_point = *new Vector(0, 0, 0);
     Sphere s1 = *new Sphere(spher_point, 10);
 
-    Vector ray_point = *new Vector(0, 0, 40);
+    Vector ray_point = *new Vector(0, 0, -20);
     Ray r1 = *new Ray(ray_point, spher_point);
 
     cout << "\nZad1\n" <<endl;
