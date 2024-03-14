@@ -26,6 +26,8 @@ class Sphere {
     float getRadius() const;
     void setRadius(float radius);
 
+    virtual ~Sphere();
+
 private:
         Vector Center_;
         float Radius_;
