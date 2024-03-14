@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Wektory::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Wektory-Debug-1333f7886bab68879cf8.json",
+					"jsonFile" : "target-Wektory-Debug-a9c85f5ae87743857330.json",
 					"name" : "Wektory",
 					"projectIndex" : 0
 				}
@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "E:/politechnika/magister/fotorealistyczna_grafika_komputerowa/fotorealistyczna/Fotorealizm/wektor/cmake-build-debug",
-		"source" : "E:/politechnika/magister/fotorealistyczna_grafika_komputerowa/fotorealistyczna/Fotorealizm/wektor"
+		"build" : "C:/Users/Maciek/Desktop/Studia/Fotorealistyczna_Grafika_Komputerowa_/Fotorealizm/wektor/cmake-build-debug",
+		"source" : "C:/Users/Maciek/Desktop/Studia/Fotorealistyczna_Grafika_Komputerowa_/Fotorealizm/wektor"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 6
+		"minor" : 4
 	}
 }

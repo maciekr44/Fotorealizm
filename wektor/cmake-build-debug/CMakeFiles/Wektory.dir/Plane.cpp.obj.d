@@ -1,3 +1,3 @@
 CMakeFiles/Wektory.dir/Plane.cpp.obj: \
- E:\politechnika\magister\fotorealistyczna_grafika_komputerowa\fotorealistyczna\Fotorealizm\wektor\Plane.cpp \
- E:\politechnika\magister\fotorealistyczna_grafika_komputerowa\fotorealistyczna\Fotorealizm\wektor\Plane.h
+ C:\Users\Maciek\Desktop\Studia\Fotorealistyczna_Grafika_Komputerowa_\Fotorealizm\wektor\Plane.cpp \
+ C:\Users\Maciek\Desktop\Studia\Fotorealistyczna_Grafika_Komputerowa_\Fotorealizm\wektor\Plane.h
