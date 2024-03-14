@@ -6,6 +6,10 @@
 
 Sphere::Sphere(Vector v, float r) : Center_(v), Radius_(r) {}
 
+Sphere::~Sphere() {
+
+}
+
 const Vector &Sphere::getCenter() const {
     return Center_;
 }
