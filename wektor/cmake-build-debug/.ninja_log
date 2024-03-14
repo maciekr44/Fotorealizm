@@ -1,10 +1,15 @@
 # ninja log v5
-10	471	7320506344870998	CMakeFiles/Wektory.dir/Vector.cpp.obj	58881a06a1fcf834
-4	461	7320506344751039	CMakeFiles/Wektory.dir/main.cpp.obj	9eeb93b28512f25a
-471	631	7320506346420926	Wektory.exe	b36f38a8b44f1580
-34	159	7321197366219332	CMakeFiles/Wektory.dir/Plane.cpp.obj	d815704d0ec0175a
-25	546	7321197370089332	CMakeFiles/Wektory.dir/Ray.cpp.obj	fe1434000b2dab8b
+12	594	7321197370579194	CMakeFiles/Wektory.dir/Vector.cpp.obj	826da97064390a77
 20	558	7321197370209350	CMakeFiles/Wektory.dir/Sphere.cpp.obj	69b1c86634dc56d6
 4	580	7321197370449227	CMakeFiles/Wektory.dir/main.cpp.obj	a09e66e6857bc24
-12	594	7321197370579194	CMakeFiles/Wektory.dir/Vector.cpp.obj	826da97064390a77
 594	760	7321197372201294	Wektory.exe	128d776bc9d293d4
+34	159	7321197366219332	CMakeFiles/Wektory.dir/Plane.cpp.obj	d815704d0ec0175a
+25	546	7321197370089332	CMakeFiles/Wektory.dir/Ray.cpp.obj	fe1434000b2dab8b
+16	80	7321236104000993	CMakeFiles/Wektory.dir/Plane.cpp.obj	88f054474adf40af
+12	414	7321236107350905	CMakeFiles/Wektory.dir/Sphere.cpp.obj	936d67d96973dec
+20	422	7321236107400930	CMakeFiles/Wektory.dir/Ray.cpp.obj	5628ff11362f668f
+8	448	7321236107690911	CMakeFiles/Wektory.dir/main.cpp.obj	2add0e61be262c06
+3	463	7321236107840924	CMakeFiles/Wektory.dir/Vector.cpp.obj	d1b28595ba80b36
+463	573	7321236108910836	Wektory.exe	128d776bc9d293d4
+3	335	7321237954283054	CMakeFiles/Wektory.dir/Sphere.cpp.obj	936d67d96973dec
+336	443	7321237955333021	Wektory.exe	128d776bc9d293d4
