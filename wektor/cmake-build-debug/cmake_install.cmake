@@ -1,4 +1,4 @@
-# Install script for directory: E:/politechnika/magister/fotorealistyczna_grafika_komputerowa/3rsgtf/Fotorealizm/wektor
+# Install script for directory: E:/politechnika/magister/fotorealistyczna_grafika_komputerowa/yetetet/Fotorealizm/wektor
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "E:/politechnika/magister/fotorealistyczna_grafika_komputerowa/3rsgtf/Fotorealizm/wektor/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "E:/politechnika/magister/fotorealistyczna_grafika_komputerowa/yetetet/Fotorealizm/wektor/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
