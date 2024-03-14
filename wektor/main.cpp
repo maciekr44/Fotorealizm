@@ -1,13 +1,18 @@
 #include <iostream>
 #include <string>
+#include <limits>
 #include "Vector.h"
 #include "Sphere.h"
 #include "Ray.h"
 #include "Plane.h"
-//egrsrbh TATASSS titis TOTOS and boobas and cock
 using namespace std;
 
 float angle(Vector v1, Vector v2) {
+    return acos(v1.dotProduct(v2) / (v1.length() * v2.length())) * 180 / M_PI;
+}
+
+float direction_angle(Vector v1) {
+    Vector v2 = *new Vector(200,0,0);
     return acos(v1.dotProduct(v2) / (v1.length() * v2.length())) * 180 / M_PI;
 }
 
@@ -19,11 +24,16 @@ int main() {
     Vector w5 = *new Vector(4, 5, 1);
     Vector w6 = *new Vector(4, 1, 3);
 
+    Vector w90 = *new Vector(1, 1, 0);
+
     Vector spher_point = *new Vector(0, 0, 0);
     Sphere s1 = *new Sphere(spher_point, 10);
 
     Vector ray_point = *new Vector(0, 0, -20);
     Ray r1 = *new Ray(ray_point, spher_point);
+
+    Vector parallel = *new Vector(0, 20, -20);
+    Ray r2 = *new Ray(ray_point, parallel);
 
     cout << "\nZad1\n" <<endl;
     cout << "Zaimplementowalismy klase wektor wraz ze wszystkimi dzialaniami." <<endl;
@@ -60,4 +70,15 @@ int main() {
 
     cout << "\nZad8\n";
     cout << "R1: " <<r1.showCoordinates() << endl;
+
+    cout << "\nZad9\n";
+    cout << "R2: " <<r2.showCoordinates() << endl;
+
+    cout << "\nZad3131\n" << endl;
+    cout << "Kat wynosi: " << to_string(direction_angle(w90)) <<" stopni"<< endl;
+
+    cout << "\nZad10\n";
+    cout << "S z R1: " <<s1.Hit(r1, 0, numeric_limits<float>::infinity()) << endl;
+    cout << "S z R2: " <<s1.Hit(r2,0, numeric_limits<float>::infinity()) << endl;
+    cout << "^^to nie dziala^^"  << endl;
 }

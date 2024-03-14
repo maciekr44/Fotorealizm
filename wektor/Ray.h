@@ -11,13 +11,15 @@
 class Ray {
 public:
 
-    Ray(Vector origin, Vector direction);
+    Ray(Vector origin, Vector destination);
 
 
     Vector Origin() const {return Origin_;}
     void Origin(Vector o) {Origin_ =o;}
     Vector Destination() const {return Destination_;}
     void Destination(Vector d) {Destination_=d;}
+    Vector Direction() const {return Direction_;}
+    void Direction(Vector d) {Direction_=d;}
     float Distance() const {return Distance_;}
     void Distance(float d) {Distance_=d;}
 
@@ -29,6 +31,8 @@ public:
     const Vector &getDestination() const;
     void setDestination(const Vector &destination);
 
+    const Vector &getDirection() const;
+    void setDirection(const Vector &direction);
 
     float getDistance();
     void setDistance(float distance);

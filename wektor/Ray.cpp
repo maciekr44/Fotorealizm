@@ -24,6 +24,14 @@ void Ray::setDestination(const Vector &destination) {
     Destination_ = destination;
 }
 
+const Vector &Ray::getDirection() const {
+    return Direction_;
+}
+
+void Ray::setDirection(const Vector &direction) {
+    Direction_ = direction;
+}
+
 float Ray::getDistance() {
     float DistanceX = Destination_.getX() - Origin_.getX();
     float DistanceY = Destination_.getY() - Origin_.getY();
@@ -42,5 +50,4 @@ string Ray::showCoordinates() {
            string("), (") + to_string(Destination_.getX()) + string(", ") + to_string(Destination_.getY()) + string(", ") + to_string(Destination_.getZ()) +
            string("), ") + to_string(getDistance()) +  string("]");
 }
-
 
