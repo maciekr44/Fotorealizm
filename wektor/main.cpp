@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 #include "Vector.h"
+#include "Sphere.h"
+#include "Ray.h"
+#include "Plane.h"
 //egrsrbh TATASSS titis TOTOS and boobas and cock
 using namespace std;
 
@@ -15,6 +18,8 @@ int main() {
     Vector w4 = *new Vector(5, 5, 0);
     Vector w5 = *new Vector(4, 5, 1);
     Vector w6 = *new Vector(4, 1, 3);
+    Vector spher_point = *new Vector(0, 0, 0);
+    Sphere s1 = *new Sphere(spher_point, 10);
 
     cout << "\nZad1\n" <<endl;
     cout << "Zaimplementowalismy klase wektor wraz ze wszystkimi dzialaniami." <<endl;
@@ -43,5 +48,11 @@ int main() {
     prostopadly.normalize();
     cout << "Znormalizowany poprzedni wektor prostopadly ma wspolrzedne: " << prostopadly.showCoordinates() << endl;
 
-    return 0;
+    cout << "\nZad6\n";
+    cout << "Zaimplementowalismy klasy promien, sfera i plaszczyzna." << endl;
+
+    cout << "\nZad7\n";
+    cout << "S1: " <<s1.showCoordinates() << endl;
+    w1.add(w2);
+
 }

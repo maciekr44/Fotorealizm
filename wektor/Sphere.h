@@ -20,11 +20,13 @@ class Sphere {
 
         friend std::ostream& operator <<(std::ostream& os, const Sphere& sph);
 
-    const Vector &getCenter() const;
-    void setCenter(const Vector &center);
+    Vector getCenter() const;
+    void setCenter(Vector center);
 
     float getRadius() const;
     void setRadius(float radius);
+
+    std::string showCoordinates() const;
 
     virtual ~Sphere();
 
