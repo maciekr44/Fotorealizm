@@ -31,7 +31,7 @@ public:
     const Vector &getDestination() const;
     void setDestination(const Vector &destination);
 
-    const Vector &getDirection() const;
+    Vector &getDirection();
     void setDirection(const Vector &direction);
 
     float getDistance();

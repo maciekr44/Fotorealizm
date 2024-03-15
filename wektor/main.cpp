@@ -80,5 +80,5 @@ int main() {
     cout << "\nZad10\n";
     cout << "S z R1: " <<s1.Hit(r1, 0, numeric_limits<float>::infinity()) << endl;
     cout << "S z R2: " <<s1.Hit(r2,0, numeric_limits<float>::infinity()) << endl;
-    cout << "^^to nie dziala^^"  << endl;
+
 }

@@ -30,8 +30,8 @@ void Sphere::setRadius(float radius) {
 bool Sphere::Hit(Ray ray, float t_min, float t_max) const {
     ray.Origin().sub(this->Center_); //zapisuje sie w ray.Origin wynik sumy
     Vector oc = ray.Origin();
-    float a = ray.Direction().dotProduct(ray.Direction());
-    float b = oc.dotProduct(ray.Direction());
+    float a = ray.getDirection().dotProduct(ray.getDirection());
+    float b = oc.dotProduct(ray.getDirection());
     float c = oc.dotProduct(oc) - this->Radius_ * this->Radius_;
     float discriminant = b * b - a * c;
 

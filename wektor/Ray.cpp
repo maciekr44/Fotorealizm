@@ -3,6 +3,7 @@
 //
 #include <cmath>
 #include "Ray.h"
+#include "Vector.h"
 
 using namespace std;
 
@@ -24,7 +25,12 @@ void Ray::setDestination(const Vector &destination) {
     Destination_ = destination;
 }
 
-const Vector &Ray::getDirection() const {
+Vector &Ray::getDirection() {
+    Direction_.setX(Destination_.getX() - Origin_.getX());
+    Direction_.setY(Destination_.getY() - Origin_.getY());
+    Direction_.setZ(Destination_.getZ() - Origin_.getZ());
+    Direction_.normalize();
+
     return Direction_;
 }
 
