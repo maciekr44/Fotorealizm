@@ -76,6 +76,10 @@ float Vector::length() {
     return sqrtf(powf(getX(), 2) + powf(getY(), 2) + powf(getZ(), 2));
 }
 
+Vector Vector::abs(Vector v) {
+    return Vector(fabs(x), fabs(y), fabs(z));
+}
+
 void Vector::normalize() {
     float n = this->length();
     if (n != 0) this->div(n);
