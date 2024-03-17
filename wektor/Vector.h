@@ -56,6 +56,7 @@ public:
     Vector cross(Vector v);
 
 
+    Vector list(Vector s, Vector r);
 };
 
 

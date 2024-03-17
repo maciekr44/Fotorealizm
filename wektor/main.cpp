@@ -16,6 +16,21 @@ float direction_angle(Vector v1) {
     return acos(v1.dotProduct(v2) / (v1.length() * v2.length())) * 180 / M_PI;
 }
 
+//Vector Vector::list(Vector s, Vector r) {
+//    std::pair<bool, std::pair<Vector, Vector>> result;
+//    result = s.Hit(r, 0, std::numeric_limits<float>::infinity());
+//    if (result.first) {
+//        cout << "Kolizja!" << endl;
+//        Vector hit_point = result.second.second; // Punkt kolizji
+//        cout << hit_point.showCoordinates() << endl;
+//        return hit_point;
+//    } else {
+//        cout << "Brak kolizji." << endl;
+//    }
+//
+//}
+
+
 int main() {
     Vector w1 = *new Vector(1, 2, 3);
     Vector w2 = *new Vector(4, 5, 6);
@@ -89,7 +104,6 @@ int main() {
         cout << "Kolizja!" << endl;
         Vector normal = result.second.first; // Normalna w miejscu kolizji
         Vector hit_point = result.second.second; // Punkt kolizji
-        //cout << normal.showCoordinates() << endl;
         cout << hit_point.showCoordinates() << endl;
         // Możesz wykorzystać normalną i punkt kolizji do dalszych operacji, na przykład rysowania efektu kolizji
     } else {
@@ -103,7 +117,7 @@ int main() {
         cout << "Kolizja!" << endl;
         Vector normal = result2.second.first; // Normalna w miejscu kolizji
         Vector hit_point = result2.second.second; // Punkt kolizji
-        //cout << normal.showCoordinates() << endl;
+        cout << normal.showCoordinates() << endl;
         cout << hit_point.showCoordinates() << endl;
         // Możesz wykorzystać normalną i punkt kolizji do dalszych operacji, na przykład rysowania efektu kolizji
     } else {
@@ -111,9 +125,10 @@ int main() {
     }
 
     cout << "\nZad 12\n";
+    cout << "S z R3: ";
+
     std::pair<bool, std::pair<Vector, Vector>> result3;
     result3 = s1.Hit(r3, 0, std::numeric_limits<float>::infinity());
-    cout << "S z R3: ";
     if (result3.first) {
         cout << "Kolizja!" << endl;
         Vector normal = result3.second.first; // Normalna w miejscu kolizji
