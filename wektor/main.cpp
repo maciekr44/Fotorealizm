@@ -78,7 +78,21 @@ int main() {
     cout << "Kat wynosi: " << to_string(direction_angle(w90)) <<" stopni"<< endl;
 
     cout << "\nZad10\n";
-    cout << "S z R1: " <<s1.Hit(r1, 0, numeric_limits<float>::infinity()) << endl;
-    cout << "S z R2: " <<s1.Hit(r2,0, numeric_limits<float>::infinity()) << endl;
+    std::pair<bool, std::pair<Vector, Vector>> result;
+    result = s1.Hit(r1, 0, std::numeric_limits<float>::infinity());
+
+
+// Wyświetlenie wyniku
+    cout << "S z R1: ";
+    if (result.first) {
+        cout << "Kolizja!" << endl;
+        Vector normal = result.second.first; // Normalna w miejscu kolizji
+        Vector hit_point = result.second.second; // Punkt kolizji
+        //cout << normal.showCoordinates() << endl;
+        cout << hit_point.showCoordinates() << endl;
+        // Możesz wykorzystać normalną i punkt kolizji do dalszych operacji, na przykład rysowania efektu kolizji
+    } else {
+        cout << "Brak kolizji." << endl;
+    }
 
 }
