@@ -97,46 +97,19 @@ int main() {
     cout << "Kat wynosi: " << to_string(direction_angle(w90)) <<" stopni"<< endl;
 
     cout << "\nZad 10-11\n";
-    std::pair<bool, std::pair<Vector, Vector>> result;
-    result = s1.Hit(r1, 0, std::numeric_limits<float>::infinity());
-    cout << "S z R1: ";
-    if (result.first) {
-        cout << "Kolizja!" << endl;
-        Vector normal = result.second.first; // Normalna w miejscu kolizji
-        Vector hit_point = result.second.second; // Punkt kolizji
-        cout << hit_point.showCoordinates() << endl;
-        // Możesz wykorzystać normalną i punkt kolizji do dalszych operacji, na przykład rysowania efektu kolizji
-    } else {
-        cout << "Brak kolizji." << endl;
-    }
-    cout << endl;
-    std::pair<bool, std::pair<Vector, Vector>> result2;
-    result = s1.Hit(r2, 0, std::numeric_limits<float>::infinity());
-    cout << "S z R2: ";
-    if (result2.first) {
-        cout << "Kolizja!" << endl;
-        Vector normal = result2.second.first; // Normalna w miejscu kolizji
-        Vector hit_point = result2.second.second; // Punkt kolizji
-        cout << normal.showCoordinates() << endl;
-        cout << hit_point.showCoordinates() << endl;
-        // Możesz wykorzystać normalną i punkt kolizji do dalszych operacji, na przykład rysowania efektu kolizji
-    } else {
-        cout << "Brak kolizji." << endl;
-    }
+    Vector result1;
+    cout << "S z R1: " << endl;
+    result1 = s1.Hit(r1, 0, std::numeric_limits<float>::infinity());
+
+
+    Vector result2;
+    cout << "S z R2: " << endl;
+    result2 = s1.Hit(r2, 0, std::numeric_limits<float>::infinity());
+
 
     cout << "\nZad 12\n";
-    cout << "S z R3: ";
-
-    std::pair<bool, std::pair<Vector, Vector>> result3;
+    Vector result3;
+    cout << "S z R3: "  << endl;
     result3 = s1.Hit(r3, 0, std::numeric_limits<float>::infinity());
-    if (result3.first) {
-        cout << "Kolizja!" << endl;
-        Vector normal = result3.second.first; // Normalna w miejscu kolizji
-        Vector hit_point = result3.second.second; // Punkt kolizji
-        //cout << normal.showCoordinates() << endl;
-        cout << hit_point.showCoordinates() << endl;
-        // Możesz wykorzystać normalną i punkt kolizji do dalszych operacji, na przykład rysowania efektu kolizji
-    } else {
-        cout << "Brak kolizji." << endl;
-    }
+
 }

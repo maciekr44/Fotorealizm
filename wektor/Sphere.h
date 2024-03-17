@@ -11,7 +11,7 @@ class Sphere {
     public:
         Sphere(Vector v, float r);
 
-        std::pair<bool, std::pair<Vector, Vector>> Hit(Ray ray, float t_min, float t_max) const;
+        Vector Hit(Ray ray, float t_min, float t_max) const;
 
         Vector Center() const { return Center_; }
         void Center(Vector o) { Center_ = o; }
