@@ -44,6 +44,7 @@ private:
     Vector Destination_;
     Vector Direction_;
     float Distance_;
+
 };
 
 
