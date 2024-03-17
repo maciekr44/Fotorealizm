@@ -101,3 +101,8 @@ Vector Vector::cross(Vector v) {
     vector.setZ(getX() * v.getY() - getY() * v.getX());
     return vector;
 }
+
+std::ostream& operator<<(std::ostream& os, const Vector& v) {
+    os << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")";
+    return os;
+}

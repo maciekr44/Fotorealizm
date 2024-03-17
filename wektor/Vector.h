@@ -55,6 +55,7 @@ public:
 
     Vector cross(Vector v);
 
+
 };
 
 

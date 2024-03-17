@@ -27,8 +27,14 @@ void Sphere::setRadius(float radius) {
     Radius_ = radius;
 }
 
-bool Sphere::Hit(Ray ray, float t_min, float t_max) const {
-    ray.Origin().sub(this->Center_); //zapisuje sie w ray.Origin wynik sumy
+Vector Ray::PointAtParameter(float t) {
+    Direction_.mag(t);
+    Origin_.add(Direction_);
+    return Origin_;
+}
+
+std::pair<bool, std::pair<Vector, Vector>> Sphere::Hit(Ray ray, float t_min, float t_max) const {
+    ray.Origin().sub(this->Center_);
     Vector oc = ray.Origin();
     float a = ray.getDirection().dotProduct(ray.getDirection());
     float b = oc.dotProduct(ray.getDirection());
@@ -38,16 +44,22 @@ bool Sphere::Hit(Ray ray, float t_min, float t_max) const {
     if (discriminant > 0) {
         float temp = (-b - sqrtf(discriminant)) / a;
         if (temp < t_max && temp > t_min) {
-
-            return true;
+            Vector hit_point = ray.PointAtParameter(temp);
+            Vector normal = hit_point;
+            normal.sub(this->Center_);
+            normal.div(this->Radius_);
+            return std::make_pair(true, std::make_pair(normal, hit_point));
         }
         temp = (-b + sqrtf(discriminant)) / a;
-
         if (temp < t_max && temp > t_min) {
-            return true;
+            Vector hit_point = ray.PointAtParameter(temp);
+            Vector normal = hit_point;
+            normal.sub(this->Center_);
+            normal.div(this->Radius_);
+            return std::make_pair(true, std::make_pair(normal, hit_point));
         }
     }
-    return false;
+    return std::make_pair(false, std::make_pair(Vector(0,0,0), Vector(0,0,0)));
 }
 
 string Sphere::showCoordinates() const {
