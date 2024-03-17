@@ -7,6 +7,7 @@
 
 
 #include "Vector.h"
+#include "IntersectionResult.h"
 
 class Plane {
 public:
@@ -23,9 +24,12 @@ public:
 
     std::string showCoordinates() const;
 
+    IntersectionResult Intersects(Ray ray, float range) const;
+
 private:
     Vector Normal_vector_;
     Vector Point_;
+
 
 };
 
