@@ -35,3 +35,6 @@ wektor/cmake-build-debug/Makefile
 wektor/cmake-build-debug/Testing/Temporary/LastTest.log
 wektor/cmake-build-debug/Wektory.cbp
 wektor/cmake-build-debug/Wektory.exe
+/wektor/cmake-build-debug
+wektor/cmake-build-debug/CMakeFiles/Wektory.dir/compiler_depend.make
+/wektor/cmake-build-debug
