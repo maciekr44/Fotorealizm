@@ -54,6 +54,9 @@ int main() {
     Vector third_destination = *new Vector(3, -2, 0);
     Ray r3 = *new Ray(third_origin, third_destination);
 
+    Vector angle45 = *new Vector(0, 1, 1);
+    Plane p1 = *new Plane(angle45, spher_point);
+
     cout << "\nZad 1\n" <<endl;
     cout << "Zaimplementowalismy klase wektor wraz ze wszystkimi dzialaniami." <<endl;
 
@@ -111,5 +114,9 @@ int main() {
     Vector result3;
     cout << "S z R3: "  << endl;
     result3 = s1.Hit(r3, 0, std::numeric_limits<float>::infinity());
+
+    cout << "\nZad 13\n";
+    cout << "P1: " <<p1.showCoordinates() << endl;
+
 
 }

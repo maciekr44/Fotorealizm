@@ -21,6 +21,7 @@ public:
     const Vector &getPoint() const;
     void setPoint(const Vector &point);
 
+    std::string showCoordinates() const;
 
 private:
     Vector Normal_vector_;
