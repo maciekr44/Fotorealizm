@@ -29,7 +29,7 @@ int main() {
     Vector spher_point = *new Vector(0, 0, 0);
     Sphere s1 = *new Sphere(spher_point, 10);
 
-    Vector ray_point = *new Vector(0, 0, -20);
+    Vector ray_point = *new Vector(0, 11, 0);
     Ray r1 = *new Ray(ray_point, spher_point);
 
     Vector parallel = *new Vector(0, 20, -20);
