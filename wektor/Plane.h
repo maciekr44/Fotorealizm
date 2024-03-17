@@ -10,7 +10,6 @@
 
 class Plane {
 public:
-    Plane();
     Plane(Vector normal_vector, Vector point); //plaszczyzne definiujemy za pomoca wektora i punktu (3 punkty zawierajace sie w plaszcyznie)
 
     Vector Normal_vector() const {return Normal_vector_;}

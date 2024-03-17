@@ -4,6 +4,8 @@
 
 #include "Plane.h"
 
+Plane::Plane(Vector normal_vector, Vector point) : Normal_vector_(normal_vector), Point_(point) {}
+
 const Vector &Plane::getNormalVector() const {
     return Normal_vector_;
 }
