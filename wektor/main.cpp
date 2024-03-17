@@ -80,14 +80,25 @@ int main() {
     cout << "\nZad10\n";
     std::pair<bool, std::pair<Vector, Vector>> result;
     result = s1.Hit(r1, 0, std::numeric_limits<float>::infinity());
-
-
-// Wyświetlenie wyniku
     cout << "S z R1: ";
     if (result.first) {
         cout << "Kolizja!" << endl;
         Vector normal = result.second.first; // Normalna w miejscu kolizji
         Vector hit_point = result.second.second; // Punkt kolizji
+        //cout << normal.showCoordinates() << endl;
+        cout << hit_point.showCoordinates() << endl;
+        // Możesz wykorzystać normalną i punkt kolizji do dalszych operacji, na przykład rysowania efektu kolizji
+    } else {
+        cout << "Brak kolizji." << endl;
+    }
+    cout << endl;
+    std::pair<bool, std::pair<Vector, Vector>> result2;
+    result = s1.Hit(r2, 0, std::numeric_limits<float>::infinity());
+    cout << "S z R2: ";
+    if (result2.first) {
+        cout << "Kolizja!" << endl;
+        Vector normal = result2.second.first; // Normalna w miejscu kolizji
+        Vector hit_point = result2.second.second; // Punkt kolizji
         //cout << normal.showCoordinates() << endl;
         cout << hit_point.showCoordinates() << endl;
         // Możesz wykorzystać normalną i punkt kolizji do dalszych operacji, na przykład rysowania efektu kolizji
