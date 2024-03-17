@@ -16,21 +16,6 @@ float direction_angle(Vector v1) {
     return acos(v1.dotProduct(v2) / (v1.length() * v2.length())) * 180 / M_PI;
 }
 
-//Vector Vector::list(Vector s, Vector r) {
-//    std::pair<bool, std::pair<Vector, Vector>> result;
-//    result = s.Hit(r, 0, std::numeric_limits<float>::infinity());
-//    if (result.first) {
-//        cout << "Kolizja!" << endl;
-//        Vector hit_point = result.second.second; // Punkt kolizji
-//        cout << hit_point.showCoordinates() << endl;
-//        return hit_point;
-//    } else {
-//        cout << "Brak kolizji." << endl;
-//    }
-//
-//}
-
-
 int main() {
     Vector w1 = *new Vector(1, 2, 3);
     Vector w2 = *new Vector(4, 5, 6);
@@ -47,7 +32,7 @@ int main() {
     Vector ray_point = *new Vector(0, 0, -20);
     Ray r1 = *new Ray(ray_point, spher_point);
 
-    Vector parallel = *new Vector(0, 20, -20);
+    Vector parallel = *new Vector(0, 40, -20);
     Ray r2 = *new Ray(ray_point, parallel);
 
     Vector third_origin = *new Vector(8, -12, 0);
@@ -104,11 +89,9 @@ int main() {
     cout << "S z R1: " << endl;
     result1 = s1.Hit(r1, 0, std::numeric_limits<float>::infinity());
 
-
     Vector result2;
     cout << "S z R2: " << endl;
     result2 = s1.Hit(r2, 0, std::numeric_limits<float>::infinity());
-
 
     cout << "\nZad 12\n";
     Vector result3;
@@ -117,7 +100,6 @@ int main() {
 
     cout << "\nZad 13\n";
     IntersectionResult int_res = p1.Intersects(r2, 200);
-    cout << "P1: " <<p1.showCoordinates() << endl << "punkt przeciecia z r2:" << int_res.intersectionLPOINTNormal.showCoordinates() << endl;
-
+    cout << "P1: " <<p1.showCoordinates() << endl << "punkt przeciecia z r2:" << int_res.LPOINT.showCoordinates() << endl;
 
 }

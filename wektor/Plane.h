@@ -26,10 +26,14 @@ public:
 
     IntersectionResult Intersects(Ray ray, float range) const;
 
+    IntersectionResult Intersects(Ray &ray, float range);
+
 private:
     Vector Normal_vector_;
     Vector Point_;
 
+
+    IntersectionResult Intersects(const Ray &ray, float range) const;
 
 };
 
