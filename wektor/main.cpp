@@ -5,6 +5,8 @@
 #include "Sphere.h"
 #include "Ray.h"
 #include "Plane.h"
+#include "Triangle.h"
+
 using namespace std;
 
 float angle(Vector v1, Vector v2) {
@@ -98,8 +100,37 @@ int main() {
     cout << "S z R3: "  << endl;
     result3 = s1.Hit(r3, 0, std::numeric_limits<float>::infinity());
 
-    cout << "\nZad 13\n";
+    cout << "\nZad 13-14";
     IntersectionResult int_res = p1.Intersects(r2, 200);
     cout << "P1: " <<p1.showCoordinates() << endl << "punkt przeciecia z r2:" << int_res.LPOINT.showCoordinates() << endl;
+
+    cout << "\nZad 15\n";
+    Vector pktA = *new Vector(0, 0, 0);
+    Vector pktB = *new Vector(1, 0, 0);
+    Vector pktC = *new Vector(0, 1, 0);
+    Triangle t1 = *new Triangle(pktA, pktB, pktC);
+
+    cout << "Przypadek 1:\n";
+    Vector pkt1 = *new Vector(-1, 0.5, 0);
+    Vector pkt2 = *new Vector(1, 0.5, 0);
+    Ray ray1 = *new Ray(pkt1, pkt2);
+
+    Triangle::IntersectTriangle(ray1, pktA, pktB, pktC);
+
+    cout << "Przypadek 2:\n";
+    Vector pkt3 = *new Vector(2, -1, 0);
+    Vector pkt4 = *new Vector(2, 2, 0);
+    Ray ray2 = *new Ray(pkt3, pkt4);
+
+    Triangle::IntersectTriangle(ray2, pktA, pktB, pktC);
+
+    cout << "Przypadek 3:\n";
+    Vector pkt5 = *new Vector(0, 0, -1);
+    Vector pkt6 = *new Vector(0, 0, 1);
+    Ray ray3 = *new Ray(pkt5, pkt6);
+
+    Triangle::IntersectTriangle(ray3, pktA, pktB, pktC);
+
+
 
 }

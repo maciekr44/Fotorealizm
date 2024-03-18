@@ -5,4 +5,9 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_executable(Wektory main.cpp Vector.cpp Vector.h Sphere.cpp Sphere.h Plane.cpp Plane.h Ray.cpp Ray.h
         IntersectionResult.h
-        IntersectionResult.cpp)
+        IntersectionResult.cpp
+        Triangle.cpp
+        Triangle.h
+        Geometry.cpp
+        Geometry.h
+)
