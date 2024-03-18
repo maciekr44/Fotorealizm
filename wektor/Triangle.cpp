@@ -31,6 +31,7 @@ bool Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
     float dot = normal.dotProduct(ray.getDirection());
     if (fabsf(dot) < EPSILON){
         cout << "intersection point doesnt exist" << endl;
+//        cout << "Ray is parallel to the triangle." << endl;
         return false;
     }
 
@@ -40,13 +41,25 @@ bool Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
 
     if (t < 0.0f){
         cout << "intersection point doesnt exist" << endl;
+//        cout << "Intersection point is behind the ray's origin." << endl;
         return false;
     }
 
+    Vector original = ray.getOrigin();
+    Vector direction = ray.getDirection();
 
-    ray.getDirection().mag(t);
-    ray.Origin().add(ray.getDirection());
-    Vector intersectionPoint = ray.Origin();
+//    cout << direction.showCoordinates() << endl;
+
+    direction.mag(t);
+//    cout << t << endl;
+
+//    cout << direction.showCoordinates() << endl;
+//    cout << original.showCoordinates() << endl;
+
+    original.add(direction);
+//    cout << original.showCoordinates() << endl;
+
+    Vector intersectionPoint = original;
 
     Vector tmp1 = intersectionPoint;
     Vector tmp2 = intersectionPoint;
