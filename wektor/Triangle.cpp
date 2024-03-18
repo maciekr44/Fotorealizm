@@ -24,8 +24,7 @@ bool Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
     Vector AB = B;
     C.sub(A);
     Vector AC = C;
-    AB.cross(AC);
-    Vector normal = AB;
+    Vector normal = AB.cross(AC);
     const float EPSILON = std::numeric_limits<float>::epsilon();
 
     float dot = normal.dotProduct(ray.getDirection());
@@ -79,7 +78,11 @@ bool Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
     B.sub(C);
     Vector v3 = B.cross(CP);
 
-    if (v1.dotProduct(normal) >= 0.0f && v2.dotProduct(normal) >= 0.0f && v3.dotProduct(normal) >= 0.0f){
+    Vector v1Abs = v1.abs(v1);
+    Vector v2Abs = v2.abs(v2);
+    Vector v3Abs = v3.abs(v3);
+
+    if (v1Abs.dotProduct(normal) >= 0.0f && v2Abs.dotProduct(normal) >= 0.0f && v3Abs.dotProduct(normal) >= 0.0f){
         cout << "intersection point: " << intersectionPoint.showCoordinates() << endl;
         return true;
     }
