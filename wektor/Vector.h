@@ -21,6 +21,7 @@ public:
 
     virtual ~Vector();
 
+
     // Getters and setters
     float getX() const;
 
@@ -57,6 +58,8 @@ public:
 
 
     Vector list(Vector s, Vector r);
+
+    Vector abs(Vector v);
 };
 
 

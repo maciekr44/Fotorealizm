@@ -100,6 +100,7 @@ int main() {
     cout << "S z R3: "  << endl;
     result3 = s1.Hit(r3, 0, std::numeric_limits<float>::infinity());
 
+
     cout << "\nZad 13-14";
     IntersectionResult int_res = p1.Intersects(r2, 200);
     cout << "P1: " <<p1.showCoordinates() << endl << "punkt przeciecia z r2:" << int_res.LPOINT.showCoordinates() << endl;

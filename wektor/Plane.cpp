@@ -3,6 +3,8 @@
 //
 
 #include "Plane.h"
+#include <cmath>
+#include <cstdlib>
 using namespace std;
 
 Plane::Plane(Vector normal_vector, Vector point) : Normal_vector_(normal_vector), Point_(point) {}
@@ -41,7 +43,8 @@ IntersectionResult Plane::Intersects(Ray& ray, float range) {
     }
     float t;
     original.sub(point);
-    t = (-normal.dotProduct(original)) / ndotD;
+    Vector originalAbs = original.abs(original);
+    t = (normal.dotProduct(originalAbs)) / ndotD;
     if(t>0) {
         if(range==0.0f || t<range) {
             cout <<endl;
