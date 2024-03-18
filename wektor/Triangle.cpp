@@ -5,7 +5,6 @@
 //#include "Triangle.h"
 
 #include "Triangle.h"
-//#import <cmath>
 #include <limits>
 
 using namespace std;
@@ -20,43 +19,41 @@ Triangle::Triangle(const Vector &vertex1, const Vector &vertex2, const Vector &v
 }
 
 bool Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
+    Vector originalA = A;
+    Vector originalB = B;
+    Vector originalC = C;
     B.sub(A);
     Vector AB = B;
     C.sub(A);
     Vector AC = C;
     Vector normal = AB.cross(AC);
+    Vector originalNormal = normal;
     const float EPSILON = std::numeric_limits<float>::epsilon();
 
     float dot = normal.dotProduct(ray.getDirection());
     if (fabsf(dot) < EPSILON){
-        cout << "intersection point doesnt exist" << endl;
-//        cout << "Ray is parallel to the triangle." << endl;
+//        cout << "intersection point doesnt exist" << endl;
+        cout << "Ray is parallel to the triangle." << endl;
         return false;
     }
-
     A.sub(ray.Origin());
     float tmp = normal.dotProduct(A);
+//    if (dot == 0)
+//        dot = EPSILON;
     float t = tmp / dot;
 
     if (t < 0.0f){
-        cout << "intersection point doesnt exist" << endl;
-//        cout << "Intersection point is behind the ray's origin." << endl;
+        cout << "Intersection point is behind the ray's origin." << endl;
         return false;
     }
 
     Vector original = ray.getOrigin();
     Vector direction = ray.getDirection();
 
-//    cout << direction.showCoordinates() << endl;
 
     direction.mag(t);
-//    cout << t << endl;
-
-//    cout << direction.showCoordinates() << endl;
-//    cout << original.showCoordinates() << endl;
 
     original.add(direction);
-//    cout << original.showCoordinates() << endl;
 
     Vector intersectionPoint = original;
 
@@ -64,25 +61,21 @@ bool Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
     Vector tmp2 = intersectionPoint;
     Vector tmp3 = intersectionPoint;
 
-    tmp1.sub(A);
+    tmp1.sub(originalA);
     Vector AP = tmp1;
 
-    tmp2.sub(B);
+    tmp2.sub(originalB);
     Vector BP = tmp2;
 
-    tmp3.sub(C);
+    tmp3.sub(originalC);
     Vector CP = tmp3;
 
     Vector v1 = AB.cross(AP);
     Vector v2 = AC.cross(BP);
-    B.sub(C);
-    Vector v3 = B.cross(CP);
+    C.sub(originalB);
+    Vector v3 = C.cross(CP);
 
-    Vector v1Abs = v1.abs(v1);
-    Vector v2Abs = v2.abs(v2);
-    Vector v3Abs = v3.abs(v3);
-
-    if (v1Abs.dotProduct(normal) >= 0.0f && v2Abs.dotProduct(normal) >= 0.0f && v3Abs.dotProduct(normal) >= 0.0f){
+    if (v1.dotProduct(normal) >= 0.0f && v2.dotProduct(normal) >= 0.0f && v3.dotProduct(normal) >= 0.0f){
         cout << "intersection point: " << intersectionPoint.showCoordinates() << endl;
         return true;
     }
