@@ -28,7 +28,7 @@ bool Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
     Vector normal = AB;
     const float EPSILON = std::numeric_limits<float>::epsilon();
 
-    float dot = normal.dotProduct(ray.Direction());
+    float dot = normal.dotProduct(ray.getDirection());
     if (fabsf(dot) < EPSILON){
         cout << "intersection point doesnt exist" << endl;
         return false;
@@ -44,8 +44,8 @@ bool Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
     }
 
 
-    ray.Direction().mag(t);
-    ray.Origin().add(ray.Direction());
+    ray.getDirection().mag(t);
+    ray.Origin().add(ray.getDirection());
     Vector intersectionPoint = ray.Origin();
 
     Vector tmp1 = intersectionPoint;
