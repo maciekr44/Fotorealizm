@@ -9,15 +9,7 @@
 
 class Camera {
 public:
-    virtual Ray getRay(float u, float v) const = 0;
-
-private:
-    Vector position;
-    Vector target;  //wektor kierunkowy kamery
-    Vector nearPlane;
-    Vector farPlane;
-    Vector up; //gora wzgledem kamery
+    virtual void render() = 0;
 };
-
 
 #endif //WEKTORY_CAMERA_H

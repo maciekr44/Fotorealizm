@@ -8,6 +8,7 @@
 #include "Plane.h"
 #include "Triangle.h"
 #include "Intensity.h"
+#include "PerspectiveCamera.h"
 
 using namespace std;
 
@@ -143,6 +144,10 @@ int main() {
     cout << li1 << ", " << li2 << endl;
     li1 /=  3;
     cout << li1 << ", " << li2 << endl;
+
+    Vector Up = *new Vector(0, 0, 1);
+    PerspectiveCamera pc1 = *new PerspectiveCamera(ray_point, spher_point, spher_point, parallel, Up, 2 );
+    cout << "PC1: " <<pc1.showCoordinates() << endl;
 
     // rysowanie kolka sfml
 //    sf::RenderWindow window(sf::VideoMode(200,200),"siema");
