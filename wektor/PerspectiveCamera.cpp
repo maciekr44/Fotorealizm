@@ -4,6 +4,7 @@
 
 using namespace std;
 #include "PerspectiveCamera.h"
+#include "Image.h"
 
 PerspectiveCamera::PerspectiveCamera(Vector position, Vector target, Vector nearPlane, Vector farPlane, Vector up, float fov) : position(position), target(target), nearPlane(nearPlane), farPlane(farPlane), up(up), fov(fov) {
 

@@ -4,17 +4,16 @@
 
 #include "Image.h"
 
-Image::Image(int width, int height) {
+Image::Image(int width, int height) : width(width), height(height) {
 
 }
 
-void Image::setPixel(int x, int y, Intensity pixel)
-{
+//void setPixel(Image& img, int x, int y, Intensity pixel) {
 //    int red, green, blue;
-////konwersja na 0-255
-//    red = (int)(pixel.getRed() * 255);
-//    green = (int)(pixel.getGreen() * 255);
-//    blue = (int)(pixel.getBlue() * 255);
-//    SetPixel(x, y, Color.FromArgb(red, green, blue));
-//    image[x][y] = pixel;
-}
+//    // konwersja na zakres 0-255
+//    red = static_cast<int>(pixel.getRed() * 255);
+//    green = static_cast<int>(pixel.getGreen() * 255);
+//    blue = static_cast<int>(pixel.getBlue() * 255);
+//    // bezpośrednie ustawienie wartości piksela
+//    img.setPixel(x, y, Intensity(red, green, blue));
+//}

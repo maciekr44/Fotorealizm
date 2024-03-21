@@ -7,17 +7,19 @@ class Intensity
 public:
     Intensity();
     Intensity(float r, float g, float b);
-    Intensity(float r, float g);
-    Intensity(float r);
 
     ~Intensity();
 
-    float R();
+    double R();
     void R(float value);
-    float G();
+    double G();
     void G(float value);
-    float B();
+    double B();
     void B(float value);
+
+    double getRed() {return r;}
+    double getGreen() {return g;}
+    double getBlue() {return b;}
 
     void add(double R, double G, double B);
 
@@ -40,7 +42,7 @@ public:
 //    friend Intensity& operator*(Intensity &li, float num);
         friend std::ostream& operator<<(std::ostream& str, Intensity &li);
 
-    float clamp01(float value)
+    float clip(float value)
     {
         float result = value;
         if (result < 0) {

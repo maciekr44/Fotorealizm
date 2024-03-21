@@ -3,57 +3,50 @@
 //
 
 #include "Intensity.h"
-#include <math.h>
 #include <iostream>
-
-float clamp01(float value);
 
 Intensity::Intensity(): Intensity(0, 0, 0){}
 
 Intensity::Intensity(float r, float g, float b)
 {
-    this->r = clamp01(r);
-    this->g = clamp01(g);
-    this->b = clamp01(b);
+    this->r = clip(r);
+    this->g = clip(g);
+    this->b = clip(b);
 }
-
-Intensity::Intensity(float r, float g) : Intensity(r, g, 0){}
-
-Intensity::Intensity(float r) : Intensity(r, 0, 0) {}
 
 
 Intensity::~Intensity()
 {
 }
 
-float Intensity::R()
+double Intensity::R()
 {
     return r;
 }
 
 void Intensity::R(float value)
 {
-    r = clamp01(value);
+    r = clip(value);
 }
 
-float Intensity::G()
+double Intensity::G()
 {
     return g;
 }
 
 void Intensity::G(float value)
 {
-    g = clamp01(value);
+    g = clip(value);
 }
 
-float Intensity::B()
+double Intensity::B()
 {
     return b;
 }
 
 void Intensity::B(float value)
 {
-    b = clamp01(value);
+    b = clip(value);
 }
 
 void Intensity::add(double R, double G, double B)
