@@ -1,19 +1,17 @@
 #include "Camera.h"
+#include "OrtogonalCamera.h"
+using namespace std;
 
-class OrthographicCamera : public Camera {
-public:
-    Vector position;
-    Vector target;
-    Vector nearPlane;
-    Vector farPlane;
-    Vector up;
-    float fov;
+OrtogonalCamera::OrtogonalCamera(Vector position, Vector target, Vector nearPlane, Vector farPlane, Vector up) : position(position), target(target), nearPlane(nearPlane), farPlane(farPlane), up(up) {
 
-    OrthographicCamera(const Vector& _position, const Vector& _target, const Vector& _nearPlane, const Vector& _farPlane, const Vector& _up)
-            : position(_position), target(_target), nearPlane(_nearPlane), farPlane(_farPlane), up(_up), fov(0) {}
+}
 
-    void render() override {
-        std::cout << "Rendering using Orthographic Camera...\n";
-        // Implementacja renderowania dla kamery ortograficznej
-    }
-};
+string OrtogonalCamera::showCoordinates() {
+    return string("[(") + to_string(position.getX()) + string(", ") + to_string(position.getY()) + string(", ") + to_string(position.getZ()) +
+           string("), (") + to_string(target.getX()) + string(", ") + to_string(target.getY()) + string(", ") + to_string(target.getZ()) +
+           string("), (") + to_string(nearPlane.getX()) + string(", ") + to_string(nearPlane.getY()) + string(", ") + to_string(nearPlane.getZ()) +
+           string("), (") + to_string(farPlane.getX()) + string(", ") + to_string(farPlane.getY()) + string(", ") + to_string(farPlane.getZ()) +
+           string("), (") + to_string(up.getX()) + string(", ") + to_string(up.getY()) + string(", ") + to_string(up.getZ()) + string("]");
+}
+
+

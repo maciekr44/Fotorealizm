@@ -7,7 +7,22 @@
 
 #include "Camera.h"
 
-class OrtogonalCamera : Camera{
+class OrtogonalCamera : public Camera {
+public:
+    Vector position;
+    Vector target;
+    Vector nearPlane;
+    Vector farPlane;
+    Vector up;
+
+    OrtogonalCamera(Vector position, Vector target, Vector nearPlane, Vector farPlane, Vector up);
+
+    std::string showCoordinates();
+
+    void render() override {
+        std::cout << "Rendering using Perspective Camera...\n";
+        // Implementacja renderowania dla kamery perspektywicznej
+    }
 
 };
 
