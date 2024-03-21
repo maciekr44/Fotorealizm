@@ -6,12 +6,11 @@
 #define WEKTORY_TRIANGLE_H
 
 
-#include "Geometry.h"
 #include "Vector.h"
 #include "Ray.h"
 //#include "IntersectionResult.h"
 
-class Triangle : public Geometry{
+class Triangle{
 public:
     Triangle();
     Triangle(const Vector& vertex1, const Vector& vertex2, const Vector& vertex3);

@@ -45,18 +45,12 @@ Vector Sphere::Hit(Ray ray, float t_min, float t_max) const {
         float temp = (-b - sqrtf(discriminant)) / a;
         if (temp < t_max && temp > t_min) {
             Vector hit_point = ray.PointAtParameter(temp);
-//            Vector normal = hit_point;
-//            normal.sub(this->Center_);
-//            normal.div(this->Radius_);
             cout << hit_point.showCoordinates() << endl;
             return hit_point;
         }
         temp = (-b + sqrtf(discriminant)) / a;
         if (temp < t_max && temp > t_min) {
             Vector hit_point = ray.PointAtParameter(temp);
-//            Vector normal = hit_point;
-//            normal.sub(this->Center_);
-//            normal.div(this->Radius_);
             cout << hit_point.showCoordinates() << endl;
             return hit_point;
         }
@@ -69,21 +63,3 @@ Vector Sphere::Hit(Ray ray, float t_min, float t_max) const {
 string Sphere::showCoordinates() const {
     return string("[(") + to_string(getCenter().getX()) + string(", ") + to_string(getCenter().getY()) + string(", ") + to_string(getCenter().getZ()) + string("), ") + to_string(getRadius()) + string("]");
 }
-
-//std::pair<bool, std::pair<Vector, Vector>> checkIntersection(const Ray& ray, Sphere sphere) {
-//    std::pair<bool, std::pair<Vector, Vector>> result;
-//    result = sphere.Hit(ray, 0.001, 1000);
-//    if (result.first) {
-//        cout << "Kolizja!" << endl;
-//        Vector normal = result.second.first; // Normalna w miejscu kolizji
-//        Vector hit_point = result.second.second; // Punkt kolizji
-//        cout << hit_point.showCoordinates() << endl;
-//        // Możesz wykorzystać normalną i punkt kolizji do dalszych operacji, na przykład rysowania efektu kolizji
-//    } else {
-//        cout << "Brak kolizji." << endl;
-//    }
-//    cout << endl;
-//}
-
-
-

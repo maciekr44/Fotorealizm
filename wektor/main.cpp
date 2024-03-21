@@ -83,9 +83,6 @@ int main() {
     cout << "\nZad 9\n";
     cout << "R2: " <<r2.showCoordinates() << endl;
 
-    cout << "\nZad3131\n" << endl;
-    cout << "Kat wynosi: " << to_string(direction_angle(w90)) <<" stopni"<< endl;
-
     cout << "\nZad 10-11\n";
     Vector result1;
     cout << "S z R1: " << endl;

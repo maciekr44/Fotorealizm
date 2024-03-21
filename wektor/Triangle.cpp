@@ -32,14 +32,11 @@ bool Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
 
     float dot = normal.dotProduct(ray.getDirection());
     if (fabsf(dot) < EPSILON){
-//        cout << "intersection point doesnt exist" << endl;
         cout << "Ray is parallel to the triangle." << endl;
         return false;
     }
     A.sub(ray.Origin());
     float tmp = normal.dotProduct(A);
-//    if (dot == 0)
-//        dot = EPSILON;
     float t = tmp / dot;
 
     if (t < 0.0f){
