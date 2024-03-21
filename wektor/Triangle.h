@@ -8,9 +8,10 @@
 
 #include "Vector.h"
 #include "Ray.h"
+#include "Geometry.h"
 //#include "IntersectionResult.h"
 
-class Triangle{
+class Triangle : Geometry{
 public:
     Triangle();
     Triangle(const Vector& vertex1, const Vector& vertex2, const Vector& vertex3);
@@ -20,7 +21,7 @@ public:
     Vector vertices[3];
     Vector normals[3];
 
-    static bool IntersectTriangle(Ray ray, Vector A, Vector B, Vector C);
+    static IntersectionResult IntersectTriangle(Ray ray, Vector A, Vector B, Vector C);
 };
 
 #endif //WEKTORY_TRIANGLE_H

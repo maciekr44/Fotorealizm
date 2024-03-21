@@ -3,6 +3,7 @@
 //
 
 #include "Sphere.h"
+
 using namespace std;
 
 Sphere::Sphere(Vector v, float r) : Center_(v), Radius_(r) {}
@@ -33,7 +34,9 @@ Vector Ray::PointAtParameter(float t) {
     return Origin_;
 }
 
-Vector Sphere::Hit(Ray ray, float t_min, float t_max) const {
+IntersectionResult Sphere::Hit(Ray ray, float t_min, float t_max) const {
+    IntersectionResult result;
+    result.type = MISS;
     ray.Origin().sub(this->Center_);
     Vector oc = ray.Origin();
     float a = ray.getDirection().dotProduct(ray.getDirection());
@@ -44,20 +47,36 @@ Vector Sphere::Hit(Ray ray, float t_min, float t_max) const {
     if (discriminant > 0) {
         float temp = (-b - sqrtf(discriminant)) / a;
         if (temp < t_max && temp > t_min) {
-            Vector hit_point = ray.PointAtParameter(temp);
-            cout << hit_point.showCoordinates() << endl;
-            return hit_point;
+            result.LPOINT =  ray.PointAtParameter(temp);
+            cout << result.LPOINT.showCoordinates() << endl;
+            result.type = HIT;
+            Vector kc = result.LPOINT;
+            kc.sub(ray.Origin());
+            result.distance = kc.length();
+            Vector otwor = result.LPOINT;
+            otwor.sub(this->Center_);
+            otwor.normalize();
+            result.intersectionLPOINTNormal = otwor;
+            return result;
         }
         temp = (-b + sqrtf(discriminant)) / a;
         if (temp < t_max && temp > t_min) {
-            Vector hit_point = ray.PointAtParameter(temp);
-            cout << hit_point.showCoordinates() << endl;
-            return hit_point;
+            result.LPOINT =  ray.PointAtParameter(temp);
+            cout << result.LPOINT.showCoordinates() << endl;
+            result.type = HIT;
+            Vector kc = result.LPOINT;
+            kc.sub(ray.Origin());
+            result.distance = kc.length();
+            Vector otwor = result.LPOINT;
+            otwor.sub(this->Center_);
+            otwor.normalize();
+            result.intersectionLPOINTNormal = otwor;
+            return result;
         }
     }
     cout << "there no hit:" << endl;
 //    return NULL;
-    return Vector(0,0,0);
+    return result;
 }
 
 string Sphere::showCoordinates() const {

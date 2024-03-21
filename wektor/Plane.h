@@ -7,9 +7,10 @@
 
 
 #include "Vector.h"
-#include "IntersectionResult.h"
+#include "Geometry.h"
+//#include "IntersectionResult.h"
 
-class Plane {
+class Plane : Geometry {
 public:
     Plane(Vector normal_vector, Vector point); //plaszczyzne definiujemy za pomoca wektora i punktu (3 punkty zawierajace sie w plaszcyznie)
 

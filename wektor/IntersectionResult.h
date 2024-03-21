@@ -7,9 +7,10 @@
 
 #endif //WEKTORY_INTERSECTIONRESULT_H
 
-#include "Vector.h" // Assuming you have a Vector class defined
-#include "Plane.h"
+#include "Vector.h"
+//#include "Plane.h"
 #include "Ray.h"
+//#include "Sphere.h"
 
 // Define enum for intersection type
 enum IntersectionType {

@@ -84,16 +84,16 @@ int main() {
     cout << "R2: " <<r2.showCoordinates() << endl;
 
     cout << "\nZad 10-11\n";
-    Vector result1;
+    IntersectionResult result1;
     cout << "S z R1: " << endl;
     result1 = s1.Hit(r1, 0, std::numeric_limits<float>::infinity());
 
-    Vector result2;
+    IntersectionResult result2;
     cout << "S z R2: " << endl;
     result2 = s1.Hit(r2, 0, std::numeric_limits<float>::infinity());
 
     cout << "\nZad 12\n";
-    Vector result3;
+    IntersectionResult result3;
     cout << "S z R3: "  << endl;
     result3 = s1.Hit(r3, 0, std::numeric_limits<float>::infinity());
 

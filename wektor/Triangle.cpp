@@ -18,7 +18,9 @@ Triangle::Triangle(const Vector &vertex1, const Vector &vertex2, const Vector &v
 
 }
 
-bool Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
+IntersectionResult Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
+    IntersectionResult result;
+    result.type = MISS;
     Vector originalA = A;
     Vector originalB = B;
     Vector originalC = C;
@@ -33,7 +35,7 @@ bool Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
     float dot = normal.dotProduct(ray.getDirection());
     if (fabsf(dot) < EPSILON){
         cout << "Ray is parallel to the triangle." << endl;
-        return false;
+        return result;
     }
     A.sub(ray.Origin());
     float tmp = normal.dotProduct(A);
@@ -41,7 +43,7 @@ bool Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
 
     if (t < 0.0f){
         cout << "Intersection point is behind the ray's origin." << endl;
-        return false;
+        return result;
     }
 
     Vector original = ray.getOrigin();
@@ -52,11 +54,11 @@ bool Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
 
     original.add(direction);
 
-    Vector intersectionPoint = original;
+    result.LPOINT = original;
 
-    Vector tmp1 = intersectionPoint;
-    Vector tmp2 = intersectionPoint;
-    Vector tmp3 = intersectionPoint;
+    Vector tmp1 = result.LPOINT;
+    Vector tmp2 = result.LPOINT;
+    Vector tmp3 = result.LPOINT;
 
     tmp1.sub(originalA);
     Vector AP = tmp1;
@@ -73,11 +75,16 @@ bool Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
     Vector v3 = C.cross(CP);
 
     if (v1.dotProduct(normal) >= 0.0f && v2.dotProduct(normal) >= 0.0f && v3.dotProduct(normal) >= 0.0f){
-        cout << "intersection point: " << intersectionPoint.showCoordinates() << endl;
-        return true;
+        cout << "intersection point: " << result.LPOINT.showCoordinates() << endl;
+        result.type = HIT;
+        Vector subdywizja = result.LPOINT;
+        subdywizja.sub(ray.Origin());
+        result.distance = subdywizja.length();
+        result.intersectionLPOINTNormal = originalNormal;
+        return result;
     }
     cout << "intersection point doesnt exist" << endl;
-    return false;
+    return result;
 }
 
 

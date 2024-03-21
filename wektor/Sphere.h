@@ -4,14 +4,17 @@
 
 #ifndef WEKTORY_SPHERE_H
 #define WEKTORY_SPHERE_H
-#include "Vector.h"
+//#include "Vector.h"
 #include "Ray.h"
+#include "Geometry.h"
 
-class Sphere {
+//#include "IntersectionResult.h"
+
+class Sphere : Geometry{
     public:
         Sphere(Vector v, float r);
 
-        Vector Hit(Ray ray, float t_min, float t_max) const;
+        IntersectionResult Hit(Ray ray, float t_min, float t_max) const;
 
         Vector Center() const { return Center_; }
         void Center(Vector o) { Center_ = o; }
