@@ -10,4 +10,10 @@ add_executable(Wektory main.cpp Vector.cpp Vector.h Sphere.cpp Sphere.h Plane.cp
         Triangle.h
         Geometry.cpp
         Geometry.h
+        Image.cpp
+        Image.h
+        Intensity.cpp
+        Intensity.h
+        Camera.cpp
+        Camera.h
 )
