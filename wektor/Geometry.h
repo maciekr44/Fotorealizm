@@ -6,6 +6,7 @@
 #define WEKTORY_GEOMETRY_H
 
 #include "IntersectionResult.h"
+#include "Intensity.h"
 
 class Geometry{
 

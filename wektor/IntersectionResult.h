@@ -10,6 +10,7 @@
 #include "Vector.h"
 //#include "Plane.h"
 #include "Ray.h"
+#include "Intensity.h"
 //#include "Sphere.h"
 
 // Define enum for intersection type
@@ -22,6 +23,7 @@ enum IntersectionType {
 // Define IntersectionResult class
 class IntersectionResult {
 public:
+    Intensity color;
     IntersectionType type;
     Vector LPOINT; // Intersection point
     float distance; // Distance from ray origin to intersection point

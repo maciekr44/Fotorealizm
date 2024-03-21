@@ -12,7 +12,7 @@
 
 class Sphere : Geometry{
     public:
-        Sphere(Vector v, float r);
+        Sphere(Vector v, float r, Intensity color);
 
         IntersectionResult Hit(Ray ray, float t_min, float t_max) const;
 
@@ -36,6 +36,7 @@ class Sphere : Geometry{
 private:
         Vector Center_;
         float Radius_;
+    Intensity Color_;
 };
 
 

@@ -7,7 +7,7 @@
 #include <cstdlib>
 using namespace std;
 
-Plane::Plane(Vector normal_vector, Vector point) : Normal_vector_(normal_vector), Point_(point) {}
+Plane::Plane(Vector normal_vector, Vector point, Intensity color) : Normal_vector_(normal_vector), Point_(point), Color_(color) {}
 
 const Vector &Plane::getNormalVector() const {
     return Normal_vector_;
@@ -50,6 +50,7 @@ IntersectionResult Plane::Intersects(Ray& ray, float range) {
             cout <<endl;
             if(normal.dotProduct(direction) < 0) {
                 result.type = HIT;
+                result.color = this->Color_;
             }
             else
                 result.type = INSIDE_PRIMITIVE;

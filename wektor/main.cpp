@@ -32,7 +32,10 @@ int main() {
     Vector w90 = *new Vector(1, 1, 0);
 
     Vector spher_point = *new Vector(0, 0, 0);
-    Sphere s1 = *new Sphere(spher_point, 10);
+    Intensity color1 = *new Intensity(1,0,0);
+    Intensity color2 = *new Intensity(0,1,0);
+    Intensity color3 = *new Intensity(0,0,1);
+    Sphere s1 = *new Sphere(spher_point, 10, color1);
 
     Vector ray_point = *new Vector(0, 0, -20);
     Ray r1 = *new Ray(ray_point, spher_point);
@@ -45,7 +48,7 @@ int main() {
     Ray r3 = *new Ray(third_origin, third_destination);
 
     Vector angle45 = *new Vector(0, 1, 1);
-    Plane p1 = *new Plane(angle45, spher_point);
+    Plane p1 = *new Plane(angle45, spher_point, color2);
 
     cout << "\nZad 1\n" <<endl;
     cout << "Zaimplementowalismy klase wektor wraz ze wszystkimi dzialaniami." <<endl;
@@ -109,7 +112,7 @@ int main() {
     Vector pktA = *new Vector(0, 0, 0);
     Vector pktB = *new Vector(1, 0, 0);
     Vector pktC = *new Vector(0, 1, 0);
-    Triangle t1 = *new Triangle(pktA, pktB, pktC);
+    Triangle t1 = *new Triangle(pktA, pktB, pktC, color3);
 
     cout << "Przypadek 1:\n";
     Vector pkt1 = *new Vector(-1, 0.5, 0);

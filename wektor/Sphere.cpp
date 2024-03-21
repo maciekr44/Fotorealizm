@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Sphere::Sphere(Vector v, float r) : Center_(v), Radius_(r) {}
+Sphere::Sphere(Vector v, float r, Intensity color) : Center_(v), Radius_(r), Color_(color) {}
 
 Sphere::~Sphere() {
 
@@ -47,6 +47,7 @@ IntersectionResult Sphere::Hit(Ray ray, float t_min, float t_max) const {
     if (discriminant > 0) {
         float temp = (-b - sqrtf(discriminant)) / a;
         if (temp < t_max && temp > t_min) {
+            result.color = this->Color_;
             result.LPOINT =  ray.PointAtParameter(temp);
             cout << result.LPOINT.showCoordinates() << endl;
             result.type = HIT;

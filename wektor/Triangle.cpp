@@ -9,14 +9,14 @@
 
 using namespace std;
 
-Triangle::Triangle(const Vector &vertex1, const Vector &vertex2, const Vector &vertex3) {
+Triangle::Triangle(const Vector &vertex1, const Vector &vertex2, const Vector &vertex3, Intensity color) : Vertex1_(vertex1), Vertex2_(vertex2), Vertex3_(vertex3), Color_(color){
 
 }
 
-Triangle::Triangle(const Vector &vertex1, const Vector &vertex2, const Vector &vertex3, const Vector &normal1,
-                   const Vector &normal2, const Vector &normal3) {
-
-}
+//Triangle::Triangle(const Vector &vertex1, const Vector &vertex2, const Vector &vertex3, const Vector &normal1,
+//                   const Vector &normal2, const Vector &normal3) {
+//
+//}
 
 IntersectionResult Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
     IntersectionResult result;
@@ -76,6 +76,7 @@ IntersectionResult Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vect
 
     if (v1.dotProduct(normal) >= 0.0f && v2.dotProduct(normal) >= 0.0f && v3.dotProduct(normal) >= 0.0f){
         cout << "intersection point: " << result.LPOINT.showCoordinates() << endl;
+//        result.color = this->Color_;
         result.type = HIT;
         Vector subdywizja = result.LPOINT;
         subdywizja.sub(ray.Origin());
