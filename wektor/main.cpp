@@ -6,6 +6,7 @@
 #include "Ray.h"
 #include "Plane.h"
 #include "Triangle.h"
+#include "Intensity.h"
 
 using namespace std;
 
@@ -129,6 +130,18 @@ int main() {
 
     Triangle::IntersectTriangle(ray3, pktA, pktB, pktC);
 
+    cout << "\nZad 1\n";
+    Intensity li1 = *new Intensity(0.2, 0.2, 0.2);
+    Intensity li2 = *new Intensity(0.1, 0.1, 0.1);
+    cout << li1 << ", "<<li2<< endl;
+    li1 += li2;
+    cout << li1 << ", " << li2 << endl;
+    li2 = li1/4;
+    cout << li1 << ", " << li2 << endl;
+    li1 *= 2;
+    cout << li1 << ", " << li2 << endl;
+    li1 /=  3;
+    cout << li1 << ", " << li2 << endl;
 
 
 }
