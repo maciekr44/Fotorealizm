@@ -76,7 +76,7 @@ IntersectionResult Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vect
 
     if (v1.dotProduct(normal) >= 0.0f && v2.dotProduct(normal) >= 0.0f && v3.dotProduct(normal) >= 0.0f){
         cout << "intersection point: " << result.LPOINT.showCoordinates() << endl;
-//        result.color = this->Color_;
+        result.color = this->Color_;
         result.type = HIT;
         Vector subdywizja = result.LPOINT;
         subdywizja.sub(ray.Origin());

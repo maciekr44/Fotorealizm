@@ -21,13 +21,12 @@ public:
     Vector vertices[3];
     Vector normals[3];
 
-    static IntersectionResult IntersectTriangle(Ray ray, Vector A, Vector B, Vector C);
+    IntersectionResult IntersectTriangle(Ray ray, Vector A, Vector B, Vector C);
 
     const Vector &Vertex1_;
     const Vector &Vertex2_;
     const Vector &Vertex3_;
-private:
-    static Intensity Color_;
+    Intensity Color_;
 };
 
 #endif //WEKTORY_TRIANGLE_H

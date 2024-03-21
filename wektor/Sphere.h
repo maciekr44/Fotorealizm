@@ -32,11 +32,11 @@ class Sphere : Geometry{
     std::string showCoordinates() const;
 
     virtual ~Sphere();
+    Intensity Color_;
 
 private:
         Vector Center_;
         float Radius_;
-    Intensity Color_;
 };
 
 

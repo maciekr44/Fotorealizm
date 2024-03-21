@@ -119,21 +119,21 @@ int main() {
     Vector pkt2 = *new Vector(1, 0.5, 0);
     Ray ray1 = *new Ray(pkt1, pkt2);
 
-    Triangle::IntersectTriangle(ray1, pktA, pktB, pktC);
+    t1.IntersectTriangle(ray1, pktA, pktB, pktC);
 
     cout << "Przypadek 2:\n";
     Vector pkt3 = *new Vector(2, -1, 0);
     Vector pkt4 = *new Vector(2, 2, 0);
     Ray ray2 = *new Ray(pkt3, pkt4);
 
-    Triangle::IntersectTriangle(ray2, pktA, pktB, pktC);
+    t1.IntersectTriangle(ray2, pktA, pktB, pktC);
 
     cout << "Przypadek 3:\n";
     Vector pkt5 = *new Vector(0, 0, -1);
     Vector pkt6 = *new Vector(0, 0, 1);
     Ray ray3 = *new Ray(pkt5, pkt6);
 
-    Triangle::IntersectTriangle(ray3, pktA, pktB, pktC);
+    t1.IntersectTriangle(ray3, pktA, pktB, pktC);
 
     cout << "\nZad 1\n";
     Intensity li1 = *new Intensity(0.2, 0.2, 0.2);
