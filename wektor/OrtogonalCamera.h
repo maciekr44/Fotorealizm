@@ -17,7 +17,7 @@ public:
             : positionOrto(_positionOrto), lookAtOrto(_lookAtOrto), upOrto(_upOrto), leftOrto(_leftOrto), rightOrto(_rightOrto), bottomOrto(_bottomOrto), topOrto(_topOrto), widthOrto(_widthOrto), heightOrto(_heightOrto) {}
 
     // Function to cast a ray from the camera to a pixel on the image plane
-    Ray castRay(int x, int y) {
+    Vector castRay(int x, int y) {
         // Calculate the direction vector from the camera position to the pixel on the image plane
         float pixelX = leftOrto + (rightOrto - leftOrto) * (x + 0.5f) / widthOrto;
         float pixelY = topOrto + (bottomOrto - topOrto) * (y + 0.5f) / heightOrto;
@@ -29,7 +29,7 @@ public:
         directionOrto = ray.getDirection();
 
         // Return the ray
-        return Ray(positionOrto, directionOrto);
+        return Vector(directionOrto);
     }
 
 //private:

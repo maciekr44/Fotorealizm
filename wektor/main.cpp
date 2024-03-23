@@ -197,8 +197,9 @@ int main() {
     Intensity color1 = *new Intensity(1,0,0);
     Intensity color2 = *new Intensity(0,1,0);
     Intensity color3 = *new Intensity(0,0,1);
-    Sphere s1 = *new Sphere(spher_point, 5, color1);
+    Sphere s1 = *new Sphere(spher_point, 50, color2);
 
+    cout<<s1.showCoordinates()<<endl;
     cout<<s1.getColor().getRed()<<endl;
     cout<<s1.getColor().getGreen()<<endl;
     cout<<s1.getColor().getBlue()<<endl;
@@ -212,16 +213,16 @@ int main() {
     Image image(600, 600);
 
     // Define the parameters for the camera
-    Vector cameraPosition(0, 0, -200);  // Set the camera position
-    Vector lookAt(0, 0, 100);  // Set the point to look at
-    Vector up(0, 1, 0);  // Set the up vector
+    Vector cameraPosition(-100, 0, 0);  // Set the camera position
+    Vector lookAt(-190, 0, 0);  // Set the point to look at
+    Vector up(0, 0, 1);  // Set the up vector
 
 // Create a perspective camera
     PerspectiveCamera cameraPersp(cameraPosition, lookAt, up, 90.0f, image.width, image.height);
 
-    Vector cameraPositionOrto(0, 0, -200);  // Set the camera position
-    Vector lookAtOrto(0, 0, 0);  // Set the point to look at
-    Vector upOrto(0, 1, 0);  // Set the up vector
+    Vector cameraPositionOrto(00, 0, 0);  // Set the camera position
+    Vector lookAtOrto(-30, 0, 0);  // Set the point to look at
+    Vector upOrto(0, 0, 1);  // Set the up vector
     float leftOrto = -100.0f;   // Set the left boundary of the view frustum
     float rightOrto = 100.0f;   // Set the right boundary of the view frustum
     float bottomOrto = -100.0f; // Set the bottom boundary of the view frustum
@@ -231,7 +232,7 @@ int main() {
     OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, upOrto, leftOrto, rightOrto, bottomOrto, topOrto, image.width, image.height);
 
 
-    // kastuje reje z kazdego vertexa z image i one leca rownolegle i sprawdzam czy cos trafiaja
+    // kastuje reje z kazdAego vertexa z image i one leca rownolegle i sprawdzam czy cos trafiaja
     Vector pkt3 = *new Vector(2, -1, 0);
     Vector pkt4 = *new Vector(2, 2, 0);
     Ray ray = *new Ray(pkt3, pkt4);
@@ -260,14 +261,23 @@ int main() {
 //            }
 //        }
 //    }
-
+    Ray rayOrthographic = *new Ray(cameraPositionOrto,lookAtOrto);
     // Iterate over each pixel in the image
     for (int y = 0; y < image.height; ++y) {
         for (int x = 0; x < image.width; ++x) {
             // Cast a ray from the camera through the pixel
 //            Ray rayPerspective = cameraPersp.castRay(x, y);
-            Ray rayOrthographic = cameraOrto.castRay(x, y);
 
+            float u = (-1.0f + 2.0f * x / (image.width - 1.0f))*50;
+            float v = (-1.0f + 2.0f * y / (image.height - 1.0f))*50;
+
+            Vector start = *new Vector(u,v,0);
+            Vector finish = rayOrthographic.getDirection();
+//            cout<<start.showCoordinates()<<endl;
+//            cout<<finish.showCoordinates()<<endl;
+
+
+            Ray rayOrthographic = *new Ray(start,finish);
             // Check for intersections with the sphere
 //            IntersectionResult intersectionPerspective = s1.Hit(rayPerspective, 0, std::numeric_limits<float>::infinity());
             IntersectionResult intersectionOrthographic = s1.Hit(rayOrthographic, 0, std::numeric_limits<float>::infinity());
@@ -280,7 +290,7 @@ int main() {
                 image.setPixel(x, y, intersectionOrthographic.color);
             } else {
                 // Set background color
-                Intensity bgColor(0,1,1);
+                Intensity bgColor(0,0,1);
                 image.setPixel(x, y, bgColor);
             }
         }
