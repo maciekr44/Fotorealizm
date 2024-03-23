@@ -197,7 +197,7 @@ int main() {
     Intensity color1 = *new Intensity(1,0,0);
     Intensity color2 = *new Intensity(0,1,0);
     Intensity color3 = *new Intensity(0,0,1);
-    Sphere s1 = *new Sphere(spher_point, 50, color2);
+    Sphere s1 = *new Sphere(spher_point, 50, color1);
 
     cout<<s1.showCoordinates()<<endl;
     cout<<s1.getColor().getRed()<<endl;
@@ -220,8 +220,8 @@ int main() {
 // Create a perspective camera
     PerspectiveCamera cameraPersp(cameraPosition, lookAt, up, 90.0f, image.width, image.height);
 
-    Vector cameraPositionOrto(00, 0, 0);  // Set the camera position
-    Vector lookAtOrto(-30, 0, 0);  // Set the point to look at
+    Vector cameraPositionOrto(-40, 0, 0);  // Set the camera position
+    Vector lookAtOrto(0, 0, 0);  // Set the point to look at
     Vector upOrto(0, 0, 1);  // Set the up vector
     float leftOrto = -100.0f;   // Set the left boundary of the view frustum
     float rightOrto = 100.0f;   // Set the right boundary of the view frustum
@@ -268,13 +268,15 @@ int main() {
             // Cast a ray from the camera through the pixel
 //            Ray rayPerspective = cameraPersp.castRay(x, y);
 
-            float u = (-1.0f + 2.0f * x / (image.width - 1.0f))*50;
-            float v = (-1.0f + 2.0f * y / (image.height - 1.0f))*50;
+            float u = (-1.0f + 2.0f * x / (image.width - 1.0f))*500;
+            float v = (-1.0f + 2.0f * y / (image.height - 1.0f))*500;
 
-            Vector start = *new Vector(u,v,0);
-            Vector finish = rayOrthographic.getDirection();
+            Vector finish = *new Vector(1,v,u);
+            Vector start = *new Vector(-80,v,u);
+//            Vector start = rayOrthographic.getDirection();
 //            cout<<start.showCoordinates()<<endl;
 //            cout<<finish.showCoordinates()<<endl;
+            Vector finish2 = *new Vector(u,10,0);
 
 
             Ray rayOrthographic = *new Ray(start,finish);
