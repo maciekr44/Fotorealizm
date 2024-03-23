@@ -193,6 +193,8 @@ int main() {
 //        window.display();
 //    }
 
+
+
     Vector spher_point = *new Vector(0, 0, 50);
     Intensity color1 = *new Intensity(1,0,0);
     Intensity color2 = *new Intensity(0,1,0);
@@ -204,13 +206,17 @@ int main() {
     cout<<s1.getColor().getGreen()<<endl;
     cout<<s1.getColor().getBlue()<<endl;
 
+    Vector normalPlane = *new Vector(1, 0, 0);  // w sina dal od kamery
+    Vector pointPlane(600,0,0); // rownolegle do kamery
+    Plane p1 = *new Plane(normalPlane, pointPlane, color2);    //tlo zielone bedzie
+
 //    Vector ray_point = *new Vector(0, 0, -20);
 //    Ray r1 = *new Ray(ray_point, spher_point);
 
 
 
     // Create an image with given width and height
-    Image image(600, 600);
+    Image image(200, 200);
 
     // Define the parameters for the camera
     Vector cameraPosition(-100, 0, 0);  // Set the camera position
@@ -282,21 +288,25 @@ int main() {
             Ray rayOrthographic = *new Ray(start,finish);
             // Check for intersections with the sphere
 //            IntersectionResult intersectionPerspective = s1.Hit(rayPerspective, 0, std::numeric_limits<float>::infinity());
-            IntersectionResult intersectionOrthographic = s1.Hit(rayOrthographic, 0, std::numeric_limits<float>::infinity());
-
+            IntersectionResult intersectionOrthographic = s1.Hit(rayOrthographic, 0, 900);  //tmax to ten nasz far plane
+            IntersectionResult intersectionFarPlane = p1.Intersects(rayOrthographic, 0.0f);
             // Set the pixel color based on the intersection result
 //            if (intersectionPerspective.type == HIT) {
 //                image.setPixel(x, y, intersectionPerspective.color);
 //            } else
             if (intersectionOrthographic.type == HIT) {
                 image.setPixel(x, y, intersectionOrthographic.color);
-            } else {
-                // Set background color
-                Intensity bgColor(0,0,1);
-                image.setPixel(x, y, bgColor);
+            } else if (intersectionFarPlane.type == HIT || intersectionFarPlane.type == INSIDE_PRIMITIVE){
+                image.setPixel(x, y, intersectionFarPlane.color);
+
+            }else {
+                    // Set background color
+                    Intensity bgColor(0,0,1);
+                    image.setPixel(x, y, bgColor);
+                }
             }
         }
-    }
+
     // Create SFML window
     sf::RenderWindow window(sf::VideoMode(image.width, image.height), "SFML Image Test");
 

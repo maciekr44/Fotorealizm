@@ -29,7 +29,7 @@ string Plane::showCoordinates() const {
     return string("[(") + to_string(getNormalVector().getX()) + string(", ") + to_string(getNormalVector().getY()) + string(", ") + to_string(getNormalVector().getZ()) + string("), (") + to_string(getPoint().getX()) + string(", ") + to_string(getPoint().getY()) + string(", ") + to_string(getPoint().getZ()) + string(")") + string("]");
 }
 
-IntersectionResult Plane::Intersects(Ray& ray, float range) {
+IntersectionResult Plane::Intersects(Ray& ray, float range) {   //todo: ej bo ta funkcja cos nie tego bo nigdy sie nie wydarza hit
     IntersectionResult result;
     Vector original = ray.getOrigin();
     Vector normal = getNormalVector();
@@ -47,10 +47,10 @@ IntersectionResult Plane::Intersects(Ray& ray, float range) {
     t = (normal.dotProduct(originalAbs)) / ndotD;
     if(t>0) {
         if(range==0.0f || t<range) {
-            cout <<endl;
+            result.color = this->Color_;
+
             if(normal.dotProduct(direction) < 0) {
                 result.type = HIT;
-                result.color = this->Color_;
             }
             else
                 result.type = INSIDE_PRIMITIVE;
