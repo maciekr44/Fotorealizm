@@ -10,6 +10,7 @@
 #include "Intensity.h"
 #include "PerspectiveCamera.h"
 #include "Image.h"
+#include "OrtogonalCamera.h"
 
 using namespace std;
 
@@ -196,7 +197,7 @@ int main() {
     Intensity color1 = *new Intensity(1,0,0);
     Intensity color2 = *new Intensity(0,1,0);
     Intensity color3 = *new Intensity(0,0,1);
-    Sphere s1 = *new Sphere(spher_point, 50, color1);
+    Sphere s1 = *new Sphere(spher_point, 5, color1);
 
     cout<<s1.getColor().getRed()<<endl;
     cout<<s1.getColor().getGreen()<<endl;
@@ -208,38 +209,82 @@ int main() {
 
 
     // Create an image with given width and height
-    Image image(200, 200);
+    Image image(600, 600);
+
+    // Define the parameters for the camera
+    Vector cameraPosition(0, 0, -200);  // Set the camera position
+    Vector lookAt(0, 0, 100);  // Set the point to look at
+    Vector up(0, 1, 0);  // Set the up vector
+
+// Create a perspective camera
+    PerspectiveCamera cameraPersp(cameraPosition, lookAt, up, 90.0f, image.width, image.height);
+
+    Vector cameraPositionOrto(0, 0, -200);  // Set the camera position
+    Vector lookAtOrto(0, 0, 0);  // Set the point to look at
+    Vector upOrto(0, 1, 0);  // Set the up vector
+    float leftOrto = -100.0f;   // Set the left boundary of the view frustum
+    float rightOrto = 100.0f;   // Set the right boundary of the view frustum
+    float bottomOrto = -100.0f; // Set the bottom boundary of the view frustum
+    float topOrto = 100.0f;     // Set the top boundary of the view frustum
+
+// Create an orthographic camera
+    OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, upOrto, leftOrto, rightOrto, bottomOrto, topOrto, image.width, image.height);
+
 
     // kastuje reje z kazdego vertexa z image i one leca rownolegle i sprawdzam czy cos trafiaja
     Vector pkt3 = *new Vector(2, -1, 0);
     Vector pkt4 = *new Vector(2, 2, 0);
     Ray ray = *new Ray(pkt3, pkt4);
-    for (int i = 0; i < image.height; i++){
-        for (int j = 0; j < image.width; j++){
-//            image.setPixel(j, i, sf::Color::Red);
+//    for (int i = 0; i < image.height; i++){
+//        for (int j = 0; j < image.width; j++){
+////            image.setPixel(j, i, sf::Color::Red);
+//
+//            Vector pixel = *new Vector(j, i, 0);
+//            ray.setOrigin(pixel);
+//            Vector destination = *new Vector(j, i, 200);
+//            ray.setDestination(destination);
+//
+//            IntersectionResult intersection = s1.Hit(ray, 0, std::numeric_limits<float>::infinity());
+//
+//            // Perform ray tracing calculations here...
+//            // For demonstration, let's print the color of the pixel to the console
+//            if (intersection.type == HIT){
+////                cout<<s1.getColor().getRed()<<endl;
+////                cout<<s1.getColor().getGreen()<<endl;
+////                cout<<s1.getColor().getBlue()<<endl;
+//                image.setPixel(j, i, s1.getColor());    //s1.getColor to typ intensity
+//            }else{
+//                Intensity bg = *new Intensity (0, 1, 1); //tlo na cyjan
+//                image.setPixel(j, i, bg); //todo: trzeba ten kolor zmienic zeby go ie brac z s1 tylko z intersection result
+//
+//            }
+//        }
+//    }
 
-            Vector pixel = *new Vector(j, i, 0);
-            ray.setOrigin(pixel);
-            Vector destination = *new Vector(j, i, 200);
-            ray.setDestination(destination);
+    // Iterate over each pixel in the image
+    for (int y = 0; y < image.height; ++y) {
+        for (int x = 0; x < image.width; ++x) {
+            // Cast a ray from the camera through the pixel
+//            Ray rayPerspective = cameraPersp.castRay(x, y);
+            Ray rayOrthographic = cameraOrto.castRay(x, y);
 
-            IntersectionResult intersection = s1.Hit(ray, 0, std::numeric_limits<float>::infinity());
+            // Check for intersections with the sphere
+//            IntersectionResult intersectionPerspective = s1.Hit(rayPerspective, 0, std::numeric_limits<float>::infinity());
+            IntersectionResult intersectionOrthographic = s1.Hit(rayOrthographic, 0, std::numeric_limits<float>::infinity());
 
-            // Perform ray tracing calculations here...
-            // For demonstration, let's print the color of the pixel to the console
-            if (intersection.type == HIT){
-//                cout<<s1.getColor().getRed()<<endl;
-//                cout<<s1.getColor().getGreen()<<endl;
-//                cout<<s1.getColor().getBlue()<<endl;
-                image.setPixel(j, i, s1.getColor());    //s1.getColor to typ intensity
-            }else{
-                Intensity bg = *new Intensity (0, 1, 1); //tlo na cyjan
-                image.setPixel(j, i, bg); //todo: trzeba ten kolor zmienic zeby go ie brac z s1 tylko z intersection result
-
+            // Set the pixel color based on the intersection result
+//            if (intersectionPerspective.type == HIT) {
+//                image.setPixel(x, y, intersectionPerspective.color);
+//            } else
+            if (intersectionOrthographic.type == HIT) {
+                image.setPixel(x, y, intersectionOrthographic.color);
+            } else {
+                // Set background color
+                Intensity bgColor(0,1,1);
+                image.setPixel(x, y, bgColor);
             }
         }
     }
-
     // Create SFML window
     sf::RenderWindow window(sf::VideoMode(image.width, image.height), "SFML Image Test");
 

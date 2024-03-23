@@ -85,7 +85,7 @@ string Sphere::showCoordinates() const {
 }
 
 Intensity Sphere::getColor() {
-    return Intensity();
+    return Color_;
 }
 
 void Sphere::setColor(Intensity color) {

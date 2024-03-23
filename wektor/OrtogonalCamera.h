@@ -1,30 +1,43 @@
-//
-// Created by Kiu on 21.03.2024.
-//
+#include "Vector.h"
 
-#ifndef WEKTORY_ORTOGONALCAMERA_H
-#define WEKTORY_ORTOGONALCAMERA_H
+class OrtogonalCamera {
+private:
+    Vector positionOrto;
+    Vector lookAtOrto;
+    Vector upOrto;
+    float leftOrto;
+    float rightOrto;
+    float bottomOrto;
+    float topOrto;
+    int widthOrto;
+    int heightOrto;
 
-#include "Camera.h"
-
-class OrtogonalCamera : public Camera {
 public:
-    Vector position;
-    Vector target;
-    Vector nearPlane;
-    Vector farPlane;
-    Vector up;
+    OrtogonalCamera(Vector _positionOrto, Vector _lookAtOrto, Vector _upOrto, float _leftOrto, float _rightOrto, float _bottomOrto, float _topOrto, int _widthOrto, int _heightOrto)
+            : positionOrto(_positionOrto), lookAtOrto(_lookAtOrto), upOrto(_upOrto), leftOrto(_leftOrto), rightOrto(_rightOrto), bottomOrto(_bottomOrto), topOrto(_topOrto), widthOrto(_widthOrto), heightOrto(_heightOrto) {}
 
-    OrtogonalCamera(Vector position, Vector target, Vector nearPlane, Vector farPlane, Vector up);
+    // Function to cast a ray from the camera to a pixel on the image plane
+    Ray castRay(int x, int y) {
+        // Calculate the direction vector from the camera position to the pixel on the image plane
+        float pixelX = leftOrto + (rightOrto - leftOrto) * (x + 0.5f) / widthOrto;
+        float pixelY = topOrto + (bottomOrto - topOrto) * (y + 0.5f) / heightOrto;
 
-    std::string showCoordinates();
+        // Calculate the direction vector using the rightO function
 
-    void render() override {
-        std::cout << "Rendering using Perspective Camera...\n";
-        // Implementacja renderowania dla kamery perspektywicznej
+        Ray ray = *new Ray(positionOrto, lookAtOrto);
+        Vector directionOrto = *new Vector;
+        directionOrto = ray.getDirection();
+
+        // Return the ray
+        return Ray(positionOrto, directionOrto);
     }
 
+//private:
+    // Calculate the right vector based on the up vector and the direction from camera position to lookAt
+//    Vector rightO() {
+//        Vector directionOrto = lookAtOrto - positionOrto;
+//        Vector rightOrto = directionOrto.cross(upOrto);
+//        rightOrto.normalize();
+//        return rightOrto;
+//    }
 };
-
-
-#endif //WEKTORY_ORTOGONALCAMERA_H

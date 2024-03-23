@@ -16,6 +16,7 @@ class Image : public sf::Drawable {
 
 public:
     // Constructor to initialize the image with given width and height
+    // left upper corner is 0,0,0
     Image(int _width, int _height) : width(_width), height(_height) {
         vertices.resize(width * height);
         for (int i = 0; i < width * height; ++i) {
