@@ -195,7 +195,7 @@ int main() {
 
 
 
-    Vector spher_point = *new Vector(0, 0, 50);
+    Vector spher_point = *new Vector(0, 20, 0);
     Intensity color1 = *new Intensity(1,0,0);
     Intensity color2 = *new Intensity(0,1,0);
     Intensity color3 = *new Intensity(0,0,1);
@@ -216,7 +216,7 @@ int main() {
 
 
     // Create an image with given width and height
-    Image image(200, 200);
+    Image image(400, 400);
 
     // Define the parameters for the camera
     Vector cameraPosition(-100, 0, 0);  // Set the camera position
@@ -226,7 +226,7 @@ int main() {
 // Create a perspective camera
     PerspectiveCamera cameraPersp(cameraPosition, lookAt, up, 90.0f, image.width, image.height);
 
-    Vector cameraPositionOrto(-40, 0, 0);  // Set the camera position
+    Vector cameraPositionOrto(-80, 0, 0);  // Set the camera position
     Vector lookAtOrto(0, 0, 0);  // Set the point to look at
     Vector upOrto(0, 0, 1);  // Set the up vector
     float leftOrto = -100.0f;   // Set the left boundary of the view frustum
@@ -274,15 +274,18 @@ int main() {
             // Cast a ray from the camera through the pixel
 //            Ray rayPerspective = cameraPersp.castRay(x, y);
 
-            float u = (-1.0f + 2.0f * x / (image.width - 1.0f))*500;
-            float v = (-1.0f + 2.0f * y / (image.height - 1.0f))*500;
+            Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
+            float u = (-1.0f + 2.0f * x / (image.width - 1.0f))*kierunek.getDistance()+spher_point.getY();
+            float v = (-1.0f + 2.0f * y / (image.height - 1.0f))*kierunek.getDistance()+spher_point.getZ();
+            Vector zwrot = kierunek.getDirection();
+            float cameraEnd = zwrot.getX();
 
-            Vector finish = *new Vector(1,v,u);
-            Vector start = *new Vector(-80,v,u);
+            Vector finish = *new Vector(cameraEnd,v,u);
+            float cameraPoint = cameraPositionOrto.getX();
+            Vector start = *new Vector(cameraPoint,v,u);
 //            Vector start = rayOrthographic.getDirection();
 //            cout<<start.showCoordinates()<<endl;
 //            cout<<finish.showCoordinates()<<endl;
-            Vector finish2 = *new Vector(u,10,0);
 
 
             Ray rayOrthographic = *new Ray(start,finish);
