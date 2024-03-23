@@ -21,7 +21,7 @@ const Vector &Ray::getDestination() const {
     return Destination_;
 }
 
-void Ray::setDestination(const Vector &destination) {
+void Ray::setDestination(Vector &destination) {
     Destination_ = destination;
 }
 

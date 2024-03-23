@@ -10,7 +10,7 @@
 
 class Ray {
 public:
-
+    Ray();
     Ray(Vector origin, Vector destination);
 
 
@@ -29,7 +29,7 @@ public:
     void setOrigin(const Vector &origin);
 
     const Vector &getDestination() const;
-    void setDestination(const Vector &destination);
+    void setDestination(Vector &destination);
 
     Vector &getDirection();
     void setDirection(const Vector &direction);

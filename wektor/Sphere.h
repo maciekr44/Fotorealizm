@@ -29,6 +29,9 @@ class Sphere : Geometry{
     float getRadius() const;
     void setRadius(float radius);
 
+    Intensity getColor();
+    void setColor(Intensity color);
+
     std::string showCoordinates() const;
 
     virtual ~Sphere();

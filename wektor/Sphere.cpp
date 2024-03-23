@@ -49,7 +49,7 @@ IntersectionResult Sphere::Hit(Ray ray, float t_min, float t_max) const {
         if (temp < t_max && temp > t_min) {
             result.color = this->Color_;
             result.LPOINT =  ray.PointAtParameter(temp);
-            cout << result.LPOINT.showCoordinates() << endl;
+//            cout << result.LPOINT.showCoordinates() << endl;
             result.type = HIT;
             Vector kc = result.LPOINT;
             kc.sub(ray.Origin());
@@ -63,7 +63,7 @@ IntersectionResult Sphere::Hit(Ray ray, float t_min, float t_max) const {
         temp = (-b + sqrtf(discriminant)) / a;
         if (temp < t_max && temp > t_min) {
             result.LPOINT =  ray.PointAtParameter(temp);
-            cout << result.LPOINT.showCoordinates() << endl;
+//            cout << result.LPOINT.showCoordinates() << endl;
             result.type = HIT;
             Vector kc = result.LPOINT;
             kc.sub(ray.Origin());
@@ -75,11 +75,19 @@ IntersectionResult Sphere::Hit(Ray ray, float t_min, float t_max) const {
             return result;
         }
     }
-    cout << "there no hit:" << endl;
+//    cout << "there no hit:" << endl;
 //    return NULL;
     return result;
 }
 
 string Sphere::showCoordinates() const {
     return string("[(") + to_string(getCenter().getX()) + string(", ") + to_string(getCenter().getY()) + string(", ") + to_string(getCenter().getZ()) + string("), ") + to_string(getRadius()) + string("]");
+}
+
+Intensity Sphere::getColor() {
+    return Intensity();
+}
+
+void Sphere::setColor(Intensity color) {
+
 }

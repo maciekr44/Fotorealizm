@@ -2,6 +2,7 @@
 // Created by mical on 02.11.2022.
 //
 
+
 #include "Vector.h"
 
 using namespace std;
@@ -110,3 +111,5 @@ std::ostream& operator<<(std::ostream& os, const Vector& v) {
     os << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")";
     return os;
 }
+
+

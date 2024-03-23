@@ -5,6 +5,7 @@
 #include "Intensity.h"
 #include <iostream>
 
+
 Intensity::Intensity(): Intensity(0, 0, 0){}
 
 Intensity::Intensity(float r, float g, float b)
@@ -151,4 +152,15 @@ std::ostream & operator<<(std::ostream & str, Intensity & li)
 {
     str << "(R:" << li.R() << ", G:" << li.G() << ", B:" << li.B() << ")";
     return str;
+}
+
+sf::Color Intensity::intensityToSFMLColor() {
+
+    // Convert each component from float (0-1) to int (0-255)
+    int red = static_cast<int>(r * 255);
+    int green = static_cast<int>(g * 255);
+    int blue = static_cast<int>(b * 255);
+
+    // Return sf::Color object with the converted RGB values
+    return sf::Color(red, green, blue);
 }

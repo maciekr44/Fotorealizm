@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ostream>
+#include <Graphics/Color.hpp>
 
 class Intensity
 {
@@ -37,6 +38,8 @@ public:
 
     Intensity& operator*=(float num);
     Intensity& operator/=(float num);
+
+    sf::Color intensityToSFMLColor();
 
 //    friend Intensity& operator*(float num, Intensity &li);
 //    friend Intensity& operator*(Intensity &li, float num);

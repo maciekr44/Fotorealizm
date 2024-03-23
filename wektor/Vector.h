@@ -8,6 +8,8 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include <SFML/Graphics.hpp>
+
 
 class Vector {
 private:
@@ -60,6 +62,8 @@ public:
     Vector list(Vector s, Vector r);
 
     Vector abs(Vector v);
+
+
 };
 
 
