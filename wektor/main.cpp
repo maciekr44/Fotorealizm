@@ -196,10 +196,14 @@ int main() {
 
 
     Vector spher_point = *new Vector(0, 0, 0);
+    Vector spher_point2 = *new Vector(0, 20, -3);
+
     Intensity color1 = *new Intensity(1,0,0);
     Intensity color2 = *new Intensity(0,1,0);
     Intensity color3 = *new Intensity(0,0,1);
-    Sphere s1 = *new Sphere(spher_point, 20, color1);
+    Sphere s1 = *new Sphere(spher_point, 5, color1);
+    Sphere s2 = *new Sphere(spher_point2, 3, color3);
+
 
     cout<<s1.showCoordinates()<<endl;
     cout<<s1.getColor().getRed()<<endl;
@@ -217,8 +221,8 @@ int main() {
 // Create a perspective camera
     PerspectiveCamera cameraPersp(cameraPosition, lookAt, up, 90.0f, image.width, image.height);
 
-    Vector cameraPositionOrto(50, 0, 0);  // Set the camera position
-    Vector lookAtOrto(30, 0, 0);  // Set the point to look at
+    Vector cameraPositionOrto(-50, 0, 0);  // Set the camera position
+    Vector lookAtOrto(-30, 0, 0);  // Set the point to look at
     Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
     Vector zwrot = kierunek.getDirection();
     Vector prostopadly = kierunek.getDirection();
@@ -291,23 +295,26 @@ int main() {
 //            Ray rayPerspective = cameraPersp.castRay(x, y);
 
             Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
-            float u = (-1.0f + 2.0f * x / (image.width - 1.0f))*kierunek.getDistance()-spher_point.getY();
-            float v = (-1.0f + 2.0f * y / (image.height - 1.0f))*kierunek.getDistance()+spher_point.getZ();
+            float u = (-1.0f + 2.0f * x / (image.width - 1.0f)) * kierunek.getDistance() - spher_point.getY();
+            float v = (-1.0f + 2.0f * y / (image.height - 1.0f)) * kierunek.getDistance() + spher_point.getZ();
             Vector zwrot = kierunek.getDirection();
             float cameraEnd = zwrot.getX();
 
-            Vector finish = *new Vector(cameraEnd,v,u);
+            Vector finish = *new Vector(cameraEnd, v, u);
             float cameraPoint = cameraPositionOrto.getX();
-            Vector start = *new Vector(cameraPoint,v,u);
+            Vector start = *new Vector(cameraPoint, v, u);
 //            Vector start = rayOrthographic.getDirection();
 //            cout<<start.showCoordinates()<<endl;
 //            cout<<finish.showCoordinates()<<endl;
 
 
-            Ray rayOrthographic = *new Ray(start,finish);
+            Ray rayOrthographic = *new Ray(start, finish);
             // Check for intersections with the sphere
 //            IntersectionResult intersectionPerspective = s1.Hit(rayPerspective, 0, std::numeric_limits<float>::infinity());
             IntersectionResult intersectionOrthographic = s1.Hit(rayOrthographic, 0, 900);  //tmax to ten nasz far plane
+            IntersectionResult intersectionOrthographicS2 = s2.Hit(rayOrthographic, 0,
+                                                                   900);  //tmax to ten nasz far plane
+
             IntersectionResult intersectionFarPlane = p1.Intersects(rayOrthographic, 0.0f);
             // Set the pixel color based on the intersection result
 //            if (intersectionPerspective.type == HIT) {
@@ -315,16 +322,19 @@ int main() {
 //            } else
             if (intersectionOrthographic.type == HIT) {
                 image.setPixel(x, y, intersectionOrthographic.color);
-            } else if (intersectionFarPlane.type == HIT || intersectionFarPlane.type == INSIDE_PRIMITIVE){
+            } else if (intersectionFarPlane.type == HIT || intersectionFarPlane.type == INSIDE_PRIMITIVE) {
                 image.setPixel(x, y, intersectionFarPlane.color);
 
-            }else {
-                    // Set background color
-                    Intensity bgColor(0,0,1);
-                    image.setPixel(x, y, bgColor);
-                }
+            } else {
+                // Set background color
+                Intensity bgColor(0, 0, 1);
+                image.setPixel(x, y, bgColor);
+            }
+            if (intersectionOrthographicS2.type == HIT) {
+                image.setPixel(x, y, intersectionOrthographicS2.color);
             }
         }
+    }
     cout<<kierunek.showCoordinates()<<endl;
     cout<<zwrot.showCoordinates()<<endl;
 
