@@ -61,6 +61,8 @@ public:
 
     Vector list(Vector s, Vector r);
 
+    Vector findPerpendicularVector(Vector v);
+
     Vector abs(Vector v);
 
 

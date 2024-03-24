@@ -112,4 +112,23 @@ std::ostream& operator<<(std::ostream& os, const Vector& v) {
     return os;
 }
 
+Vector Vector::findPerpendicularVector(Vector v) {
+    // Wyznaczamy wektor prostopadły do v poprzez przeprowadzenie iloczynu wektorowego
+    // z dowolnym wektorem różnym od v.
+
+    // Wybieramy wektor różny od v, który nie jest równoległy do niego
+    Vector arbitraryVector;
+    if (v.getX() != 0 || v.getY() != 0) {
+        arbitraryVector = Vector(v.getZ(), 0, -v.getX());
+    } else {
+        arbitraryVector = Vector(0, v.getZ(), -v.getY());
+    }
+    v.cross(arbitraryVector);
+    v.normalize();
+    // Obliczamy iloczyn wektorowy\
+    Vector perpendicularVector = v.cross(arbitraryVector);
+
+    // Zwracamy znormalizowany wektor prostopadły
+    return v;
+}
 

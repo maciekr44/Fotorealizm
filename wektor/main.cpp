@@ -195,28 +195,19 @@ int main() {
 
 
 
-    Vector spher_point = *new Vector(0, 20, 0);
+    Vector spher_point = *new Vector(0, 0, 0);
     Intensity color1 = *new Intensity(1,0,0);
     Intensity color2 = *new Intensity(0,1,0);
     Intensity color3 = *new Intensity(0,0,1);
-    Sphere s1 = *new Sphere(spher_point, 50, color1);
+    Sphere s1 = *new Sphere(spher_point, 20, color1);
 
     cout<<s1.showCoordinates()<<endl;
     cout<<s1.getColor().getRed()<<endl;
     cout<<s1.getColor().getGreen()<<endl;
     cout<<s1.getColor().getBlue()<<endl;
 
-    Vector normalPlane = *new Vector(1, 0, 0);  // w sina dal od kamery
-    Vector pointPlane(600,0,0); // rownolegle do kamery
-    Plane p1 = *new Plane(normalPlane, pointPlane, color2);    //tlo zielone bedzie
-
-//    Vector ray_point = *new Vector(0, 0, -20);
-//    Ray r1 = *new Ray(ray_point, spher_point);
-
-
-
     // Create an image with given width and height
-    Image image(400, 400);
+    Image image(800, 800);
 
     // Define the parameters for the camera
     Vector cameraPosition(-100, 0, 0);  // Set the camera position
@@ -226,17 +217,42 @@ int main() {
 // Create a perspective camera
     PerspectiveCamera cameraPersp(cameraPosition, lookAt, up, 90.0f, image.width, image.height);
 
-    Vector cameraPositionOrto(-80, 0, 0);  // Set the camera position
-    Vector lookAtOrto(0, 0, 0);  // Set the point to look at
-    Vector upOrto(0, 0, 1);  // Set the up vector
+    Vector cameraPositionOrto(50, 0, 0);  // Set the camera position
+    Vector lookAtOrto(30, 0, 0);  // Set the point to look at
+    Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
+    Vector zwrot = kierunek.getDirection();
+    Vector prostopadly = kierunek.getDirection();
+    Vector upOrto = zwrot.findPerpendicularVector(prostopadly);
+    cout<<"prostopadly" <<zwrot.showCoordinates()<<endl;
+    cout<<"prostopadly" <<prostopadly.showCoordinates()<<endl;
+    cout<<"Up orto "<<upOrto.showCoordinates()<<endl;
+ //   Vector upOrto(0, 0, 1);  // Set the up vector
     float leftOrto = -100.0f;   // Set the left boundary of the view frustum
     float rightOrto = 100.0f;   // Set the right boundary of the view frustum
     float bottomOrto = -100.0f; // Set the bottom boundary of the view frustum
     float topOrto = 100.0f;     // Set the top boundary of the view frustum
 
 // Create an orthographic camera
-    OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, upOrto, leftOrto, rightOrto, bottomOrto, topOrto, image.width, image.height);
+    OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, * new Vector(1,0,0), leftOrto, rightOrto, bottomOrto, topOrto, image.width, image.height);
 
+    cout<<zwrot.showCoordinates()<<endl;
+    //Vector normalPlane = *new Vector(1, 0, 0);  // w sina dal od kamery
+    Vector pointPlane = cameraPositionOrto;
+    if(zwrot.getX()>0) {
+        pointPlane.add(*new Vector(400, 0, 0));// rownolegle do kamery
+    }
+    else {
+        pointPlane.sub(*new Vector(400, 0, 0));// rownolegle do kamery
+    }
+    Plane p1 = *new Plane(zwrot, pointPlane, color2);
+
+    cout<<p1.showCoordinates()<<endl;
+    cout<<s1.showCoordinates()<<endl;
+
+    //tlo zielone bedzie
+    //cout<<p1.showCoordinates()<<endl;
+//    Vector ray_point = *new Vector(0, 0, -20);
+//    Ray r1 = *new Ray(ray_point, spher_point);
 
     // kastuje reje z kazdAego vertexa z image i one leca rownolegle i sprawdzam czy cos trafiaja
     Vector pkt3 = *new Vector(2, -1, 0);
@@ -275,7 +291,7 @@ int main() {
 //            Ray rayPerspective = cameraPersp.castRay(x, y);
 
             Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
-            float u = (-1.0f + 2.0f * x / (image.width - 1.0f))*kierunek.getDistance()+spher_point.getY();
+            float u = (-1.0f + 2.0f * x / (image.width - 1.0f))*kierunek.getDistance()-spher_point.getY();
             float v = (-1.0f + 2.0f * y / (image.height - 1.0f))*kierunek.getDistance()+spher_point.getZ();
             Vector zwrot = kierunek.getDirection();
             float cameraEnd = zwrot.getX();
@@ -309,6 +325,8 @@ int main() {
                 }
             }
         }
+    cout<<kierunek.showCoordinates()<<endl;
+    cout<<zwrot.showCoordinates()<<endl;
 
     // Create SFML window
     sf::RenderWindow window(sf::VideoMode(image.width, image.height), "SFML Image Test");
