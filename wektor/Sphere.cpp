@@ -37,46 +37,52 @@ Vector Ray::PointAtParameter(float t) {
 IntersectionResult Sphere::Hit(Ray ray, float t_min, float t_max) const {
     IntersectionResult result;
     result.type = MISS;
-    ray.Origin().sub(this->Center_);
-    Vector oc = ray.Origin();
+
+    // Translate ray origin to the sphere's local coordinate system
+    Vector origin = ray.getOrigin();
+    origin.sub(Center_);
+    Vector oc =  origin;
+
+    // Calculate coefficients of the quadratic equation (a*t^2 + b*t + c = 0)
     float a = ray.getDirection().dotProduct(ray.getDirection());
-    float b = oc.dotProduct(ray.getDirection());
-    float c = oc.dotProduct(oc) - this->Radius_ * this->Radius_;
-    float discriminant = b * b - a * c;
+    float b = 2.0f * oc.dotProduct(ray.getDirection());
+    float c = oc.dotProduct(oc) - Radius_ * Radius_;
+
+    // Calculate the discriminant to determine the number of intersections
+    float discriminant = b * b - 4 * a * c;
 
     if (discriminant > 0) {
-        float temp = (-b - sqrtf(discriminant)) / a;
-        if (temp < t_max && temp > t_min) {
-            result.color = this->Color_;
-            result.LPOINT =  ray.PointAtParameter(temp);
-//            cout << result.LPOINT.showCoordinates() << endl;
+        // Calculate the solutions for t
+        float temp1 = (-b - sqrt(discriminant)) / (2.0f * a);
+        float temp2 = (-b + sqrt(discriminant)) / (2.0f * a);
+
+        // Check if the solutions are within the valid range
+        if (temp1 > t_min && temp1 < t_max) {
+            // Update intersection result
             result.type = HIT;
-            Vector kc = result.LPOINT;
-            kc.sub(ray.Origin());
-            result.distance = kc.length();
-            Vector otwor = result.LPOINT;
-            otwor.sub(this->Center_);
-            otwor.normalize();
-            result.intersectionLPOINTNormal = otwor;
+            result.distance = temp1;
+            result.LPOINT = ray.PointAtParameter(temp1);
+            Vector intersPoint = result.LPOINT;
+            intersPoint.sub(Center_);
+            intersPoint.normalize();
+            result.intersectionLPOINTNormal = intersPoint;
+            result.color = Color_;
             return result;
         }
-        temp = (-b + sqrtf(discriminant)) / a;
-        if (temp < t_max && temp > t_min) {
-            result.LPOINT =  ray.PointAtParameter(temp);
-//            cout << result.LPOINT.showCoordinates() << endl;
+        if (temp2 > t_min && temp2 < t_max) {
+            // Update intersection result
             result.type = HIT;
-            Vector kc = result.LPOINT;
-            kc.sub(ray.Origin());
-            result.distance = kc.length();
-            Vector otwor = result.LPOINT;
-            otwor.sub(this->Center_);
-            otwor.normalize();
-            result.intersectionLPOINTNormal = otwor;
+            result.distance = temp2;
+            result.LPOINT = ray.PointAtParameter(temp2);
+            Vector intersPoint = result.LPOINT;
+            intersPoint.sub(Center_);
+            intersPoint.normalize();
+            result.intersectionLPOINTNormal = intersPoint;
+            result.color = Color_;
             return result;
         }
     }
-//    cout << "there no hit:" << endl;
-//    return NULL;
+
     return result;
 }
 
