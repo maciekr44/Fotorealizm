@@ -2,43 +2,42 @@
 
 class OrtogonalCamera {
 private:
-    Vector position;
-    Vector lookAt;
-    Vector up;
-    float left;
-    float right;
-    float bottom;
-    float top;
-    int imageWidth;
-    int imageHeight;
+    Vector positionOrto;
+    Vector lookAtOrto;
+    Vector upOrto;
+    float leftOrto;
+    float rightOrto;
+    float bottomOrto;
+    float topOrto;
+    int widthOrto;
+    int heightOrto;
 
 public:
-    OrtogonalCamera(Vector pos, Vector look, Vector upVec, float leftBound, float rightBound,
-                     float bottomBound, float topBound, int width, int height)
-            : position(pos), lookAt(look), up(upVec), left(leftBound), right(rightBound),
-              bottom(bottomBound), top(topBound), imageWidth(width), imageHeight(height) {}
+    OrtogonalCamera(Vector _positionOrto, Vector _lookAtOrto, Vector _upOrto, float _leftOrto, float _rightOrto, float _bottomOrto, float _topOrto, int _widthOrto, int _heightOrto)
+            : positionOrto(_positionOrto), lookAtOrto(_lookAtOrto), upOrto(_upOrto), leftOrto(_leftOrto), rightOrto(_rightOrto), bottomOrto(_bottomOrto), topOrto(_topOrto), widthOrto(_widthOrto), heightOrto(_heightOrto) {}
 
-    Ray castRay(int x, int y) { // x i y to wspolrzedne image
-        float u = left + (right - left) * (x + 0.5f) / imageWidth;
-        float v = bottom + (top - bottom) * (y + 0.5f) / imageHeight;
+    // Function to cast a ray from the camera to a pixel on the image plane
+    Vector castRay(int x, int y) {
+        // Calculate the direction vector from the camera position to the pixel on the image plane
+        float pixelX = leftOrto + (rightOrto - leftOrto) * (x + 0.5f) / widthOrto;
+        float pixelY = topOrto + (bottomOrto - topOrto) * (y + 0.5f) / heightOrto;
 
-        lookAt.sub(position);
-        lookAt.normalize();
-        Vector rightVector = up.cross(lookAt);
-        rightVector.normalize();
-        Vector upVector = lookAt.cross(rightVector);
-        upVector.normalize();
-        Vector rayDirection = lookAt;
-        rightVector.mag(u);
-        rayDirection.add(rightVector);
-        upVector.mag(v);
-        rayDirection.add(upVector);
+        // Calculate the direction vector using the rightO function
 
-        rayDirection.add(position);
+        Ray ray = *new Ray(positionOrto, lookAtOrto);
+        Vector directionOrto = *new Vector;
+        directionOrto = ray.getDirection();
 
-    Vector position1(u, v, position.getZ());
-
-
-        return Ray(position1, rayDirection);
+        // Return the ray
+        return Vector(directionOrto);
     }
+
+//private:
+    // Calculate the right vector based on the up vector and the direction from camera position to lookAt
+//    Vector rightO() {
+//        Vector directionOrto = lookAtOrto - positionOrto;
+//        Vector rightOrto = directionOrto.cross(upOrto);
+//        rightOrto.normalize();
+//        return rightOrto;
+//    }
 };

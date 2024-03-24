@@ -34,6 +34,7 @@ Vector Ray::PointAtParameter(float t) {
     return Origin_;
 }
 
+#include "PerspectiveCamera.h"
 IntersectionResult Sphere::Hit(Ray ray, float t_min, float t_max) const {
     IntersectionResult result;
     result.type = MISS;
