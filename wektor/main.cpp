@@ -235,37 +235,90 @@ int main() {
             Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
             float u = (-1.0f + 2.0f * x / (image.width - 1.0f)) * kierunek.getDistance();
             float v = (-1.0f + 2.0f * y / (image.height - 1.0f)) * kierunek.getDistance();
-            Vector zwrot = kierunek.getDirection();
-            float cameraEnd = zwrot.getX();
+            int sampling = 5;
+            float szerokosc = ((kierunek.getDistance()*2)/image.width)/sampling;
+            cout<<"Szerokosc"<<szerokosc<<endl;
+            float pointU = u - (2 * szerokosc);
+            float pointV = v - (2 * szerokosc);
+            cout<<"U "<<pointU<<endl;
+            cout<<"V "<<pointV<<endl;
+            int iterator = 0;
+            Intensity Kolory[25];
+            Ray raySampling = *new Ray(*new Vector(0, pointV, pointU), *new Vector(100, pointV, pointU));
+            for(int t = 0; t<sampling; ++t){
+                raySampling.setOrigin(*new Vector(0,pointV+(szerokosc*t),pointU));
+                raySampling.setDestination(*new Vector(100,pointV+(szerokosc*t),pointU));
+                for(int p = 0; p<sampling; ++p){
+                    raySampling.setOrigin(*new Vector(0,pointV+(szerokosc*t),pointU+(szerokosc*p)));
+                    raySampling.setDestination(*new Vector(100,pointV+(szerokosc*t),pointU+(szerokosc*p)));
+                    // Check for intersections with the sphere
+                    IntersectionResult intersectionOrthographic = s1.Hit(rayOrthographic, 0, 900);  //tmax to ten nasz far plane
+                    IntersectionResult intersectionOrthographicS2 = s2.Hit(rayOrthographic, 0,
+                                                                           900);  //tmax to ten nasz far plane
 
-            Vector finish = *new Vector(cameraEnd, v, u);
-            float cameraPoint = cameraPositionOrto.getX();
-            Vector start = *new Vector(cameraPoint, v, u);
+
+                    if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type != HIT) {
+                        Kolory[iterator] = intersectionOrthographic.color;
+                    } else if (intersectionOrthographicS2.type == HIT && intersectionOrthographic.type != HIT) {
+                        Kolory[iterator] = intersectionOrthographic.color;
+                    } else if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type == HIT) {
+                        // Choose the closest intersection
+                        if (intersectionOrthographic.distance < intersectionOrthographicS2.distance) {
+                            Kolory[iterator] = intersectionOrthographic.color;
+                        } else {
+                            Kolory[iterator] = intersectionOrthographic.color;
+                        }
+                    } else {
+                        // Set background color
+                        Intensity bgColor(0, 1, 1);
+                        Kolory[iterator] = bgColor;
+                        cout<<"TLO"<<Kolory[iterator]<<endl;
+                    }
+                    iterator++;
 
 
-            Ray rayOrthographic = *new Ray(start, finish);
-            // Check for intersections with the sphere
-           IntersectionResult intersectionOrthographic = s1.Hit(rayOrthographic, 0, 900);  //tmax to ten nasz far plane
-            IntersectionResult intersectionOrthographicS2 = s2.Hit(rayOrthographic, 0,
-                                                                   900);  //tmax to ten nasz far plane
-
-
-            if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type != HIT) {
-                image.setPixel(x, y, intersectionOrthographic.color);
-            } else if (intersectionOrthographicS2.type == HIT && intersectionOrthographic.type != HIT) {
-                image.setPixel(x, y, intersectionOrthographicS2.color);
-            } else if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type == HIT) {
-                // Choose the closest intersection
-                if (intersectionOrthographic.distance < intersectionOrthographicS2.distance) {
-                    image.setPixel(x, y, intersectionOrthographic.color);
-                } else {
-                    image.setPixel(x, y, intersectionOrthographicS2.color);
                 }
-            } else {
-                // Set background color
-                Intensity bgColor(0, 1, 1);
-                image.setPixel(x, y, bgColor);
             }
+            Intensity sredni;
+            for(int s = 0; s<sampling*sampling; ++s){
+                sredni += Kolory[s];
+            }sredni/25;
+            image.setPixel(x, y, sredni);
+
+
+
+//
+//            Vector zwrot = kierunek.getDirection();
+//            float cameraEnd = zwrot.getX();
+//
+//            Vector finish = *new Vector(cameraEnd, v, u);
+//            float cameraPoint = cameraPositionOrto.getX();
+//            Vector start = *new Vector(cameraPoint, v, u);
+//
+//
+//            Ray rayOrthographic = *new Ray(start, finish);
+//            // Check for intersections with the sphere
+//           IntersectionResult intersectionOrthographic = s1.Hit(rayOrthographic, 0, 900);  //tmax to ten nasz far plane
+//            IntersectionResult intersectionOrthographicS2 = s2.Hit(rayOrthographic, 0,
+//                                                                   900);  //tmax to ten nasz far plane
+//
+//
+//            if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type != HIT) {
+//                image.setPixel(x, y, intersectionOrthographic.color);
+//            } else if (intersectionOrthographicS2.type == HIT && intersectionOrthographic.type != HIT) {
+//                image.setPixel(x, y, intersectionOrthographicS2.color);
+//            } else if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type == HIT) {
+//                // Choose the closest intersection
+//                if (intersectionOrthographic.distance < intersectionOrthographicS2.distance) {
+//                    image.setPixel(x, y, intersectionOrthographic.color);
+//                } else {
+//                    image.setPixel(x, y, intersectionOrthographicS2.color);
+//                }
+//            } else {
+//                // Set background color
+//                Intensity bgColor(0, 1, 1);
+//                image.setPixel(x, y, bgColor);
+//            }
         }
     }
 
