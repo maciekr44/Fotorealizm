@@ -193,10 +193,8 @@ int main() {
 //        window.display();
 //    }
 
-
-
-    Vector spher_point = *new Vector(0, 10, 0);
-    Vector spher_point2 = *new Vector(5, 5, -10);
+    Vector spher_point = *new Vector(0, 0, 0);
+    Vector spher_point2 = *new Vector(28, 10, 0);
 
     Intensity color1 = *new Intensity(1,0,0);
     Intensity color2 = *new Intensity(0,1,0);
@@ -204,25 +202,16 @@ int main() {
     Sphere s1 = *new Sphere(spher_point, 5, color1);
     Sphere s2 = *new Sphere(spher_point2, 3, color3);
 
-
     cout<<s1.showCoordinates()<<endl;
     cout<<s1.getColor().getRed()<<endl;
     cout<<s1.getColor().getGreen()<<endl;
     cout<<s1.getColor().getBlue()<<endl;
 
     // Create an image with given width and height
-    Image image(800, 800);
+    Image image(500, 500);
 
-    // Define the parameters for the camera
-    Vector cameraPosition(-100, 0, 0);  // Set the camera position
-    Vector lookAt(-190, 0, 0);  // Set the point to look at
-    Vector up(0, 0, 1);  // Set the up vector
-//titis
-// Create a perspective camera
-    PerspectiveCamera cameraPersp(cameraPosition, lookAt, up, 90.0f, image.width, image.height);
-
-    Vector cameraPositionOrto(100, 0, 0);  // Set the camera position
-    Vector lookAtOrto(30, 0, 0);  // Set the point to look at
+    Vector cameraPositionOrto(-40, 0, 0);  // Set the camera position
+    Vector lookAtOrto(-30, 0, 0);  // Set the point to look at
     Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
     Vector zwrot = kierunek.getDirection();
     Vector prostopadly = kierunek.getDirection();
@@ -237,62 +226,11 @@ int main() {
     float topOrto = 100.0f;     // Set the top boundary of the view frustum
 
 // Create an orthographic camera
-    OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, * new Vector(1,0,0), leftOrto, rightOrto, bottomOrto, topOrto, image.width, image.height);
-
-    cout<<zwrot.showCoordinates()<<endl;
-    //Vector normalPlane = *new Vector(1, 0, 0);  // w sina dal od kamery
-    Vector pointPlane = cameraPositionOrto;
-    if(zwrot.getX()>0) {
-        pointPlane.add(*new Vector(400, 0, 0));// rownolegle do kamery
-    }
-    else {
-        pointPlane.sub(*new Vector(400, 0, 0));// rownolegle do kamery
-    }
-    Plane p1 = *new Plane(zwrot, pointPlane, color2);
-
-    cout<<p1.showCoordinates()<<endl;
-    cout<<s1.showCoordinates()<<endl;
-
-    //tlo zielone bedzie
-    //cout<<p1.showCoordinates()<<endl;
-//    Vector ray_point = *new Vector(0, 0, -20);
-//    Ray r1 = *new Ray(ray_point, spher_point);
-
-    // kastuje reje z kazdAego vertexa z image i one leca rownolegle i sprawdzam czy cos trafiaja
-    Vector pkt3 = *new Vector(2, -1, 0);
-    Vector pkt4 = *new Vector(2, 2, 0);
-    Ray ray = *new Ray(pkt3, pkt4);
-//    for (int i = 0; i < image.height; i++){
-//        for (int j = 0; j < image.width; j++){
-////            image.setPixel(j, i, sf::Color::Red);
-//
-//            Vector pixel = *new Vector(j, i, 0);
-//            ray.setOrigin(pixel);
-//            Vector destination = *new Vector(j, i, 200);
-//            ray.setDestination(destination);
-//
-//            IntersectionResult intersection = s1.Hit(ray, 0, std::numeric_limits<float>::infinity());
-//
-//            // Perform ray tracing calculations here...
-//            // For demonstration, let's print the color of the pixel to the console
-//            if (intersection.type == HIT){
-////                cout<<s1.getColor().getRed()<<endl;
-////                cout<<s1.getColor().getGreen()<<endl;
-////                cout<<s1.getColor().getBlue()<<endl;
-//                image.setPixel(j, i, s1.getColor());    //s1.getColor to typ intensity
-//            }else{
-//                Intensity bg = *new Intensity (0, 1, 1); //tlo na cyjan
-//                image.setPixel(j, i, bg); //todo: trzeba ten kolor zmienic zeby go ie brac z s1 tylko z intersection result
-//
-//            }
-//        }
-//    }
+    OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, upOrto, leftOrto, rightOrto, bottomOrto, topOrto, image.width, image.height);
     Ray rayOrthographic = *new Ray(cameraPositionOrto,lookAtOrto);
     // Iterate over each pixel in the image
     for (int y = 0; y < image.height; ++y) {
         for (int x = 0; x < image.width; ++x) {
-            // Cast a ray from the camera through the pixel
-//            Ray rayPerspective = cameraPersp.castRay(x, y);
 
             Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
             float u = (-1.0f + 2.0f * x / (image.width - 1.0f)) * kierunek.getDistance();
@@ -303,23 +241,15 @@ int main() {
             Vector finish = *new Vector(cameraEnd, v, u);
             float cameraPoint = cameraPositionOrto.getX();
             Vector start = *new Vector(cameraPoint, v, u);
-//            Vector start = rayOrthographic.getDirection();
-//            cout<<start.showCoordinates()<<endl;
-//            cout<<finish.showCoordinates()<<endl;
 
 
             Ray rayOrthographic = *new Ray(start, finish);
             // Check for intersections with the sphere
-//            IntersectionResult intersectionPerspective = s1.Hit(rayPerspective, 0, std::numeric_limits<float>::infinity());
-            IntersectionResult intersectionOrthographic = s1.Hit(rayOrthographic, 0, 900);  //tmax to ten nasz far plane
+           IntersectionResult intersectionOrthographic = s1.Hit(rayOrthographic, 0, 900);  //tmax to ten nasz far plane
             IntersectionResult intersectionOrthographicS2 = s2.Hit(rayOrthographic, 0,
                                                                    900);  //tmax to ten nasz far plane
 
-            IntersectionResult intersectionFarPlane = p1.Intersects(rayOrthographic, 0.0f);
-            // Set the pixel color based on the intersection result
-//            if (intersectionPerspective.type == HIT) {
-//                image.setPixel(x, y, intersectionPerspective.color);
-//            } else
+
             if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type != HIT) {
                 image.setPixel(x, y, intersectionOrthographic.color);
             } else if (intersectionOrthographicS2.type == HIT && intersectionOrthographic.type != HIT) {
@@ -338,8 +268,6 @@ int main() {
             }
         }
     }
-    cout<<kierunek.showCoordinates()<<endl;
-    cout<<zwrot.showCoordinates()<<endl;
 
     // Create SFML window
     sf::RenderWindow window(sf::VideoMode(image.width, image.height), "SFML Image Test");
@@ -364,4 +292,85 @@ int main() {
     }
 
 
+    // Define the parameters for the camera
+    Vector cameraPosition(-40, 0, 0);  // Set the camera position
+    Vector lookAt(-30, 0, 0);  // Set the point to look at
+
+    Ray kierunek1 = *new Ray(cameraPosition, lookAt);
+    Vector zwrot1 = kierunek1.getDirection();
+    Vector prostopadly1 = kierunek1.getDirection();
+    Vector up1 = zwrot1.findPerpendicularVector(prostopadly1);
+    float fov = 180.0f;
+
+// Create a perspective camera
+    PerspectiveCamera cameraPersp(cameraPosition, lookAt, up1, fov, image.width, image.height);
+
+// Iterate over each pixel in the image
+    for (int y = 0; y < image.height; ++y) {
+        for (int x = 0; x < image.width; ++x) {
+
+            float fov = -90.0f; // kąt widzenia kamery
+            float aspectRatio = (float)image.width / image.height;
+            float halfHeight = tan(fov * 3.14159 / 360.0f);
+            float halfWidth = aspectRatio * halfHeight;
+
+            Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
+            float u = ((2.0f * (x + 0.5f) / (float)image.width - 1) * halfWidth)*10;
+            float v = ((1 - 2.0f * (y + 0.5f) / (float)image.height) * halfHeight)*10;
+
+            Vector zwrot = kierunek.getDirection();
+            float cameraEnd = zwrot.getX();
+
+            Vector finish = *new Vector(cameraEnd, v, u);
+            float cameraPoint = cameraPositionOrto.getX();
+            Vector start = *new Vector(cameraPoint, v, u);
+
+
+            Ray rayOrthographic = *new Ray(cameraPositionOrto, finish);
+            // Check for intersections with the sphere
+            IntersectionResult intersectionOrthographic = s1.Hit(rayOrthographic, 0, 900);  //tmax to ten nasz far plane
+            IntersectionResult intersectionOrthographicS2 = s2.Hit(rayOrthographic, 0,
+                                                                   900);  //tmax to ten nasz far plane
+
+
+            if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type != HIT) {
+                image.setPixel(x, y, intersectionOrthographic.color);
+            } else if (intersectionOrthographicS2.type == HIT && intersectionOrthographic.type != HIT) {
+                image.setPixel(x, y, intersectionOrthographicS2.color);
+            } else if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type == HIT) {
+                // Choose the closest intersection
+                if (intersectionOrthographic.distance < intersectionOrthographicS2.distance) {
+                    image.setPixel(x, y, intersectionOrthographic.color);
+                } else {
+                    image.setPixel(x, y, intersectionOrthographicS2.color);
+                }
+            } else {
+                // Set background color
+                Intensity bgColor(0, 1, 1);
+                image.setPixel(x, y, bgColor);
+            }
+        }
+    }
+    // Create SFML window
+    sf::RenderWindow window1(sf::VideoMode(image.width, image.height), "SFML Image Test");
+
+    // Main loop
+    while (window1.isOpen()) {
+        // Process events
+        sf::Event event;
+        while (window1.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window1.close();
+        }
+
+        // Clear window
+        window1.clear();
+
+        // Draw the image
+        window1.draw(image);
+
+        // Display window
+        window1.display();
+    }
 }
+
