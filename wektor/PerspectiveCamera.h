@@ -22,13 +22,13 @@ public:
         return right;
     }
 
-    static Intensity antyaliasingPersp(int sampling, float pointV, float pointU, float szerokosc, Ray raySampling, Sphere s1, Sphere s2, Ray rayOrthographic){
+    static Intensity antyaliasingPersp(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize, Ray raySampling, Sphere s1, Sphere s2, Ray rayOrthographic){
         int iterator = 0;
-        Intensity Kolory[sampling*sampling];
+        Intensity Colors[sampling * sampling];
         for(int t = 0; t<sampling; ++t){
             for(int p = 0; p<sampling; ++p){
 
-                Vector samplingDestination(0,pointV+(szerokosc*t),pointU+(szerokosc*p));
+                Vector samplingDestination(0, antialiasingPixelX + (antialiasingPixelSize * t), antialiasingPixelY + (antialiasingPixelSize * p));
                 raySampling.setDestination(samplingDestination);
                 // Check for intersections with the sphere
                 IntersectionResult intersectionOrthographic = s1.Hit(raySampling, 0, 900);  //tmax to ten nasz far plane
@@ -37,47 +37,47 @@ public:
 
 
                 if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type != HIT) {
-                    Kolory[iterator] = intersectionOrthographic.color;
+                    Colors[iterator] = intersectionOrthographic.color;
                 } else if (intersectionOrthographicS2.type == HIT && intersectionOrthographic.type != HIT) {
-                    Kolory[iterator] = intersectionOrthographicS2.color;
+                    Colors[iterator] = intersectionOrthographicS2.color;
                 } else if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type == HIT) {
                     // Choose the closest intersection
                     if (intersectionOrthographic.distance < intersectionOrthographicS2.distance) {
-                        Kolory[iterator] = intersectionOrthographic.color;
+                        Colors[iterator] = intersectionOrthographic.color;
                     } else {
-                        Kolory[iterator] = intersectionOrthographicS2.color;
+                        Colors[iterator] = intersectionOrthographicS2.color;
                     }
                 } else {
                     // Set background color
                     Intensity bgColor(0, 0.1, 0.1);
-                    Kolory[iterator] = bgColor;
+                    Colors[iterator] = bgColor;
                 }
                 iterator++;
 
 
             }
         }
-        Intensity sredni;
-        Vector kolorki(0,0,0);
-        Vector suma(0,0,0);
+        Intensity meanColor;
+        Vector colorsVector(0, 0, 0);
+        Vector sum(0, 0, 0);
         for(int s = 0; s<sampling*sampling; ++s){
-            sredni = Kolory[s];
-            kolorki.setX(sredni.getRed());
-            kolorki.setY(sredni.getGreen());
-            kolorki.setZ(sredni.getBlue());
+            meanColor = Colors[s];
+            colorsVector.setX(meanColor.getRed());
+            colorsVector.setY(meanColor.getGreen());
+            colorsVector.setZ(meanColor.getBlue());
 
-            suma.add(kolorki);
+            sum.add(colorsVector);
 
 
         }
 
-        suma.div(sampling*sampling);
+        sum.div(sampling * sampling);
 
-        sredni.R(suma.getX());
-        sredni.G(suma.getY());
-        sredni.B(suma.getZ());
+        meanColor.R(sum.getX());
+        meanColor.G(sum.getY());
+        meanColor.B(sum.getZ());
 
-        return (sredni);
+        return (meanColor);
 
     }
 };
