@@ -169,6 +169,7 @@ int main() {
     PerspectiveCamera cameraPersp(cameraPosition, lookAt, up1, fov, image.width, image.height);
 
 // Iterate over each pixel in the image
+
     for (int y = 0; y < image.height; ++y) {
         for (int x = 0; x < image.width; ++x) {
 
@@ -181,6 +182,13 @@ int main() {
             float u = ((2.0f * (x + 0.5f) / (float)image.width - 1) * halfWidth)*10;
             float v = ((1 - 2.0f * (y + 0.5f) / (float)image.height) * halfHeight)*10;
 
+
+            int iterator = 0;
+            int sampling = 5;
+            float szerokosc = ((10*2)/image.width)/sampling;
+            float pointU = u - (2 * szerokosc);
+            float pointV = v - (2 * szerokosc);
+
             Vector zwrot = kierunek.getDirection();
             float cameraEnd = zwrot.getX();
 
@@ -191,27 +199,8 @@ int main() {
 
             Ray rayOrthographic = *new Ray(cameraPositionOrto, finish);
             // Check for intersections with the sphere
-            IntersectionResult intersectionOrthographic = s1.Hit(rayOrthographic, 0, 900);  //tmax to ten nasz far plane
-            IntersectionResult intersectionOrthographicS2 = s2.Hit(rayOrthographic, 0,
-                                                                   900);  //tmax to ten nasz far plane
-
-
-            if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type != HIT) {
-                image.setPixel(x, y, intersectionOrthographic.color);
-            } else if (intersectionOrthographicS2.type == HIT && intersectionOrthographic.type != HIT) {
-                image.setPixel(x, y, intersectionOrthographicS2.color);
-            } else if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type == HIT) {
-                // Choose the closest intersection
-                if (intersectionOrthographic.distance < intersectionOrthographicS2.distance) {
-                    image.setPixel(x, y, intersectionOrthographic.color);
-                } else {
-                    image.setPixel(x, y, intersectionOrthographicS2.color);
-                }
-            } else {
-                // Set background color
-                Intensity bgColor(0, 1, 1);
-                image.setPixel(x, y, bgColor);
-            }
+            Intensity srednia = PerspectiveCamera::antyaliasingPersp(sampling, pointV, pointU, szerokosc, raySampling, s1, s2, rayOrthographic, iterator);
+            image.setPixel(x,y,srednia);
         }
     }
     // Create SFML window
