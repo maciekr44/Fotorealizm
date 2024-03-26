@@ -25,14 +25,14 @@ float direction_angle(Vector v1) {
 
 int main() {
 
-    Vector spher_point = *new Vector(0, 0, 0);
-    Vector spher_point2 = *new Vector(28, 10, 0);
+    Vector spher_point(0, 0, 0);
+    Vector spher_point2(28, 10, 0);
 
-    Intensity color1 = *new Intensity(1,0,0);
-    Intensity color2 = *new Intensity(0,1,0);
-    Intensity color3 = *new Intensity(0,0,1);
-    Sphere s1 = *new Sphere(spher_point, 5, color1);
-    Sphere s2 = *new Sphere(spher_point2, 3, color3);
+    Intensity color1(1,0,0);
+    Intensity color2(0,1,0);
+    Intensity color3(0,0,1);
+    Sphere s1(spher_point, 5, color1);
+    Sphere s2(spher_point2, 3, color3);
 
     cout<<s1.showCoordinates()<<endl;
     cout<<s1.getColor().getRed()<<endl;
@@ -44,7 +44,7 @@ int main() {
 
     Vector cameraPositionOrto(-40, 0, 0);  // Set the camera position
     Vector lookAtOrto(-30, 0, 0);  // Set the point to look at
-    Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
+    Ray kierunek(cameraPositionOrto, lookAtOrto);
     Vector zwrot = kierunek.getDirection();
     Vector prostopadly = kierunek.getDirection();
     Vector upOrto = zwrot.findPerpendicularVector(prostopadly);
@@ -58,15 +58,15 @@ int main() {
     float topOrto = 100.0f;     // Set the top boundary of the view frustum
 
 //    Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
-    Vector finish = *new Vector(0,0,0);
-    Vector start = *new Vector(0,0,0);
+    Vector finish(0,0,0);
+    Vector start(0,0,0);
 
 
 // Create an orthographic camera
     OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, upOrto, leftOrto, rightOrto, bottomOrto, topOrto, image.width, image.height);
-    Ray rayOrthographic = *new Ray(cameraPositionOrto,lookAtOrto);
+    Ray rayOrthographic (cameraPositionOrto,lookAtOrto);
 
-    Ray raySampling = *new Ray(*new Vector(0, 0, 0), *new Vector(100, 0, 0));
+    Ray raySampling (*new Vector(0, 0, 0), *new Vector(100, 0, 0));
 
 
     // Iterate over each pixel in the image
@@ -161,7 +161,7 @@ int main() {
     Vector cameraPosition(-40, 0, 0);  // Set the camera position
     Vector lookAt(-30, 0, 0);  // Set the point to look at
 
-    Ray kierunek1 = *new Ray(cameraPosition, lookAt);
+    Ray kierunek1(cameraPosition, lookAt);
     Vector zwrot1 = kierunek1.getDirection();
     Vector prostopadly1 = kierunek1.getDirection();
     Vector up1 = zwrot1.findPerpendicularVector(prostopadly1);
@@ -194,14 +194,14 @@ int main() {
             Vector zwrot = kierunek.getDirection();
             float cameraEnd = zwrot.getX();
 
-            Vector finish = *new Vector(cameraEnd, v, u);
+            Vector finish(cameraEnd, v, u);
             float cameraPoint = cameraPositionOrto.getX();
-            Vector start = *new Vector(cameraPoint, v, u);
+            Vector start(cameraPoint, v, u);
 
             Ray raySampling (cameraPositionOrto, finish);
 
 
-            Ray rayOrthographic = *new Ray(cameraPositionOrto, finish);
+            Ray rayOrthographic(cameraPositionOrto, finish);
             // Check for intersections with the sphere
             Intensity srednia = PerspectiveCamera::antyaliasingPersp(sampling, pointV, pointU, szerokosc, raySampling, s1, s2, rayOrthographic, iterator);
             image.setPixel(x,y,srednia);

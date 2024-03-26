@@ -20,11 +20,6 @@ public:
 
         Intensity Kolory[sampling*sampling];
         for(int t = 0; t<sampling; ++t){
-            // todo: po co to skoro nizej i tak nadpisuje??
-//                Vector samplingOrigin(0,pointV+(szerokosc*t),pointU);
-//                raySampling.setOrigin(samplingOrigin);
-//                Vector samplingDestination(100,pointV+(szerokosc*t),pointU);
-//                raySampling.setDestination(samplingDestination);
             for(int p = 0; p<sampling; ++p){
                 Vector samplingOrigin(0,pointV+(szerokosc*t),pointU+(szerokosc*p));
                 raySampling.setOrigin(samplingOrigin);
