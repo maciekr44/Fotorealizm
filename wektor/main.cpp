@@ -173,7 +173,7 @@ int main() {
         }
     }
     // Create SFML window
-    sf::RenderWindow window1(sf::VideoMode(image.width, image.height), "SFML Image Test");
+    sf::RenderWindow window1(sf::VideoMode(image.width, image.height), "SFML Image");
 
     // Main loop
     while (window1.isOpen()) {

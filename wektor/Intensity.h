@@ -41,8 +41,6 @@ public:
 
     sf::Color intensityToSFMLColor();
 
-//    friend Intensity& operator*(float num, Intensity &li);
-//    friend Intensity& operator*(Intensity &li, float num);
         friend std::ostream& operator<<(std::ostream& str, Intensity &li);
 
     float clip(float value)

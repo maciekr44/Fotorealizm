@@ -21,8 +21,6 @@ public:
                 Vector samplingDestination(100,pointV+(szerokosc*t),pointU+(szerokosc*p));
                 raySampling.setDestination(samplingDestination);
 
-//                std::cout << raySampling.showCoordinates() << std::endl;
-
                 // Check for intersections with the sphere
                 IntersectionResult intersectionOrthographic = s1.Hit(raySampling, 0, 900);  //tmax to ten nasz far plane
                 IntersectionResult intersectionOrthographicS2 = s2.Hit(raySampling, 0,
@@ -45,10 +43,7 @@ public:
                     Intensity bgColor(0, 0.1, 0.1);
                     Kolory[iterator] = bgColor;
                 }
-
-//                if (Kolory[iterator].getRed() != 0 && Kolory[iterator].getGreen() != 1 && Kolory[iterator].getBlue() != 1)
-//                std::cout << Kolory[iterator].getRed() << "; " << Kolory[iterator].getGreen() << "; "  << Kolory[iterator].getBlue() << std::endl;
-                iterator++; // wychodzi na to ze dotad kolory sa poprawnie
+                iterator++;
 
 
             }
@@ -62,26 +57,14 @@ public:
             kolorki.setY(sredni.getGreen());
             kolorki.setZ(sredni.getBlue());
 
-//            std::cout << kolorki.showCoordinates() << std::endl;
-
             suma.add(kolorki);
 
-
         }
-//        std::cout << suma.getX() << "; " << suma.getY() << "; "  << suma.getZ() << std::endl;
-
         suma.div(sampling*sampling);
-
-
-//        std::cout << "po normlaizacjiajcsiq: " << suma.getX() << "; " << suma.getY() << "; "  << suma.getZ() << std::endl;
-
 
         sredni.R(suma.getX());
         sredni.G(suma.getY());
         sredni.B(suma.getZ());
-
-//        sredni = sredni/25;
-//        std::cout << sredni.getRed() << "; " << sredni.getGreen() << "; "  << sredni.getBlue() << std::endl;
 
         return (sredni);
 
