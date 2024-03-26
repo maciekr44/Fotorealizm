@@ -13,8 +13,9 @@ public:
     int heightOrto;
 
 public:
-    OrtogonalCamera(Vector _positionOrto, Vector _lookAtOrto, Vector _upOrto, float _leftOrto, float _rightOrto,
-                    float _bottomOrto, float _topOrto, int _widthOrto, int _heightOrto);
+
+    OrtogonalCamera(const Vector &positionOrto, const Vector &lookAtOrto, const Vector &upOrto) : positionOrto(
+            positionOrto), lookAtOrto(lookAtOrto), upOrto(upOrto) {}
 
     static Intensity antyaliasingOrto(int sampling, float pointV, float pointU, float szerokosc, Ray raySampling, Sphere s1, Sphere s2, Ray rayOrthographic,  int iterator){
 

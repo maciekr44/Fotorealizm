@@ -63,7 +63,7 @@ int main() {
 
 
 // Create an orthographic camera
-    OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, upOrto, leftOrto, rightOrto, bottomOrto, topOrto, image.width, image.height);
+    OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, upOrto);
     Ray rayOrthographic = *new Ray(cameraPositionOrto,lookAtOrto);
 
     Ray raySampling = *new Ray(*new Vector(0, 0, 0), *new Vector(100, 0, 0));
