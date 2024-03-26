@@ -27,19 +27,15 @@ public:
     static Intensity antyaliasingPersp(int sampling, float pointV, float pointU, float szerokosc, Ray raySampling, Sphere s1, Sphere s2, Ray rayOrthographic,  int iterator){
 
         Intensity Kolory[sampling*sampling];
+//        Vector samplingOrigin(0,pointV,pointU);
+//        raySampling.setOrigin(samplingOrigin);
         for(int t = 0; t<sampling; ++t){
-            // todo: po co to skoro nizej i tak nadpisuje??
-//                Vector samplingOrigin(0,pointV+(szerokosc*t),pointU);
-//                raySampling.setOrigin(samplingOrigin);
-//                Vector samplingDestination(100,pointV+(szerokosc*t),pointU);
-//                raySampling.setDestination(samplingDestination);
             for(int p = 0; p<sampling; ++p){
-                Vector samplingOrigin(0,pointV+(szerokosc*t),pointU+(szerokosc*p));
-                raySampling.setOrigin(samplingOrigin);
+
                 Vector samplingDestination(100,pointV+(szerokosc*t),pointU+(szerokosc*p));
                 raySampling.setDestination(samplingDestination);
 
-//                std::cout << raySampling.showCoordinates() << std::endl;
+                std::cout << raySampling.showCoordinates() << std::endl;
 
                 // Check for intersections with the sphere
                 IntersectionResult intersectionOrthographic = s1.Hit(raySampling, 0, 900);  //tmax to ten nasz far plane

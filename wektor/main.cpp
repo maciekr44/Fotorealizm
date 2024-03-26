@@ -119,7 +119,7 @@ int main() {
             Vector raySamplingOrigin(0, pointV, pointU);
             raySampling.setOrigin(raySamplingOrigin);
             Vector raySamplingDestination(100, pointV, pointU);
-            raySampling.setOrigin(raySamplingDestination);
+            raySampling.setDestination(raySamplingDestination);
 
             Intensity sredni = OrtogonalCamera::antyaliasingOrto(sampling, pointV, pointU, szerokosc, raySampling, s1, s2, rayOrthographic,  iterator);
 //            cout << sredni.getRed() << "; " << sredni.getGreen() << "; "  << sredni.getBlue() << endl;
@@ -195,6 +195,8 @@ int main() {
             Vector finish = *new Vector(cameraEnd, v, u);
             float cameraPoint = cameraPositionOrto.getX();
             Vector start = *new Vector(cameraPoint, v, u);
+
+            Ray raySampling (cameraPositionOrto, finish);
 
 
             Ray rayOrthographic = *new Ray(cameraPositionOrto, finish);
