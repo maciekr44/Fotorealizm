@@ -138,16 +138,6 @@ Intensity & Intensity::operator/=(float num)
     return *this;
 }
 
-//Intensity operator (float num, Intensity & li)
-//{
-//    return Intensity(li.R() * num, li.G() * num, li.B() * num);
-//}
-//
-//Intensity & operator*(Intensity & li, float num)
-//{
-//    return Intensity(li.R() * num, li.G() * num, li.B() * num);
-//}
-
 std::ostream & operator<<(std::ostream & str, Intensity & li)
 {
     str << "(R:" << li.R() << ", G:" << li.G() << ", B:" << li.B() << ")";

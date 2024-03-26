@@ -13,10 +13,7 @@
 
 class Triangle : Geometry{
 public:
-//    Triangle();
     Triangle(const Vector& vertex1, const Vector& vertex2, const Vector& vertex3, Intensity color);
-//    Triangle(const Vector& vertex1, const Vector& vertex2, const Vector& vertex3,
-//             const Vector& normal1, const Vector& normal2, const Vector& normal3);
 
     Vector vertices[3];
     Vector normals[3];

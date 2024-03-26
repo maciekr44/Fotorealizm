@@ -12,12 +12,6 @@ using namespace std;
 Triangle::Triangle(const Vector &vertex1, const Vector &vertex2, const Vector &vertex3, Intensity color) : Vertex1_(vertex1), Vertex2_(vertex2), Vertex3_(vertex3), Color_(color){
 
 }
-
-//Triangle::Triangle(const Vector &vertex1, const Vector &vertex2, const Vector &vertex3, const Vector &normal1,
-//                   const Vector &normal2, const Vector &normal3) {
-//
-//}
-
 IntersectionResult Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vector C) {
     IntersectionResult result;
     result.type = MISS;
