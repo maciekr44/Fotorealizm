@@ -208,7 +208,7 @@ int main() {
     cout<<s1.getColor().getBlue()<<endl;
 
     // Create an image with given width and height
-    Image image(500, 500);
+    Image image(200, 200);
 
     Vector cameraPositionOrto(-40, 0, 0);  // Set the camera position
     Vector lookAtOrto(-30, 0, 0);  // Set the point to look at
@@ -225,14 +225,28 @@ int main() {
     float bottomOrto = -100.0f; // Set the bottom boundary of the view frustum
     float topOrto = 100.0f;     // Set the top boundary of the view frustum
 
+//    Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
+    Vector finish = *new Vector(0,0,0);
+    Vector start = *new Vector(0,0,0);
+
+
 // Create an orthographic camera
     OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, upOrto, leftOrto, rightOrto, bottomOrto, topOrto, image.width, image.height);
     Ray rayOrthographic = *new Ray(cameraPositionOrto,lookAtOrto);
+
+    Ray raySampling = *new Ray(*new Vector(0, 0, 0), *new Vector(100, 0, 0));
+
+
     // Iterate over each pixel in the image
     for (int y = 0; y < image.height; ++y) {
         for (int x = 0; x < image.width; ++x) {
 
-            Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
+            cout << rayOrthographic.showCoordinates() << endl;
+
+            kierunek.setOrigin(cameraPositionOrto);
+            kierunek.setDestination(lookAtOrto);
+//            kierunek = Ray(cameraPositionOrto, lookAtOrto);
+
             float u = (-1.0f + 2.0f * x / (image.width - 1.0f)) * kierunek.getDistance();
             float v = (-1.0f + 2.0f * y / (image.height - 1.0f)) * kierunek.getDistance();
             int sampling = 5;
@@ -240,11 +254,41 @@ int main() {
             cout<<"Szerokosc"<<szerokosc<<endl;
             float pointU = u - (2 * szerokosc);
             float pointV = v - (2 * szerokosc);
-            cout<<"U "<<pointU<<endl;
-            cout<<"V "<<pointV<<endl;
+//            cout<<"U "<<pointU<<endl;
+//            cout<<"V "<<pointV<<endl;
+
+
+            Vector zwrot = kierunek.getDirection();
+            float cameraEnd = zwrot.getX();
+
+//            Vector finish = *new Vector(cameraEnd, v, u);
+            finish.setX(cameraEnd);
+            finish.setY(v);
+            finish.setZ(u);
+
+            float cameraPoint = cameraPositionOrto.getX();
+//            Vector start = *new Vector(cameraPoint, v, u);
+            start.setX(cameraPoint);
+            start.setY(v);
+            start.setZ(u);
+//            Vector start = rayOrthographic.getDirection();
+//            cout<<start.showCoordinates()<<endl;
+//            cout<<finish.showCoordinates()<<endl;
+
+
+//            Ray rayOrthographic = *new Ray(start, finish);
+            rayOrthographic.setOrigin(start);
+            rayOrthographic.setDestination(finish);
+
+
             int iterator = 0;
             Intensity Kolory[25];
-            Ray raySampling = *new Ray(*new Vector(0, pointV, pointU), *new Vector(100, pointV, pointU));
+//            Ray raySampling = *new Ray(*new Vector(0, pointV, pointU), *new Vector(100, pointV, pointU));
+            Vector raySamplingOrigin(0, pointV, pointU);
+            raySampling.setOrigin(raySamplingOrigin);
+            Vector raySamplingDestination(100, pointV, pointU);
+            raySampling.setOrigin(raySamplingDestination);
+
             for(int t = 0; t<sampling; ++t){
                 raySampling.setOrigin(*new Vector(0,pointV+(szerokosc*t),pointU));
                 raySampling.setDestination(*new Vector(100,pointV+(szerokosc*t),pointU));
@@ -260,13 +304,13 @@ int main() {
                     if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type != HIT) {
                         Kolory[iterator] = intersectionOrthographic.color;
                     } else if (intersectionOrthographicS2.type == HIT && intersectionOrthographic.type != HIT) {
-                        Kolory[iterator] = intersectionOrthographic.color;
+                        Kolory[iterator] = intersectionOrthographicS2.color;
                     } else if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type == HIT) {
                         // Choose the closest intersection
                         if (intersectionOrthographic.distance < intersectionOrthographicS2.distance) {
                             Kolory[iterator] = intersectionOrthographic.color;
                         } else {
-                            Kolory[iterator] = intersectionOrthographic.color;
+                            Kolory[iterator] = intersectionOrthographicS2.color;
                         }
                     } else {
                         // Set background color
