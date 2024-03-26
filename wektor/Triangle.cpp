@@ -40,28 +40,28 @@ IntersectionResult Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vect
         return result;
     }
 
-    Vector original = ray.getOrigin();
-    Vector direction = ray.getDirection();
+    Vector rayOrigin = ray.getOrigin();
+    Vector rayDirection = ray.getDirection();
 
 
-    direction.mag(t);
+    rayDirection.mag(t);
 
-    original.add(direction);
+    rayOrigin.add(rayDirection);
 
-    result.LPOINT = original;
+    result.LPOINT = rayOrigin;
 
-    Vector tmp1 = result.LPOINT;
-    Vector tmp2 = result.LPOINT;
-    Vector tmp3 = result.LPOINT;
+    Vector intersectionTMP1 = result.LPOINT;
+    Vector intersectionTMP2 = result.LPOINT;
+    Vector intersectionTMP3 = result.LPOINT;
 
-    tmp1.sub(originalA);
-    Vector AP = tmp1;
+    intersectionTMP1.sub(originalA);
+    Vector AP = intersectionTMP1;
 
-    tmp2.sub(originalB);
-    Vector BP = tmp2;
+    intersectionTMP2.sub(originalB);
+    Vector BP = intersectionTMP2;
 
-    tmp3.sub(originalC);
-    Vector CP = tmp3;
+    intersectionTMP3.sub(originalC);
+    Vector CP = intersectionTMP3;
 
     Vector v1 = AB.cross(AP);
     Vector v2 = AC.cross(BP);
@@ -72,9 +72,9 @@ IntersectionResult Triangle::IntersectTriangle(Ray ray, Vector A, Vector B, Vect
         cout << "intersection point: " << result.LPOINT.showCoordinates() << endl;
         result.color = this->Color_;
         result.type = HIT;
-        Vector subdywizja = result.LPOINT;
-        subdywizja.sub(ray.Origin());
-        result.distance = subdywizja.length();
+        Vector intersectionPoint = result.LPOINT;
+        intersectionPoint.sub(ray.Origin());
+        result.distance = intersectionPoint.length();
         result.intersectionLPOINTNormal = originalNormal;
         return result;
     }

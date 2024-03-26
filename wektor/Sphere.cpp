@@ -54,15 +54,15 @@ IntersectionResult Sphere::Hit(Ray ray, float t_min, float t_max) const {
 
     if (discriminant > 0) {
         // Calculate the solutions for t
-        float temp1 = (-b - sqrt(discriminant)) / (2.0f * a);
-        float temp2 = (-b + sqrt(discriminant)) / (2.0f * a);
+        float t1 = (-b - sqrt(discriminant)) / (2.0f * a);
+        float t2 = (-b + sqrt(discriminant)) / (2.0f * a);
 
         // Check if the solutions are within the valid range
-        if (temp1 > t_min && temp1 < t_max) {
+        if (t1 > t_min && t1 < t_max) {
             // Update intersection result
             result.type = HIT;
-            result.distance = temp1;
-            result.LPOINT = ray.PointAtParameter(temp1);
+            result.distance = t1;
+            result.LPOINT = ray.PointAtParameter(t1);
             Vector intersPoint = result.LPOINT;
             intersPoint.sub(Center_);
             intersPoint.normalize();
@@ -70,11 +70,11 @@ IntersectionResult Sphere::Hit(Ray ray, float t_min, float t_max) const {
             result.color = Color_;
             return result;
         }
-        if (temp2 > t_min && temp2 < t_max) {
+        if (t2 > t_min && t2 < t_max) {
             // Update intersection result
             result.type = HIT;
-            result.distance = temp2;
-            result.LPOINT = ray.PointAtParameter(temp2);
+            result.distance = t2;
+            result.LPOINT = ray.PointAtParameter(t2);
             Vector intersPoint = result.LPOINT;
             intersPoint.sub(Center_);
             intersPoint.normalize();
