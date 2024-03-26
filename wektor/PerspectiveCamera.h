@@ -23,8 +23,8 @@ public:
         return right;
     }
 
-    static Intensity antyaliasingPersp(int sampling, float pointV, float pointU, float szerokosc, Ray raySampling, Sphere s1, Sphere s2, Ray rayOrthographic,  int iterator){
-
+    static Intensity antyaliasingPersp(int sampling, float pointV, float pointU, float szerokosc, Ray raySampling, Sphere s1, Sphere s2, Ray rayOrthographic){
+        int iterator = 0;
         Intensity Kolory[sampling*sampling];
 //        Vector samplingOrigin(0,pointV,pointU);
 //        raySampling.setOrigin(samplingOrigin);
@@ -55,7 +55,7 @@ public:
                     }
                 } else {
                     // Set background color
-                    Intensity bgColor(0, 1, 1);
+                    Intensity bgColor(0, 0.1, 0.1);
                     Kolory[iterator] = bgColor;
                 }
 

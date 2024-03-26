@@ -11,8 +11,8 @@ public:
     OrtogonalCamera(Vector positionOrto, Vector lookAtOrto, Vector upOrto) : positionOrto(
             positionOrto), lookAtOrto(lookAtOrto), upOrto(upOrto) {}
 
-    static Intensity antyaliasingOrto(int sampling, float pointV, float pointU, float szerokosc, Ray raySampling, Sphere s1, Sphere s2, Ray rayOrthographic,  int iterator){
-
+    static Intensity antyaliasingOrto(int sampling, float pointV, float pointU, float szerokosc, Ray raySampling, Sphere s1, Sphere s2, Ray rayOrthographic){
+        int iterator = 0;
         Intensity Kolory[sampling*sampling];
         for(int t = 0; t<sampling; ++t){
             for(int p = 0; p<sampling; ++p){
@@ -42,7 +42,7 @@ public:
                     }
                 } else {
                     // Set background color
-                    Intensity bgColor(0, 1, 1);
+                    Intensity bgColor(0, 0.1, 0.1);
                     Kolory[iterator] = bgColor;
                 }
 

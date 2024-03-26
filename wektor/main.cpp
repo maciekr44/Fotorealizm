@@ -25,86 +25,86 @@ float direction_angle(Vector v1) {
 
 int main() {
 
-    Vector spher_point(0, 0, 0);
-    Vector spher_point2(28, 10, 0);
+    Vector spherePoint1(0, 0, 0);
+    Vector spherePoint2(28, 10, 0);
 
-    Intensity color1(1,0,0);
+    Intensity color1(0.45,0.1,0.3);
     Intensity color2(0,1,0);
-    Intensity color3(0,0,1);
-    Sphere s1(spher_point, 5, color1);
-    Sphere s2(spher_point2, 3, color3);
+    Intensity color3(0.566,0.422,0.28);
+    Sphere s1(spherePoint1, 5, color1);
+    Sphere s2(spherePoint2, 3, color3);
 
 
     Image image(500, 500);
 
     Vector cameraPositionOrto(-40, 0, 0);  // Set the camera position
     Vector lookAtOrto(-30, 0, 0);  // Set the point to look at
-    Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
-    Vector zwrot = kierunek.getDirection();
-    Vector prostopadly = kierunek.getDirection();
-    Vector upOrto = zwrot.findPerpendicularVector(prostopadly);
+    Ray directionOrtoRay(cameraPositionOrto, lookAtOrto);
+    Vector directionOrtoVector = directionOrtoRay.getDirection();
+    Vector directionOrtoVectorTMP = directionOrtoRay.getDirection();
+    Vector upOrto = directionOrtoVector.findPerpendicularVector(directionOrtoVectorTMP);
 
-    Vector finish = *new Vector(0,0,0);
-    Vector start = *new Vector(0,0,0);
+    Vector finish(0,0,0);
+    Vector start(0,0,0);
 
 
 // Create an orthographic camera
     OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, upOrto);
-    Ray rayOrthographic = *new Ray(cameraPositionOrto,lookAtOrto);
+    Ray rayOrthographic (cameraPositionOrto,lookAtOrto);
 
-    Ray raySampling = *new Ray(*new Vector(0, 0, 0), *new Vector(100, 0, 0));
+    //ray uzywany do antyaliasingu
+    Ray raySampling(Vector(0, 0, 0), Vector(100, 0, 0));
 
 
     // Iterate over each pixel in the image
     for (int y = 0; y < image.height; ++y) {
         for (int x = 0; x < image.width; ++x) {
 
-            kierunek.setOrigin(cameraPositionOrto);
-            kierunek.setDestination(lookAtOrto);
+            directionOrtoRay.setOrigin(cameraPositionOrto);
+            directionOrtoRay.setDestination(lookAtOrto);
 
 
-            float u = (-1.0f + 2.0f * x / (image.width - 1.0f)) * kierunek.getDistance();
-            float v = (-1.0f + 2.0f * y / (image.height - 1.0f)) * kierunek.getDistance();
+            float pixelX = (-1.0f + 2.0f * x / (image.width - 1.0f)) * directionOrtoRay.getDistance();
+            float pixelY = (-1.0f + 2.0f * y / (image.height - 1.0f)) * directionOrtoRay.getDistance();
 
             int sampling = 5;
 
-            float szerokosc = ((kierunek.getDistance()*2)/image.width)/sampling;
+            float antialiasingPixelSize = ((directionOrtoRay.getDistance() * 2) / image.width) / sampling;
 
-            float pointU = u - (2 * szerokosc);
-            float pointV = v - (2 * szerokosc);
+            float antialiasingPixelX = pixelX - (2 * antialiasingPixelSize);
+            float antialiasingPixelY = pixelY - (2 * antialiasingPixelSize);
 
 
-            Vector zwrot = kierunek.getDirection();
-            float cameraEnd = zwrot.getX();
+            Vector rayDirection = directionOrtoRay.getDirection();
+            float cameraEnd = rayDirection.getX();
 
             finish.setX(cameraEnd);
-            finish.setY(v);
-            finish.setZ(u);
+            finish.setY(pixelY);
+            finish.setZ(pixelX);
 
             float cameraPoint = cameraPositionOrto.getX();
             start.setX(cameraPoint);
-            start.setY(v);
-            start.setZ(u);
+            start.setY(pixelY);
+            start.setZ(pixelX);
 
             rayOrthographic.setOrigin(start);
             rayOrthographic.setDestination(finish);
 
 
             // ANTYALIASING
-            int iterator = 0;
 
-            Vector raySamplingOrigin(0, pointV, pointU);
+            Vector raySamplingOrigin(0, antialiasingPixelY, antialiasingPixelX);
             raySampling.setOrigin(raySamplingOrigin);
-            Vector raySamplingDestination(100, pointV, pointU);
+            Vector raySamplingDestination(100, antialiasingPixelY, antialiasingPixelX);
             raySampling.setDestination(raySamplingDestination);
 
-            Intensity sredni = OrtogonalCamera::antyaliasingOrto(sampling, pointV, pointU, szerokosc, raySampling, s1, s2, rayOrthographic,  iterator);
-            image.setPixel(x, y, sredni);
+            Intensity meanColor = OrtogonalCamera::antyaliasingOrto(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, s1, s2, rayOrthographic);
+            image.setPixel(x, y, meanColor);
         }
     }
 
     // Create SFML window
-    sf::RenderWindow window(sf::VideoMode(image.width, image.height), "SFML Image Test");
+    sf::RenderWindow window(sf::VideoMode(image.width, image.height), "SFML Image");
 
     // Main loop
     while (window.isOpen()) {
@@ -127,17 +127,19 @@ int main() {
 
 
     // Define the parameters for the camera
-    Vector cameraPosition(-40, 0, 0);  // Set the camera position
-    Vector lookAt(-30, 0, 0);  // Set the point to look at
+    Vector cameraPositionPersp(-40, 0, 0);  // Set the camera position
+    Vector lookAtPersp(-30, 0, 0);  // Set the point to look at
 
-    Ray kierunek1(cameraPosition, lookAt);
-    Vector zwrot1 = kierunek1.getDirection();
-    Vector prostopadly1 = kierunek1.getDirection();
-    Vector up1 = zwrot1.findPerpendicularVector(prostopadly1);
+    Ray directionPerspRay(cameraPositionPersp, lookAtPersp);
+    Vector directionPerspVector = directionPerspRay.getDirection();
+    Vector directionPerspVectorTMP = directionPerspRay.getDirection();
+    Vector upPersp = directionPerspVector.findPerpendicularVector(directionPerspVectorTMP);
     float fov = -90.0f;
 
 // Create a perspective camera
-    PerspectiveCamera cameraPersp(cameraPosition, lookAt, up1, fov);
+    PerspectiveCamera cameraPersp(cameraPositionPersp, lookAtPersp, upPersp, fov);
+    Ray directionRay(cameraPositionOrto, lookAtOrto);
+    Vector directionVector = directionRay.getDirection();
 
 
     for (int y = 0; y < image.height; ++y) {
@@ -147,30 +149,27 @@ int main() {
             float halfHeight = tan(fov * 3.14159 / 360.0f);
             float halfWidth = aspectRatio * halfHeight;
 
-            Ray kierunek(cameraPositionOrto, lookAtOrto);
-            float u = ((2.0f * (x + 0.5f) / (float)image.width - 1) * halfWidth)*kierunek1.getDistance();
-            float v = ((1 - 2.0f * (y + 0.5f) / (float)image.height) * halfHeight)*kierunek1.getDistance();
+            float pixelX = ((2.0f * (x + 0.5f) / (float)image.width - 1) * halfWidth) * directionPerspRay.getDistance();
+            float pixelY = ((1 - 2.0f * (y + 0.5f) / (float)image.height) * halfHeight) * directionPerspRay.getDistance();
 
-            int iterator = 0;
             int sampling = 5;
-            float szerokosc = ((kierunek1.getDistance()*2)/image.width)/sampling;
-            float pointU = u - (2 * szerokosc);
-            float pointV = v - (2 * szerokosc);
+            float antialiasingPixelSize = ((directionPerspRay.getDistance() * 2) / image.width) / sampling;
+            float antialiasingPixelX = pixelX - (2 * antialiasingPixelSize);
+            float antialiasingPixelY = pixelY - (2 * antialiasingPixelSize);
 
-            Vector zwrot = kierunek.getDirection();
-            float cameraEnd = zwrot.getX();
+            float cameraEnd = directionVector.getX();
 
-            Vector finish(cameraEnd, v, u);
+            Vector finish(cameraEnd, pixelY, pixelX);
             float cameraPoint = cameraPositionOrto.getX();
-            Vector start(cameraPoint, v, u);
+            Vector start(cameraPoint, pixelY, pixelX);
 
             Ray raySampling(cameraPositionOrto, finish);
 
 
             Ray rayOrthographic(cameraPositionOrto, finish);
             // Check for intersections with the sphere
-            Intensity srednia = PerspectiveCamera::antyaliasingPersp(sampling, pointV, pointU, szerokosc, raySampling, s1, s2, rayOrthographic, iterator);
-            image.setPixel(x,y,srednia);
+            Intensity meanColor = PerspectiveCamera::antyaliasingPersp(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, s1, s2, rayOrthographic);
+            image.setPixel(x, y, meanColor);
         }
     }
     // Create SFML window
