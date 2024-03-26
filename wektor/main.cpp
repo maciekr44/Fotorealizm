@@ -79,6 +79,8 @@ int main() {
 
             float u = (-1.0f + 2.0f * x / (image.width - 1.0f)) * kierunek.getDistance();
             float v = (-1.0f + 2.0f * y / (image.height - 1.0f)) * kierunek.getDistance();
+//            cout<<u<<endl;
+//            cout<<v<<endl;
             int sampling = 5;
 
             float szerokosc = ((kierunek.getDistance()*2)/image.width)/sampling;
@@ -168,7 +170,6 @@ int main() {
 // Create a perspective camera
     PerspectiveCamera cameraPersp(cameraPosition, lookAt, up1, fov, image.width, image.height);
 
-// Iterate over each pixel in the image
 
     for (int y = 0; y < image.height; ++y) {
         for (int x = 0; x < image.width; ++x) {
@@ -179,13 +180,14 @@ int main() {
             float halfWidth = aspectRatio * halfHeight;
 
             Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
-            float u = ((2.0f * (x + 0.5f) / (float)image.width - 1) * halfWidth)*10;
-            float v = ((1 - 2.0f * (y + 0.5f) / (float)image.height) * halfHeight)*10;
-
+            float u = ((2.0f * (x + 0.5f) / (float)image.width - 1) * halfWidth)*kierunek1.getDistance();
+            float v = ((1 - 2.0f * (y + 0.5f) / (float)image.height) * halfHeight)*kierunek1.getDistance();
+//            cout<<u<<endl;
+//            cout<<v<<endl;
 
             int iterator = 0;
             int sampling = 5;
-            float szerokosc = ((10*2)/image.width)/sampling;
+            float szerokosc = ((kierunek1.getDistance()*2)/image.width)/sampling;
             float pointU = u - (2 * szerokosc);
             float pointV = v - (2 * szerokosc);
 

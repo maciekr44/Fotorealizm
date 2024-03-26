@@ -32,10 +32,10 @@ public:
         for(int t = 0; t<sampling; ++t){
             for(int p = 0; p<sampling; ++p){
 
-                Vector samplingDestination(100,pointV+(szerokosc*t),pointU+(szerokosc*p));
+                Vector samplingDestination(0,pointV+(szerokosc*t),pointU+(szerokosc*p));
                 raySampling.setDestination(samplingDestination);
 
-                std::cout << raySampling.showCoordinates() << std::endl;
+                //std::cout << raySampling.showCoordinates() << std::endl;
 
                 // Check for intersections with the sphere
                 IntersectionResult intersectionOrthographic = s1.Hit(raySampling, 0, 900);  //tmax to ten nasz far plane
