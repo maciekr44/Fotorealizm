@@ -25,21 +25,16 @@ float direction_angle(Vector v1) {
 
 int main() {
 
-    Vector spher_point = *new Vector(0, 0, 0);
-    Vector spher_point2 = *new Vector(28, 10, 0);
+    Vector spher_point(0, 0, 0);
+    Vector spher_point2(28, 10, 0);
 
-    Intensity color1 = *new Intensity(1,0,0);
-    Intensity color2 = *new Intensity(0,1,0);
-    Intensity color3 = *new Intensity(0,0,1);
-    Sphere s1 = *new Sphere(spher_point, 5, color1);
-    Sphere s2 = *new Sphere(spher_point2, 3, color3);
+    Intensity color1(1,0,0);
+    Intensity color2(0,1,0);
+    Intensity color3(0,0,1);
+    Sphere s1(spher_point, 5, color1);
+    Sphere s2(spher_point2, 3, color3);
 
-    cout<<s1.showCoordinates()<<endl;
-    cout<<s1.getColor().getRed()<<endl;
-    cout<<s1.getColor().getGreen()<<endl;
-    cout<<s1.getColor().getBlue()<<endl;
 
-    // Create an image with given width and height
     Image image(500, 500);
 
     Vector cameraPositionOrto(-40, 0, 0);  // Set the camera position
@@ -48,16 +43,7 @@ int main() {
     Vector zwrot = kierunek.getDirection();
     Vector prostopadly = kierunek.getDirection();
     Vector upOrto = zwrot.findPerpendicularVector(prostopadly);
-    cout<<"prostopadly" <<zwrot.showCoordinates()<<endl;
-    cout<<"prostopadly" <<prostopadly.showCoordinates()<<endl;
-    cout<<"Up orto "<<upOrto.showCoordinates()<<endl;
- //   Vector upOrto(0, 0, 1);  // Set the up vector
-    float leftOrto = -100.0f;   // Set the left boundary of the view frustum
-    float rightOrto = 100.0f;   // Set the right boundary of the view frustum
-    float bottomOrto = -100.0f; // Set the bottom boundary of the view frustum
-    float topOrto = 100.0f;     // Set the top boundary of the view frustum
 
-//    Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
     Vector finish = *new Vector(0,0,0);
     Vector start = *new Vector(0,0,0);
 
@@ -75,41 +61,31 @@ int main() {
 
             kierunek.setOrigin(cameraPositionOrto);
             kierunek.setDestination(lookAtOrto);
-//            kierunek = Ray(cameraPositionOrto, lookAtOrto);
+
 
             float u = (-1.0f + 2.0f * x / (image.width - 1.0f)) * kierunek.getDistance();
             float v = (-1.0f + 2.0f * y / (image.height - 1.0f)) * kierunek.getDistance();
-//            cout<<u<<endl;
-//            cout<<v<<endl;
+
             int sampling = 5;
 
             float szerokosc = ((kierunek.getDistance()*2)/image.width)/sampling;
-//            cout<<"Szerokosc"<<szerokosc<<endl;
+
             float pointU = u - (2 * szerokosc);
             float pointV = v - (2 * szerokosc);
-//            cout<<"U "<<pointU<<endl;
-//            cout<<"V "<<pointV<<endl;
 
 
             Vector zwrot = kierunek.getDirection();
             float cameraEnd = zwrot.getX();
 
-//            Vector finish = *new Vector(cameraEnd, v, u);
             finish.setX(cameraEnd);
             finish.setY(v);
             finish.setZ(u);
 
             float cameraPoint = cameraPositionOrto.getX();
-//            Vector start = *new Vector(cameraPoint, v, u);
             start.setX(cameraPoint);
             start.setY(v);
             start.setZ(u);
-//            Vector start = rayOrthographic.getDirection();
-//            cout<<start.showCoordinates()<<endl;
-//            cout<<finish.showCoordinates()<<endl;
 
-
-//            Ray rayOrthographic = *new Ray(start, finish);
             rayOrthographic.setOrigin(start);
             rayOrthographic.setDestination(finish);
 
@@ -117,20 +93,13 @@ int main() {
             // ANTYALIASING
             int iterator = 0;
 
-//            Ray raySampling = *new Ray(*new Vector(0, pointV, pointU), *new Vector(100, pointV, pointU));
             Vector raySamplingOrigin(0, pointV, pointU);
             raySampling.setOrigin(raySamplingOrigin);
             Vector raySamplingDestination(100, pointV, pointU);
             raySampling.setDestination(raySamplingDestination);
 
             Intensity sredni = OrtogonalCamera::antyaliasingOrto(sampling, pointV, pointU, szerokosc, raySampling, s1, s2, rayOrthographic,  iterator);
-//            cout << sredni.getRed() << "; " << sredni.getGreen() << "; "  << sredni.getBlue() << endl;
             image.setPixel(x, y, sredni);
-//            cout << sredni.R() << "; " << sredni.G() << "; " << sredni.B() << endl;
-
-
-            // ----------------------------------
-
         }
     }
 
@@ -161,29 +130,26 @@ int main() {
     Vector cameraPosition(-40, 0, 0);  // Set the camera position
     Vector lookAt(-30, 0, 0);  // Set the point to look at
 
-    Ray kierunek1 = *new Ray(cameraPosition, lookAt);
+    Ray kierunek1(cameraPosition, lookAt);
     Vector zwrot1 = kierunek1.getDirection();
     Vector prostopadly1 = kierunek1.getDirection();
     Vector up1 = zwrot1.findPerpendicularVector(prostopadly1);
-    float fov = 180.0f;
+    float fov = -90.0f;
 
 // Create a perspective camera
-    PerspectiveCamera cameraPersp(cameraPosition, lookAt, up1, fov, image.width, image.height);
+    PerspectiveCamera cameraPersp(cameraPosition, lookAt, up1, fov);
 
 
     for (int y = 0; y < image.height; ++y) {
         for (int x = 0; x < image.width; ++x) {
 
-            float fov = -90.0f; // kąt widzenia kamery
             float aspectRatio = (float)image.width / image.height;
             float halfHeight = tan(fov * 3.14159 / 360.0f);
             float halfWidth = aspectRatio * halfHeight;
 
-            Ray kierunek = *new Ray(cameraPositionOrto, lookAtOrto);
+            Ray kierunek(cameraPositionOrto, lookAtOrto);
             float u = ((2.0f * (x + 0.5f) / (float)image.width - 1) * halfWidth)*kierunek1.getDistance();
             float v = ((1 - 2.0f * (y + 0.5f) / (float)image.height) * halfHeight)*kierunek1.getDistance();
-//            cout<<u<<endl;
-//            cout<<v<<endl;
 
             int iterator = 0;
             int sampling = 5;
@@ -194,14 +160,14 @@ int main() {
             Vector zwrot = kierunek.getDirection();
             float cameraEnd = zwrot.getX();
 
-            Vector finish = *new Vector(cameraEnd, v, u);
+            Vector finish(cameraEnd, v, u);
             float cameraPoint = cameraPositionOrto.getX();
-            Vector start = *new Vector(cameraPoint, v, u);
+            Vector start(cameraPoint, v, u);
 
-            Ray raySampling (cameraPositionOrto, finish);
+            Ray raySampling(cameraPositionOrto, finish);
 
 
-            Ray rayOrthographic = *new Ray(cameraPositionOrto, finish);
+            Ray rayOrthographic(cameraPositionOrto, finish);
             // Check for intersections with the sphere
             Intensity srednia = PerspectiveCamera::antyaliasingPersp(sampling, pointV, pointU, szerokosc, raySampling, s1, s2, rayOrthographic, iterator);
             image.setPixel(x,y,srednia);

@@ -9,11 +9,10 @@ private:
     Vector position;
     Vector lookAt;
     Vector up;
-    float _fov;
-    int _widthPersp;// pole widzenia
-    int _heightPersp;
+    float fov;
+
 public:
-    PerspectiveCamera(Vector _position, Vector _lookAt, Vector _up, float _fov, int _widthPersp, int _heightPersp);
+    PerspectiveCamera(Vector position, Vector lookAt, Vector up, float fov) : position(position), lookAt(lookAt), up(up), fov(fov){}
     
     // Calculate the right vector based on the up vector and the direction from camera position to lookAt
     Vector right() const {
