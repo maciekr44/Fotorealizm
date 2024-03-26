@@ -16,7 +16,9 @@ public:
     OrtogonalCamera(Vector _positionOrto, Vector _lookAtOrto, Vector _upOrto, float _leftOrto, float _rightOrto,
                     float _bottomOrto, float _topOrto, int _widthOrto, int _heightOrto);
 
-    static Intensity antyaliasingOrto(int sampling, float pointV, float pointU, float szerokosc, Ray raySampling, Sphere s1, Sphere s2, Ray rayOrthographic, Intensity Kolory[25], int iterator){
+    static Intensity antyaliasingOrto(int sampling, float pointV, float pointU, float szerokosc, Ray raySampling, Sphere s1, Sphere s2, Ray rayOrthographic,  int iterator){
+
+        Intensity Kolory[sampling*sampling];
         for(int t = 0; t<sampling; ++t){
             // todo: po co to skoro nizej i tak nadpisuje??
 //                Vector samplingOrigin(0,pointV+(szerokosc*t),pointU);
@@ -28,9 +30,12 @@ public:
                 raySampling.setOrigin(samplingOrigin);
                 Vector samplingDestination(100,pointV+(szerokosc*t),pointU+(szerokosc*p));
                 raySampling.setDestination(samplingDestination);
+
+//                std::cout << raySampling.showCoordinates() << std::endl;
+
                 // Check for intersections with the sphere
-                IntersectionResult intersectionOrthographic = s1.Hit(rayOrthographic, 0, 900);  //tmax to ten nasz far plane
-                IntersectionResult intersectionOrthographicS2 = s2.Hit(rayOrthographic, 0,
+                IntersectionResult intersectionOrthographic = s1.Hit(raySampling, 0, 900);  //tmax to ten nasz far plane
+                IntersectionResult intersectionOrthographicS2 = s2.Hit(raySampling, 0,
                                                                        900);  //tmax to ten nasz far plane
 
 
@@ -50,8 +55,9 @@ public:
                     Intensity bgColor(0, 1, 1);
                     Kolory[iterator] = bgColor;
                 }
+
 //                if (Kolory[iterator].getRed() != 0 && Kolory[iterator].getGreen() != 1 && Kolory[iterator].getBlue() != 1)
-//                    std::cout << Kolory[iterator].getRed() << "; " << Kolory[iterator].getGreen() << "; "  << Kolory[iterator].getBlue() << std::endl;
+//                std::cout << Kolory[iterator].getRed() << "; " << Kolory[iterator].getGreen() << "; "  << Kolory[iterator].getBlue() << std::endl;
                 iterator++; // wychodzi na to ze dotad kolory sa poprawnie
 
 
@@ -66,13 +72,15 @@ public:
             kolorki.setY(sredni.getGreen());
             kolorki.setZ(sredni.getBlue());
 
+//            std::cout << kolorki.showCoordinates() << std::endl;
+
             suma.add(kolorki);
 
 
         }
 //        std::cout << suma.getX() << "; " << suma.getY() << "; "  << suma.getZ() << std::endl;
 
-        suma.div(25);
+        suma.div(sampling*sampling);
 
 
 //        std::cout << "po normlaizacjiajcsiq: " << suma.getX() << "; " << suma.getY() << "; "  << suma.getZ() << std::endl;

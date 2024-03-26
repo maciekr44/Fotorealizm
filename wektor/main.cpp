@@ -80,6 +80,7 @@ int main() {
             float u = (-1.0f + 2.0f * x / (image.width - 1.0f)) * kierunek.getDistance();
             float v = (-1.0f + 2.0f * y / (image.height - 1.0f)) * kierunek.getDistance();
             int sampling = 5;
+
             float szerokosc = ((kierunek.getDistance()*2)/image.width)/sampling;
 //            cout<<"Szerokosc"<<szerokosc<<endl;
             float pointU = u - (2 * szerokosc);
@@ -113,17 +114,17 @@ int main() {
 
             // ANTYALIASING
             int iterator = 0;
-            Intensity Kolory[25];
+
 //            Ray raySampling = *new Ray(*new Vector(0, pointV, pointU), *new Vector(100, pointV, pointU));
             Vector raySamplingOrigin(0, pointV, pointU);
             raySampling.setOrigin(raySamplingOrigin);
             Vector raySamplingDestination(100, pointV, pointU);
             raySampling.setOrigin(raySamplingDestination);
 
-
-            Intensity sredni = OrtogonalCamera::antyaliasingOrto(sampling, pointV, pointU, szerokosc, raySampling, s1, s2, rayOrthographic, Kolory, iterator);
+            Intensity sredni = OrtogonalCamera::antyaliasingOrto(sampling, pointV, pointU, szerokosc, raySampling, s1, s2, rayOrthographic,  iterator);
 //            cout << sredni.getRed() << "; " << sredni.getGreen() << "; "  << sredni.getBlue() << endl;
             image.setPixel(x, y, sredni);
+//            cout << sredni.R() << "; " << sredni.G() << "; " << sredni.B() << endl;
 
 
             // ----------------------------------
