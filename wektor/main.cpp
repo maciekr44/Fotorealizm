@@ -30,9 +30,9 @@ int main() {
     Vector spherePoint1(10, 0, 0);
     Vector spherePoint2(28, 10, 5);
     Vector planePoint(100, 0, 0);
-    Vector trianglePointA(2, 0, 0);
-    Vector trianglePointB(2, 5, 0);
-    Vector trianglePointC(2, 0, 5);
+    Vector trianglePointA(-20, 0, 0);
+    Vector trianglePointB(-20, 5, 0);
+    Vector trianglePointC(-20, 0, 5);
 
     Intensity color1(0.45,0.1,0.3);
     Intensity color2(0,1,0);
@@ -167,7 +167,7 @@ int main() {
         for (int x = 0; x < image.width; ++x) {
 
             float aspectRatio = (float)image.width / image.height;
-            float halfHeight = tan(fov * 3.14159 / 360.0f);
+            float halfHeight = tan(fov * M_PI / 360.0f);
             float halfWidth = aspectRatio * halfHeight;
 
             float pixelX = ((2.0f * (x + 0.5f) / (float)image.width - 1) * halfWidth) * directionPerspRay.getDistance();
