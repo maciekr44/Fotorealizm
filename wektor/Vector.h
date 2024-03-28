@@ -63,6 +63,7 @@ public:
     Vector abs(Vector v);
 
 
+    Vector divVector(Vector v);
 };
 
 

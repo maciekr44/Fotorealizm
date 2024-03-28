@@ -104,6 +104,14 @@ Vector Vector::cross(Vector v) {
     return vector;
 }
 
+Vector Vector::divVector(Vector v) {
+    Vector vector;
+    vector.setX(getX()/v.getX());
+    vector.setY(getY()/v.getY());
+    vector.setZ(getZ()/v.getZ());
+    return vector;
+}
+
 std::ostream& operator<<(std::ostream& os, const Vector& v) {
     os << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")";
     return os;

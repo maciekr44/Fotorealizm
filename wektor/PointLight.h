@@ -18,8 +18,8 @@ public:
     float quadAtten;
     int read(FILE* fp);
     void write(FILE* fp=stdout);
-    Vector getDiffuse(Vector cameraPosition, IntersectionResult result);
-    Vector getSpecular(Vector cameraPosition, IntersectionResult result);
+    Intensity getDiffuse(Vector cameraPosition, IntersectionResult result);
+    Intensity getSpecular(Vector cameraPosition, IntersectionResult result);
     int isInShadow(IntersectionResult iInfo, Geometry* object);
 };
 
