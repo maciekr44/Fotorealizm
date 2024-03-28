@@ -1,3 +1,4 @@
+#include <limits>
 #include "Triangle.h"
 
 using namespace std;
@@ -22,7 +23,7 @@ IntersectionResult Triangle::collision(Ray ray, float t_min, float t_max) const{
         originalC.sub(originalB);
         Vector CB = originalC;
 //        Vector originalNormal = normal;
-        const float EPSILON = std::numeric_limits<float>::epsilon();
+        const float EPSILON = numeric_limits<float>::epsilon();
 
 
 
