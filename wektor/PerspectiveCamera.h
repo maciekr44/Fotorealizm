@@ -34,7 +34,7 @@ public:
                 closestIntersection.distance = std::numeric_limits<float>::infinity(); // jak tu jest nieskonczonosc to jakikolwiek hit bedzie mniejszy
 
                 for (auto obj : objects) {  //jednym z obiektow winien byc farplane
-                    IntersectionResult intersection = obj->collision(raySampling, 0, 900);
+                    IntersectionResult intersection = obj->collision(raySampling, 0, 1000);
                     if (intersection.type == HIT && intersection.distance < closestIntersection.distance) {
                         closestIntersection = intersection;
                     }

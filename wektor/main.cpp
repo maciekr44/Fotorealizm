@@ -29,6 +29,7 @@ int main() {
 
     Vector spherePoint1(0, 0, 0);
     Vector spherePoint2(28, 10, 0);
+    Vector planePoint(100, 0, 0);
 
     Intensity color1(0.45,0.1,0.3);
     Intensity color2(0,1,0);
@@ -45,7 +46,7 @@ int main() {
     std::list<Geometry*> objects;
     objects.push_back(new Sphere(spherePoint1, 5, color1));
     objects.push_back(new Sphere(spherePoint2, 3, color3));
-    objects.push_back(new Plane(Vector(0, 1, 1), spherePoint1, color2));
+    objects.push_back(new Plane(Vector(1, 0, 0), planePoint, color2));
 
 
 

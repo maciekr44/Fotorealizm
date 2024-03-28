@@ -30,11 +30,11 @@ void Sphere::setRadius(float radius) {
     Radius_ = radius;
 }
 
-Vector Ray::PointAtParameter(float t) {
-    Direction_.mag(t);
-    Origin_.add(Direction_);
-    return Origin_;
-}
+//Vector Ray::pointAtParameter(float t) {
+//    Direction_.mag(t);
+//    Origin_.add(Direction_);
+//    return Origin_;
+//}
 
 IntersectionResult Sphere::collision(Ray ray, float t_min, float t_max) const{
     IntersectionResult result;
@@ -63,7 +63,7 @@ IntersectionResult Sphere::collision(Ray ray, float t_min, float t_max) const{
             // Update intersection result
             result.type = HIT;
             result.distance = t1;
-            result.LPOINT = ray.PointAtParameter(t1);
+            result.LPOINT = ray.pointAtParameter(t1);
             Vector intersPoint = result.LPOINT;
             intersPoint.sub(Center_);
             intersPoint.normalize();
@@ -75,7 +75,7 @@ IntersectionResult Sphere::collision(Ray ray, float t_min, float t_max) const{
             // Update intersection result
             result.type = HIT;
             result.distance = t2;
-            result.LPOINT = ray.PointAtParameter(t2);
+            result.LPOINT = ray.pointAtParameter(t2);
             Vector intersPoint = result.LPOINT;
             intersPoint.sub(Center_);
             intersPoint.normalize();

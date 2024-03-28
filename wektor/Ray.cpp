@@ -56,4 +56,9 @@ string Ray::showCoordinates() {
            string("), (") + to_string(Destination_.getX()) + string(", ") + to_string(Destination_.getY()) + string(", ") + to_string(Destination_.getZ()) +
            string("), ") + to_string(getDistance()) +  string("]");
 }
-
+Vector Ray::pointAtParameter(float t) {
+    // Calculate the point along the ray at parameter t
+    Direction_.mag(t);
+    Origin_.add(Direction_);
+    return Origin_;
+}

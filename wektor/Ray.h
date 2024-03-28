@@ -39,9 +39,9 @@ public:
 
     std::string showCoordinates();
 
-    Vector PointAtParameter(float t);
+    Vector pointAtParameter(float t);
 
-private:
+
     Vector Origin_;
     Vector Destination_;
     Vector Direction_;
