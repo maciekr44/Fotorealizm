@@ -27,13 +27,18 @@ float direction_angle(Vector v1) {
 
 int main() {
 
-    Vector spherePoint1(0, 0, 0);
-    Vector spherePoint2(28, 10, 0);
+    Vector spherePoint1(10, 0, 0);
+    Vector spherePoint2(28, 10, 5);
     Vector planePoint(100, 0, 0);
+    Vector trianglePointA(2, 0, 0);
+    Vector trianglePointB(2, 5, 0);
+    Vector trianglePointC(2, 0, 5);
 
     Intensity color1(0.45,0.1,0.3);
     Intensity color2(0,1,0);
     Intensity color3(0.566,0.422,0.28);
+    Intensity color4(0.566,0,0.48);
+
 //    Sphere* sphere1 = new Sphere(spherePoint1, 5, color1);
 //    Sphere* sphere2 = new Sphere(spherePoint2, 3, color3);
 
@@ -47,6 +52,7 @@ int main() {
     objects.push_back(new Sphere(spherePoint1, 5, color1));
     objects.push_back(new Sphere(spherePoint2, 3, color3));
     objects.push_back(new Plane(Vector(1, 0, 0), planePoint, color2));
+    objects.push_back(new Triangle(trianglePointA, trianglePointB, trianglePointC, color4));
 
 
 
@@ -149,7 +155,7 @@ int main() {
     Vector directionPerspVector = directionPerspRay.getDirection();
     Vector directionPerspVectorTMP = directionPerspRay.getDirection();
     Vector upPersp = directionPerspVector.findPerpendicularVector(directionPerspVectorTMP);
-    float fov = -90.0f;
+    float fov = 90.0f;
 
 // Create a perspective camera
     PerspectiveCamera cameraPersp(cameraPositionPersp, lookAtPersp, upPersp, fov);
@@ -165,7 +171,7 @@ int main() {
             float halfWidth = aspectRatio * halfHeight;
 
             float pixelX = ((2.0f * (x + 0.5f) / (float)image.width - 1) * halfWidth) * directionPerspRay.getDistance();
-            float pixelY = ((1 - 2.0f * (y + 0.5f) / (float)image.height) * halfHeight) * directionPerspRay.getDistance();
+            float pixelY = (( 2.0f * (y + 0.5f) / (float)image.height - 1) * halfHeight) * directionPerspRay.getDistance();
 
             int sampling = 5;
             float antialiasingPixelSize = ((directionPerspRay.getDistance() * 2) / image.width) / sampling;
