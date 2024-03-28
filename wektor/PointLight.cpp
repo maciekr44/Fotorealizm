@@ -4,14 +4,6 @@
 
 #include "PointLight.h"
 
-int PointLight::read(FILE *fp) {
-    return 0;
-}
-
-void PointLight::write(FILE *fp) {
-
-}
-
 // Calculate diffuse component of lighting
 Intensity PointLight::getDiffuse(Vector cameraPosition, IntersectionResult result) {
     Intensity color;

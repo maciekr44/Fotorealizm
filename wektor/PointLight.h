@@ -16,8 +16,7 @@ public:
     float constAtten;
     float linearAtten;
     float quadAtten;
-    int read(FILE* fp);
-    void write(FILE* fp=stdout);
+
     Intensity getDiffuse(Vector cameraPosition, IntersectionResult result);
     Intensity getSpecular(Vector cameraPosition, IntersectionResult result);
     int isInShadow(IntersectionResult iInfo, Geometry* object);
