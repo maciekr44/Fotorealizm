@@ -5,13 +5,14 @@
 #ifndef WEKTORY_SPHERE_H
 #define WEKTORY_SPHERE_H
 #include "Geometry.h"
+#include "Material.h"
 
 //#include "IntersectionResult.h"
 
 class Sphere : public Geometry{
     public:
         Sphere();
-        Sphere(Vector v, float r, Intensity color);
+        Sphere(Vector v, float r, Material material);
 
         IntersectionResult collision(Ray ray, float t_min, float t_max) const;
 
@@ -34,13 +35,13 @@ class Sphere : public Geometry{
         std::string showCoordinates() const;
 
         virtual ~Sphere();
-        Intensity Color_;
 
 
         Vector Center_;
         float Radius_;
 
 
+        Material Material_;
 };
 
 

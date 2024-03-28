@@ -8,7 +8,7 @@
 using namespace std;
 
 
-Sphere::Sphere(Vector v, float r, Intensity color) : Center_(v), Radius_(r), Color_(color) {}
+Sphere::Sphere(Vector v, float r, Material material) : Center_(v), Radius_(r), Material_(material) {}
 
 Sphere::~Sphere() {
 
@@ -68,7 +68,7 @@ IntersectionResult Sphere::collision(Ray ray, float t_min, float t_max) const{
             intersPoint.sub(Center_);
             intersPoint.normalize();
             result.intersectionLPOINTNormal = intersPoint;
-            result.color = Color_;
+            result.material = Material_;
             return result;
         }
         if (t2 > t_min && t2 < t_max) {
@@ -80,7 +80,7 @@ IntersectionResult Sphere::collision(Ray ray, float t_min, float t_max) const{
             intersPoint.sub(Center_);
             intersPoint.normalize();
             result.intersectionLPOINTNormal = intersPoint;
-            result.color = Color_;
+            result.material = Material_;
             return result;
         }
     }
@@ -92,9 +92,9 @@ string Sphere::showCoordinates() const {
     return string("[(") + to_string(getCenter().getX()) + string(", ") + to_string(getCenter().getY()) + string(", ") + to_string(getCenter().getZ()) + string("), ") + to_string(getRadius()) + string("]");
 }
 
-Intensity Sphere::getColor() {
-    return Color_;
-}
+//Intensity Sphere::getColor() {
+//    return Color_;
+//}
 
 void Sphere::setColor(Intensity color) {
 

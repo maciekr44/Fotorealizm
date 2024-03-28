@@ -8,3 +8,7 @@ Material::Material(Intensity diffuse_colour, float specular_amount, float specul
 
 }
 
+Material::Material() {
+
+}
+

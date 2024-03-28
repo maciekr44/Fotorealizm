@@ -9,6 +9,7 @@
 //#include "Plane.h"
 #include "Ray.h"
 #include "Intensity.h"
+#include "Material.h"
 //#include "Sphere.h"
 
 enum IntersectionType {
@@ -22,7 +23,8 @@ class IntersectionResult {
     // Define enum for intersection type
 
     public:
-        Intensity color;
+//        Intensity color;
+        Material material;
         IntersectionType type;
         Vector LPOINT; // Intersection point
         float distance; // Distance from ray origin to intersection point

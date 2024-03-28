@@ -7,11 +7,12 @@
 
 
 #include "Geometry.h"
+#include "Material.h"
 //#include "IntersectionResult.h"
 
 class Triangle : public Geometry{
 public:
-    Triangle(const Vector& vertex1, const Vector& vertex2, const Vector& vertex3, Intensity color);
+    Triangle(const Vector& vertex1, const Vector& vertex2, const Vector& vertex3, Material material);
 
     Vector vertices[3];
     Vector normals[3];
@@ -19,7 +20,7 @@ public:
     const Vector &Vertex1_;
     const Vector &Vertex2_;
     const Vector &Vertex3_;
-    Intensity Color_;
+    Material Material_;
 
     IntersectionResult collision(Ray ray, float t_min, float t_max) const;
 
