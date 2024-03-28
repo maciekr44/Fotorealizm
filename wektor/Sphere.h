@@ -4,17 +4,16 @@
 
 #ifndef WEKTORY_SPHERE_H
 #define WEKTORY_SPHERE_H
-//#include "Vector.h"
-#include "Ray.h"
 #include "Geometry.h"
 
 //#include "IntersectionResult.h"
 
-class Sphere : Geometry{
+class Sphere : public Geometry{
     public:
+        Sphere();
         Sphere(Vector v, float r, Intensity color);
 
-        IntersectionResult Hit(Ray ray, float t_min, float t_max) const;
+        IntersectionResult collision(Ray ray, float t_min, float t_max) const;
 
         Vector Center() const { return Center_; }
         void Center(Vector o) { Center_ = o; }
@@ -23,23 +22,25 @@ class Sphere : Geometry{
 
         friend std::ostream& operator <<(std::ostream& os, const Sphere& sph);
 
-    Vector getCenter() const;
-    void setCenter(Vector center);
+        Vector getCenter() const;
+        void setCenter(Vector center);
 
-    float getRadius() const;
-    void setRadius(float radius);
+        float getRadius() const;
+        void setRadius(float radius);
 
-    Intensity getColor();
-    void setColor(Intensity color);
+        Intensity getColor();
+        void setColor(Intensity color);
 
-    std::string showCoordinates() const;
+        std::string showCoordinates() const;
 
-    virtual ~Sphere();
-    Intensity Color_;
+        virtual ~Sphere();
+        Intensity Color_;
 
-private:
+
         Vector Center_;
         float Radius_;
+
+
 };
 
 

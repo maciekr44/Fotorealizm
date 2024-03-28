@@ -1,16 +1,18 @@
-//
-// Created by Kiu on 21.03.2024.
-//
-
-#ifndef WEKTORY_GEOMETRY_H
-#define WEKTORY_GEOMETRY_H
+#ifndef GEOMETRY_H
+#define GEOMETRY_H
 
 #include "IntersectionResult.h"
-#include "Intensity.h"
+//#include "Ray.h"
+//#include "Plane.h"
+//#include "Sphere.h"
+//#include "Triangle.h"
 
-class Geometry{
+
+
+class Geometry {
+public:
+    virtual ~Geometry() {}
+    virtual IntersectionResult collision(Ray ray, float t_min, float t_max) const{};
 
 };
-
-
-#endif //WEKTORY_GEOMETRY_H
+#endif // GEOMETRY_H

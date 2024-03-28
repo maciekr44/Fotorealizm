@@ -1,6 +1,3 @@
-//
-// Created by mical on 02.11.2022.
-//
 
 
 #include "Vector.h"

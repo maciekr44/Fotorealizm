@@ -3,8 +3,6 @@
 //
 
 #include "Plane.h"
-#include <cmath>
-#include <cstdlib>
 using namespace std;
 
 Plane::Plane(Vector normal_vector, Vector point, Intensity color) : Normal_vector_(normal_vector), Point_(point), Color_(color) {}
@@ -29,7 +27,8 @@ string Plane::showCoordinates() const {
     return string("[(") + to_string(getNormalVector().getX()) + string(", ") + to_string(getNormalVector().getY()) + string(", ") + to_string(getNormalVector().getZ()) + string("), (") + to_string(getPoint().getX()) + string(", ") + to_string(getPoint().getY()) + string(", ") + to_string(getPoint().getZ()) + string(")") + string("]");
 }
 
-IntersectionResult Plane::Intersects(Ray& ray, float range) {   //todo: ej bo ta funkcja cos nie tego bo nigdy sie nie wydarza hit
+IntersectionResult Plane::collision(Ray ray, float t_max, float t_min) const {   //todo: ej bo ta funkcja cos nie tego bo nigdy sie nie wydarza hit
+    float range = t_max - t_min;
     IntersectionResult result;
     Vector original = ray.getOrigin();
     Vector normal = getNormalVector();
@@ -50,10 +49,13 @@ IntersectionResult Plane::Intersects(Ray& ray, float range) {   //todo: ej bo ta
             result.color = this->Color_;
 
             if(normal.dotProduct(direction) < 0) {
+                cout << "siema" << endl;
                 result.type = HIT;
             }
-            else
+            else{
+                cout << "cze" << endl;
                 result.type = INSIDE_PRIMITIVE;
+            }
             direction.mag(t);
             direction.add(original);
             result.LPOINT = direction;

@@ -1,6 +1,3 @@
-//
-// Created by mical on 02.11.2022.
-//
 
 #ifndef WEKTORY_VECTOR_H
 #define WEKTORY_VECTOR_H

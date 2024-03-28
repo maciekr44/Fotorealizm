@@ -1,4 +1,4 @@
-#include "Vector.h"
+//#include "Geometry.h"
 
 class OrtogonalCamera {
 public:
@@ -11,8 +11,9 @@ public:
     OrtogonalCamera(Vector positionOrto, Vector lookAtOrto, Vector upOrto) : positionOrto(
             positionOrto), lookAtOrto(lookAtOrto), upOrto(upOrto) {}
 
-    static Intensity antyaliasingOrto(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize, Ray raySampling, Sphere s1, Sphere s2, Ray rayOrthographic){
+    static Intensity antyaliasingOrto(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize, Ray raySampling, std::list<Geometry*> objects, Ray rayOrthographic){
         int iterator = 0;
+        IntersectionResult closestIntersection;
         Intensity Colors[sampling * sampling];
         for(int t = 0; t<sampling; ++t){
             for(int p = 0; p<sampling; ++p){
@@ -21,28 +22,15 @@ public:
                 Vector samplingDestination(100, antialiasingPixelX + (antialiasingPixelSize * t), antialiasingPixelY + (antialiasingPixelSize * p));
                 raySampling.setDestination(samplingDestination);
 
-                // Check for intersections with the sphere
-                IntersectionResult intersectionOrthographic = s1.Hit(raySampling, 0, 900);  //tmax to ten nasz far plane
-                IntersectionResult intersectionOrthographicS2 = s2.Hit(raySampling, 0,
-                                                                       900);  //tmax to ten nasz far plane
+                closestIntersection.distance = std::numeric_limits<float>::infinity(); // jak tu jest nieskonczonosc to jakikolwiek hit bedzie mniejszy
 
-
-                if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type != HIT) {
-                    Colors[iterator] = intersectionOrthographic.color;
-                } else if (intersectionOrthographicS2.type == HIT && intersectionOrthographic.type != HIT) {
-                    Colors[iterator] = intersectionOrthographicS2.color;
-                } else if (intersectionOrthographic.type == HIT && intersectionOrthographicS2.type == HIT) {
-                    // Choose the closest intersection
-                    if (intersectionOrthographic.distance < intersectionOrthographicS2.distance) {
-                        Colors[iterator] = intersectionOrthographic.color;
-                    } else {
-                        Colors[iterator] = intersectionOrthographicS2.color;
+                for (auto obj : objects) {  //jednym z obiektow winien byc farplane
+                    IntersectionResult intersection = obj->collision(raySampling, 0, 900);
+                    if (intersection.type == HIT && intersection.distance < closestIntersection.distance) {
+                        closestIntersection = intersection;
                     }
-                } else {
-                    // Set background color
-                    Intensity bgColor(0, 0.1, 0.1);
-                    Colors[iterator] = bgColor;
                 }
+                Colors[iterator] = closestIntersection.color;
                 iterator++;
 
 

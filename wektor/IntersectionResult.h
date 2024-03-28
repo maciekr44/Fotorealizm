@@ -5,15 +5,12 @@
 #ifndef WEKTORY_INTERSECTIONRESULT_H
 #define WEKTORY_INTERSECTIONRESULT_H
 
-#endif //WEKTORY_INTERSECTIONRESULT_H
-
-#include "Vector.h"
+//#include "Vector.h"
 //#include "Plane.h"
 #include "Ray.h"
 #include "Intensity.h"
 //#include "Sphere.h"
 
-// Define enum for intersection type
 enum IntersectionType {
     MISS,
     HIT,
@@ -22,12 +19,15 @@ enum IntersectionType {
 
 // Define IntersectionResult class
 class IntersectionResult {
-public:
-    Intensity color;
-    IntersectionType type;
-    Vector LPOINT; // Intersection point
-    float distance; // Distance from ray origin to intersection point
-    Vector intersectionLPOINTNormal; // Normal vector at the intersection point
-//    IntersectionResult Intersects(const Ray &ray, float range) const;
+    // Define enum for intersection type
+
+    public:
+        Intensity color;
+        IntersectionType type;
+        Vector LPOINT; // Intersection point
+        float distance; // Distance from ray origin to intersection point
+        Vector intersectionLPOINTNormal; // Normal vector at the intersection point
+    //    IntersectionResult Intersects(const Ray &ray, float range) const;
 };
 
+#endif // WEKTORY_INTERSECTIONRESULT_H

@@ -2,15 +2,17 @@
 #include <string>
 #include <limits>
 #include <SFML/Graphics.hpp>
+#include <list>
 #include "Vector.h"
-#include "Sphere.h"
-#include "Ray.h"
-#include "Plane.h"
-#include "Triangle.h"
-#include "Intensity.h"
+//#include "Ray.h"
+//#include "Intensity.h"
 #include "PerspectiveCamera.h"
 #include "Image.h"
 #include "OrtogonalCamera.h"
+//#include "Geometry.h"
+#include "Plane.h"
+#include "Sphere.h"
+#include "Triangle.h"
 
 using namespace std;
 
@@ -31,8 +33,20 @@ int main() {
     Intensity color1(0.45,0.1,0.3);
     Intensity color2(0,1,0);
     Intensity color3(0.566,0.422,0.28);
-    Sphere s1(spherePoint1, 5, color1);
-    Sphere s2(spherePoint2, 3, color3);
+//    Sphere* sphere1 = new Sphere(spherePoint1, 5, color1);
+//    Sphere* sphere2 = new Sphere(spherePoint2, 3, color3);
+
+
+//    std::vector<Geometry*> sceneObjects;
+//
+//    sceneObjects.push_back(sphere1);
+//    sceneObjects.push_back(sphere2);
+
+    std::list<Geometry*> objects;
+    objects.push_back(new Sphere(spherePoint1, 5, color1));
+    objects.push_back(new Sphere(spherePoint2, 3, color3));
+    objects.push_back(new Plane(Vector(0, 1, 1), spherePoint1, color2));
+
 
 
     Image image(500, 500);
@@ -98,7 +112,7 @@ int main() {
             Vector raySamplingDestination(100, antialiasingPixelY, antialiasingPixelX);
             raySampling.setDestination(raySamplingDestination);
 
-            Intensity meanColor = OrtogonalCamera::antyaliasingOrto(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, s1, s2, rayOrthographic);
+            Intensity meanColor = OrtogonalCamera::antyaliasingOrto(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic);
             image.setPixel(x, y, meanColor);
         }
     }
@@ -168,7 +182,7 @@ int main() {
 
             Ray rayOrthographic(cameraPositionOrto, finish);
             // Check for intersections with the sphere
-            Intensity meanColor = PerspectiveCamera::antyaliasingPersp(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, s1, s2, rayOrthographic);
+            Intensity meanColor = PerspectiveCamera::antyaliasingPersp(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic);
             image.setPixel(x, y, meanColor);
         }
     }
@@ -192,6 +206,10 @@ int main() {
 
         // Display window
         window1.display();
+    }
+
+    for (auto obj : objects) {
+        delete obj;
     }
 }
 

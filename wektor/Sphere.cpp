@@ -3,8 +3,10 @@
 //
 
 #include "Sphere.h"
+//#include "PerspectiveCamera.h"
 
 using namespace std;
+
 
 Sphere::Sphere(Vector v, float r, Intensity color) : Center_(v), Radius_(r), Color_(color) {}
 
@@ -34,8 +36,7 @@ Vector Ray::PointAtParameter(float t) {
     return Origin_;
 }
 
-#include "PerspectiveCamera.h"
-IntersectionResult Sphere::Hit(Ray ray, float t_min, float t_max) const {
+IntersectionResult Sphere::collision(Ray ray, float t_min, float t_max) const{
     IntersectionResult result;
     result.type = MISS;
 

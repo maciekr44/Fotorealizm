@@ -6,11 +6,9 @@
 #define WEKTORY_PLANE_H
 
 
-#include "Vector.h"
 #include "Geometry.h"
-//#include "IntersectionResult.h"
 
-class Plane : Geometry {
+class Plane : public Geometry {
 public:
     Plane(Vector normal_vector, Vector point, Intensity color); //plaszczyzne definiujemy za pomoca wektora i punktu (3 punkty zawierajace sie w plaszcyznie)
 
@@ -25,19 +23,17 @@ public:
 
     std::string showCoordinates() const;
 
-    IntersectionResult Intersects(Ray ray, float range) const;
+    IntersectionResult collision(Ray ray, float t_max, float t_min) const;
 
-    IntersectionResult Intersects(Ray &ray, float range);
 
     Intensity Color_;
 
 
-private:
+
     Vector Normal_vector_;
     Vector Point_;
 
 
-    IntersectionResult Intersects(const Ray &ray, float range) const;
 
 };
 
