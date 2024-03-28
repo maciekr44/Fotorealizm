@@ -7,10 +7,11 @@
 
 
 #include "Geometry.h"
+#include "Material.h"
 
 class Plane : public Geometry {
 public:
-    Plane(Vector normal_vector, Vector point, Intensity color); //plaszczyzne definiujemy za pomoca wektora i punktu (3 punkty zawierajace sie w plaszcyznie)
+    Plane(Vector normal_vector, Vector point, Material material); //plaszczyzne definiujemy za pomoca wektora i punktu (3 punkty zawierajace sie w plaszcyznie)
 
     Vector Normal_vector() const {return Normal_vector_;}
     Vector Point() const {return Point_;}
@@ -26,7 +27,7 @@ public:
     IntersectionResult collision(Ray ray, float t_max, float t_min) const;
 
 
-    Intensity Color_;
+    Material Material_;
 
 
 

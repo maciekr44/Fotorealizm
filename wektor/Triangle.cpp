@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Triangle::Triangle(const Vector &vertex1, const Vector &vertex2, const Vector &vertex3, Intensity color) : Vertex1_(vertex1), Vertex2_(vertex2), Vertex3_(vertex3), Color_(color){
+Triangle::Triangle(const Vector &vertex1, const Vector &vertex2, const Vector &vertex3, Material material) : Vertex1_(vertex1), Vertex2_(vertex2), Vertex3_(vertex3), Material_(material){
 
 }
 IntersectionResult Triangle::collision(Ray ray, float t_min, float t_max) const{
@@ -61,7 +61,7 @@ IntersectionResult Triangle::collision(Ray ray, float t_min, float t_max) const{
 
     result.type = HIT;
     result.LPOINT = collisionPoint;
-    result.color = this->Color_;
+    result.material = this->Material_;
     result.intersectionLPOINTNormal = normal;
     result.distance = collisionPoint.length();
     return result;

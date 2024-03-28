@@ -39,6 +39,11 @@ int main() {
     Intensity color3(0.566,0.422,0.28);
     Intensity color4(0.566,0,0.48);
 
+    Material material1(color1,1,1,1);
+    Material material2(color2,1,1,1);
+    Material material3(color3,1,1,1);
+    Material material4(color4,1,1,1);
+
 //    Sphere* sphere1 = new Sphere(spherePoint1, 5, color1);
 //    Sphere* sphere2 = new Sphere(spherePoint2, 3, color3);
 
@@ -49,10 +54,10 @@ int main() {
 //    sceneObjects.push_back(sphere2);
 
     std::list<Geometry*> objects;
-    objects.push_back(new Sphere(spherePoint1, 5, color1));
-    objects.push_back(new Sphere(spherePoint2, 3, color3));
-    objects.push_back(new Plane(Vector(1, 0, 0), planePoint, color2));
-    objects.push_back(new Triangle(trianglePointA, trianglePointB, trianglePointC, color4));
+    objects.push_back(new Sphere(spherePoint1, 5, material1));
+    objects.push_back(new Sphere(spherePoint2, 3, material3));
+    objects.push_back(new Plane(Vector(1, 0, 0), planePoint, material2));
+    objects.push_back(new Triangle(trianglePointA, trianglePointB, trianglePointC, material4));
 
 
 
@@ -119,8 +124,8 @@ int main() {
             Vector raySamplingDestination(100, antialiasingPixelY, antialiasingPixelX);
             raySampling.setDestination(raySamplingDestination);
 
-            Intensity meanColor = OrtogonalCamera::antyaliasingOrto(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic);
-            image.setPixel(x, y, meanColor);
+            Material meanColor = OrtogonalCamera::antyaliasingOrto(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic);
+            image.setPixel(x, y, meanColor.diffuse_colour); //todo: zmienic kolor na material
         }
     }
 
@@ -189,8 +194,8 @@ int main() {
 
             Ray rayOrthographic(cameraPositionOrto, finish);
             // Check for intersections with the sphere
-            Intensity meanColor = PerspectiveCamera::antyaliasingPersp(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic);
-            image.setPixel(x, y, meanColor);
+            Material meanColor = PerspectiveCamera::antyaliasingPersp(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic);
+            image.setPixel(x, y, meanColor.diffuse_colour); //todo: zmienic kolor na material
         }
     }
     // Create SFML window

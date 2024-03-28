@@ -20,10 +20,10 @@ public:
         return right;
     }
 
-    static Intensity antyaliasingPersp(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize, Ray raySampling, std::list<Geometry*> objects, Ray rayOrthographic){
+    static Material antyaliasingPersp(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize, Ray raySampling, std::list<Geometry*> objects, Ray rayOrthographic){
         int iterator = 0;
         IntersectionResult closestIntersection;
-        Intensity Colors[sampling * sampling];
+        Material Colors[sampling * sampling];
         for(int t = 0; t<sampling; ++t){
             for(int p = 0; p<sampling; ++p){
 
@@ -39,20 +39,20 @@ public:
                         closestIntersection = intersection;
                     }
                 }
-                Colors[iterator] = closestIntersection.color;
+                Colors[iterator] = closestIntersection.material;
                 iterator++;
 
 
             }
         }
-        Intensity meanColor;
+        Material meanColor;
         Vector colorsVector(0, 0, 0);
         Vector sum(0, 0, 0);
         for(int s = 0; s<sampling*sampling; ++s){
             meanColor = Colors[s];
-            colorsVector.setX(meanColor.getRed());
-            colorsVector.setY(meanColor.getGreen());
-            colorsVector.setZ(meanColor.getBlue());
+            colorsVector.setX(meanColor.diffuse_colour.getRed());
+            colorsVector.setY(meanColor.diffuse_colour.getGreen());
+            colorsVector.setZ(meanColor.diffuse_colour.getBlue());
 
             sum.add(colorsVector);
 
@@ -61,9 +61,9 @@ public:
 
         sum.div(sampling * sampling);
 
-        meanColor.R(sum.getX());
-        meanColor.G(sum.getY());
-        meanColor.B(sum.getZ());
+        meanColor.diffuse_colour.R(sum.getX());
+        meanColor.diffuse_colour.G(sum.getY());
+        meanColor.diffuse_colour.B(sum.getZ());
 
         return (meanColor);
 

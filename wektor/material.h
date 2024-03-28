@@ -7,6 +7,7 @@
 #include "Intensity.h"
 class Material{
 public:
+    Material();
     Material(const Intensity diffuse_colour, float specular_amount, float specular_coeff,float reflect_fraction);
 
     Intensity diffuse_colour;
