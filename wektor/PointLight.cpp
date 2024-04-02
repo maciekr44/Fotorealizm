@@ -5,7 +5,7 @@
 #include "PointLight.h"
 
 // Calculate diffuse component of lighting
-Intensity PointLight::getDiffuse(Vector cameraPosition, IntersectionResult result) {
+Intensity PointLight::getDiffuse(IntersectionResult result) {
     Intensity color;
     location.sub(result.LPOINT);
     Vector lightDir = location;
@@ -19,8 +19,7 @@ Intensity PointLight::getDiffuse(Vector cameraPosition, IntersectionResult resul
 }
 
 // Calculate specular component of lighting
-Intensity PointLight::getSpecular(Vector cameraPosition, IntersectionResult result) {
-    float shininess;
+Intensity PointLight::getSpecular(Vector cameraPosition, IntersectionResult result, float shininess) {
     Intensity color;
     location.sub(result.LPOINT);
     Vector lightDir = location;
@@ -42,16 +41,19 @@ Intensity PointLight::getSpecular(Vector cameraPosition, IntersectionResult resu
     return color;
 }
 
+
 // Check if the point light is in shadow for a given intersection point and object
-int PointLight::isInShadow(IntersectionResult iInfo, Geometry* object) {
-    location.sub(iInfo.LPOINT);
-    Vector lightDir = location;
+bool PointLight::isInShadow(IntersectionResult iInfo, Geometry *const *pGeometry) {
+    Vector lightLocation = this->location;
+    lightLocation.sub(iInfo.LPOINT);
+    Vector lightDir = lightLocation;
     float distance = lightDir.length();
     lightDir.normalize();
     Ray shadowRay(iInfo.LPOINT, lightDir);
-    IntersectionResult shadowResult = object->collision(shadowRay, 0.001f, distance);
+    IntersectionResult shadowResult = (*pGeometry)->collision(shadowRay, 0.001f, distance);
     return (shadowResult.type == IntersectionType::HIT) ? 1 : 0;
 }
 
 PointLight::PointLight(Vector location, float constAtten, float linearAtten, float quadAtten) : location(
         location), constAtten(constAtten), linearAtten(linearAtten), quadAtten(quadAtten) {}
+
