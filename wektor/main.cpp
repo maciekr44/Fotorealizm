@@ -13,6 +13,7 @@
 #include "Plane.h"
 #include "Sphere.h"
 #include "Triangle.h"
+#include "PointLight.h"
 
 using namespace std;
 
@@ -166,7 +167,8 @@ int main() {
     PerspectiveCamera cameraPersp(cameraPositionPersp, lookAtPersp, upPersp, fov);
     Ray directionRay(cameraPositionOrto, lookAtOrto);
     Vector directionVector = directionRay.getDirection();
-
+    Vector lightPosition(20,-5,5);
+    PointLight nowy = PointLight(lightPosition,1,0.2,0);
 
     for (int y = 0; y < image.height; ++y) {
         for (int x = 0; x < image.width; ++x) {
@@ -191,11 +193,18 @@ int main() {
 
             Ray raySampling(cameraPositionOrto, finish);
 
-
             Ray rayOrthographic(cameraPositionOrto, finish);
             // Check for intersections with the sphere
             Material meanColor = PerspectiveCamera::antyaliasingPersp(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic);
-            image.setPixel(x, y, meanColor.diffuse_colour); //todo: zmienic kolor na material
+            Vector koniec = PerspectiveCamera::closestIntersection(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic);
+//            cout<<koniec.showCoordinates()<<endl;
+            Vector jeden = meanColor.diffuse_colour.calculateIntensity(nowy,koniec);
+//            cout<<jeden.showCoordinates()<<endl;
+            float czerwony = meanColor.diffuse_colour.getRed() * jeden.getX();
+            float zielony = meanColor.diffuse_colour.getGreen()*jeden.getY();
+            float niebieski = meanColor.diffuse_colour.getBlue()*jeden.getZ();
+            Intensity Color(czerwony,zielony,niebieski);
+            image.setPixel(x, y, Color); //todo: zmienic kolor na material
         }
     }
     // Create SFML window

@@ -3,7 +3,9 @@
 //
 
 #include "Intensity.h"
+#include "PointLight.h"
 #include <iostream>
+using namespace std;
 
 
 Intensity::Intensity(): Intensity(0, 0, 0){}
@@ -87,6 +89,10 @@ Intensity Intensity::operator-(Intensity & li)
 {
     return Intensity(r - li.R(), g - li.G(), b - li.B());
 }
+Intensity Intensity::operator*(Intensity & li)
+{
+    return Intensity(r * li.R(), g * li.G(), b * li.B());
+}
 
 Intensity Intensity::operator/(float num)
 {
@@ -153,4 +159,14 @@ sf::Color Intensity::intensityToSFMLColor() {
 
     // Return sf::Color object with the converted RGB values
     return sf::Color(red, green, blue);
+}
+
+Vector Intensity::calculateIntensity(PointLight pointLight, Vector Op) {
+
+    float Ix = 1.0 / (pointLight.constAtten + (pointLight.linearAtten * abs(Op.getX() - pointLight.location.getX())));
+    float Iy = 1.0 / (pointLight.constAtten + (pointLight.linearAtten * abs(Op.getY() - pointLight.location.getY())));
+    float Iz = 1.0 / (pointLight.constAtten + (pointLight.linearAtten * abs(Op.getZ() - pointLight.location.getZ())));
+    Vector I(Ix, Iy, Iz);
+//    cout<<I.showCoordinates()<<endl;
+    return I;
 }

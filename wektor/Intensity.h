@@ -2,6 +2,7 @@
 
 #include <ostream>
 #include <Graphics/Color.hpp>
+#include "PointLight.h"
 
 class Intensity
 {
@@ -30,7 +31,7 @@ public:
 
     Intensity operator+(Intensity &li);
     Intensity operator-(Intensity &li);
-
+    Intensity operator*(Intensity &li);
     Intensity operator/(float num);
 
     Intensity& operator+=(Intensity &li);
@@ -38,6 +39,8 @@ public:
 
     Intensity& operator*=(float num);
     Intensity& operator/=(float num);
+
+    Vector calculateIntensity(PointLight pointLight, Vector Op);
 
     sf::Color intensityToSFMLColor();
 
@@ -60,5 +63,8 @@ protected:
     float r;
     float b;
     float g;
+
+
+
 };
 
