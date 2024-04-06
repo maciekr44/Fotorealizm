@@ -16,8 +16,6 @@
 #include "Sphere.h"
 #include "Triangle.h"
 
-bool isInShadow(IntersectionResult result, Geometry *const *pGeometry);
-
 using namespace std;
 
 float angle(Vector v1, Vector v2) {
@@ -85,73 +83,67 @@ int main() {
     //ray uzywany do antyaliasingu
     Ray raySampling(Vector(0, 0, 0), Vector(100, 0, 0));
 
-    Intensity aIntensity(1,1,1);
-
     int widthPixel = 2.0f / image.width;
     int heightPixel = 2.0f / image.height;
-    bool inShadow = false;
 
-    for (int i = 0; i < image.width; i++) {
-        for (int j = 0; j < image.height; j++) {
-            float pixelX = -1.8f + (i + 0.5f) * widthPixel;
-            float pixelY = 1.0f - (j + 0.5f) * heightPixel;
-
-            Ray ray(cameraPositionOrto, Vector(pixelX, pixelY, 0)); // Promień od kamery do piksela
-
-            IntersectionResult intersection;
-            Geometry* closestObject = nullptr;
-            double closestIntersectionDistance = INFINITY;
-            PointLight pointLightSource(Vector(10, 5, 20), 2, 2, 2);
-
-            // Sprawdź przecięcia z obiektami w scenie
-            for (const auto& object : objects) {
-                IntersectionResult intersectPoint = object->collision(ray, 0, 100);
-                if (intersectPoint.type != MISS) {
-                    Vector gowno_na_patyku = ray.getOrigin();
-                    gowno_na_patyku.sub(intersectPoint.LPOINT);
-                    double distance = gowno_na_patyku.length();
-                    if (distance < closestIntersectionDistance) {
-                        closestIntersectionDistance = distance;
-                        intersection = intersectPoint;
-                        closestObject = object;
-                    }
-                }
-            }
-
-            if (intersection.type != MISS) {
-                // Śledzenie promienia w kierunku źródła światła
-
-                Vector pointLightLoc = pointLightSource.location;
-
-                pointLightSource.location.sub(intersection.LPOINT);
-                pointLightSource.location.normalize();
-                Ray shadowRay(intersection.LPOINT, pointLightLoc);  // zamiast punktu przeciecia winien byc punkt bliski przecieciu zeby nie bylo self intersection
+//    for (int i = 0; i < image.width; i++) {
+//        for (int j = 0; j < image.height; j++) {
+//            float pixelX = -1.8f + (i + 0.5f) * widthPixel;
+//            float pixelY = 1.0f - (j + 0.5f) * heightPixel;
+//
+//            Ray ray(cameraPositionOrto, Vector(pixelX, pixelY, 0)); // Promień od kamery do piksela
+//
+//            IntersectionResult intersection;
+//            Geometry* closestObject = nullptr;
+//            double closestIntersectionDistance = INFINITY;
+//            PointLight source(Vector(10, 5, 20),2,2,2);
+//
+//            // Sprawdź przecięcia z obiektami w scenie
+//            for (const auto& object : objects) {
+//                IntersectionResult intersectPoint = object->collision(ray, 0, 100);
+//                if (intersectPoint.type != MISS) {
+//                    Vector gowno_na_patyku = ray.getOrigin();
+//                    gowno_na_patyku.sub(intersectPoint.LPOINT);
+//                    double distance = gowno_na_patyku.length();
+//                    if (distance < closestIntersectionDistance) {
+//                        closestIntersectionDistance = distance;
+//                        intersection = intersectPoint;
+//                        closestObject = object;
+//                    }
+//                }
+//            }
+//
+//            if (intersection.type != MISS) {
+//                // Śledzenie promienia w kierunku źródła światła
+//
+//                source.location.sub(intersection.LPOINT);
+//                source.location.normalize();
+//                Ray shadowRay(intersection, toLight);
 //                bool inShadow = false;
-                for (const auto& object : objects) {
-                    inShadow = pointLightSource.isInShadow(intersection, &object);
-                    if (inShadow) {
-                        break;
-                    }
-                }
-
-
-                if (!inShadow) {
-                    // Obliczanie koloru piksela na podstawie modelu Phonga
-                    // Tutaj wykonaj obliczenia Phonga dla punktu przecięcia z obiektem (closestObject)
-                    // Zastosuj właściwy materiał dla obiektu
-                    // i ustaw kolor piksela na podstawie obliczonych wartości
-
-                    image.setPixel(i, j, intersection.material.diffuse_colour); //todo: czeba jeszcze policzyc phonga
-                } else {
-                    // Jeśli punkt przecięcia znajduje się w cieniu, ustaw kolor tła - that makes no sense, tu tez powinnismy obliczac phonga
-                    image.setPixel(i, j, aIntensity); // aIntensity to kolor tła
-                }
-            } else {
-                // Jeśli promień nie przecina żadnego obiektu, również ustaw kolor tła
-                image.setPixel(i, j, aIntensity); // aIntensity to kolor tła
-            }
-        }
-  }
+//                for (const auto& object : objects) {
+//                    if (object != closestObject && object->intersects(shadowRay)) {
+//                        inShadow = true;
+//                        break;
+//                    }
+//                }
+//
+//                if (!inShadow) {
+//                    // Obliczanie koloru piksela na podstawie modelu Phonga
+//                    // Tutaj wykonaj obliczenia Phonga dla punktu przecięcia z obiektem (closestObject)
+//                    // Zastosuj właściwy materiał dla obiektu
+//                    // i ustaw kolor piksela na podstawie obliczonych wartości
+//
+//                    image.setPixel(i, j, calculatedColor);
+//                } else {
+//                    // Jeśli punkt przecięcia znajduje się w cieniu, ustaw kolor tła
+//                    image.setPixel(i, j, aIntensity); // aIntensity to kolor tła
+//                }
+//            } else {
+//                // Jeśli promień nie przecina żadnego obiektu, również ustaw kolor tła
+//                img.setPixel(i, j, aIntensity); // aIntensity to kolor tła
+//            }
+//        }
+//  }
 
 
 

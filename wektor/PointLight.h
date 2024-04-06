@@ -20,9 +20,9 @@ public:
 
     PointLight(Vector location, float constAtten, float linearAtten, float quadAtten);
 
-    virtual Intensity getDiffuse(IntersectionResult result) override;
-    virtual Intensity getSpecular(Vector cameraPosition, IntersectionResult result, float shininess) override;
-    virtual bool isInShadow(IntersectionResult iInfo, Geometry *const *pGeometry) override;
+    Intensity getDiffuse(Vector cameraPosition, IntersectionResult result);
+    Intensity getSpecular(Vector cameraPosition, IntersectionResult result);
+    int isInShadow(IntersectionResult iInfo, Geometry* object);
 };
 
 
