@@ -17,9 +17,6 @@ public:
     float linearAtten;
     float quadAtten;
 
-
-    PointLight(Vector location, float constAtten, float linearAtten, float quadAtten);
-
     Intensity getDiffuse(Vector cameraPosition, IntersectionResult result);
     Intensity getSpecular(Vector cameraPosition, IntersectionResult result);
     int isInShadow(IntersectionResult iInfo, Geometry* object);
