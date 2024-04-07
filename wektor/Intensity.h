@@ -40,7 +40,7 @@ public:
     Intensity& operator*=(float num);
     Intensity& operator/=(float num);
 
-    Vector calculateIntensity(PointLight pointLight, Vector Op);
+    Vector calculateIntensity(PointLight pointLight, Vector);
 
     sf::Color intensityToSFMLColor();
 

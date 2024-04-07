@@ -28,17 +28,17 @@ float direction_angle(Vector v1) {
 
 int main() {
 
-    Vector spherePoint1(10, 0, 0);
-    Vector spherePoint2(28, 10, 5);
+    Vector spherePoint1(0, 0, 0);
+    Vector spherePoint2(-5, 10, 5);
     Vector planePoint(100, 0, 0);
-    Vector trianglePointA(-20, 0, 0);
-    Vector trianglePointB(-20, 5, 0);
-    Vector trianglePointC(-20, 0, 5);
+    Vector trianglePointA(7, 0, 0);
+    Vector trianglePointB(7, 8, 0);
+    Vector trianglePointC(7, 0, 8);
 
-    Intensity color1(0.45,0.1,0.3);
+    Intensity color1(1,0,0);
     Intensity color2(0,1,0);
-    Intensity color3(0.566,0.422,0.28);
-    Intensity color4(0.566,0,0.48);
+    Intensity color3(1,1,1);
+    Intensity color4(1,0,0);
 
     Material material1(color1,1,1,1);
     Material material2(color2,1,1,1);
@@ -74,83 +74,83 @@ int main() {
     Vector finish(0,0,0);
     Vector start(0,0,0);
 
-
-// Create an orthographic camera
-    OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, upOrto);
-    Ray rayOrthographic (cameraPositionOrto,lookAtOrto);
-
-    //ray uzywany do antyaliasingu
-    Ray raySampling(Vector(0, 0, 0), Vector(100, 0, 0));
-
-
-    // Iterate over each pixel in the image
-    for (int y = 0; y < image.height; ++y) {
-        for (int x = 0; x < image.width; ++x) {
-
-            directionOrtoRay.setOrigin(cameraPositionOrto);
-            directionOrtoRay.setDestination(lookAtOrto);
-
-
-            float pixelX = (-1.0f + 2.0f * x / (image.width - 1.0f)) * directionOrtoRay.getDistance();
-            float pixelY = (-1.0f + 2.0f * y / (image.height - 1.0f)) * directionOrtoRay.getDistance();
-
-            int sampling = 5;
-
-            float antialiasingPixelSize = ((directionOrtoRay.getDistance() * 2) / image.width) / sampling;
-
-            float antialiasingPixelX = pixelX - (2 * antialiasingPixelSize);
-            float antialiasingPixelY = pixelY - (2 * antialiasingPixelSize);
-
-
-            Vector rayDirection = directionOrtoRay.getDirection();
-            float cameraEnd = rayDirection.getX();
-
-            finish.setX(cameraEnd);
-            finish.setY(pixelY);
-            finish.setZ(pixelX);
-
-            float cameraPoint = cameraPositionOrto.getX();
-            start.setX(cameraPoint);
-            start.setY(pixelY);
-            start.setZ(pixelX);
-
-            rayOrthographic.setOrigin(start);
-            rayOrthographic.setDestination(finish);
-
-
-            // ANTYALIASING
-
-            Vector raySamplingOrigin(0, antialiasingPixelY, antialiasingPixelX);
-            raySampling.setOrigin(raySamplingOrigin);
-            Vector raySamplingDestination(100, antialiasingPixelY, antialiasingPixelX);
-            raySampling.setDestination(raySamplingDestination);
-
-            Material meanColor = OrtogonalCamera::antyaliasingOrto(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic);
-            image.setPixel(x, y, meanColor.diffuse_colour); //todo: zmienic kolor na material
-        }
-    }
-
-    // Create SFML window
-    sf::RenderWindow window(sf::VideoMode(image.width, image.height), "SFML Image");
-
-    // Main loop
-    while (window.isOpen()) {
-        // Process events
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        // Clear window
-        window.clear();
-
-        // Draw the image
-        window.draw(image);
-
-        // Display window
-        window.display();
-    }
+//
+//// Create an orthographic camera
+//    OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, upOrto);
+//    Ray rayOrthographic (cameraPositionOrto,lookAtOrto);
+//
+//    //ray uzywany do antyaliasingu
+//    Ray raySampling(Vector(0, 0, 0), Vector(100, 0, 0));
+//
+//
+//    // Iterate over each pixel in the image
+//    for (int y = 0; y < image.height; ++y) {
+//        for (int x = 0; x < image.width; ++x) {
+//
+//            directionOrtoRay.setOrigin(cameraPositionOrto);
+//            directionOrtoRay.setDestination(lookAtOrto);
+//
+//
+//            float pixelX = (-1.0f + 2.0f * x / (image.width - 1.0f)) * directionOrtoRay.getDistance();
+//            float pixelY = (-1.0f + 2.0f * y / (image.height - 1.0f)) * directionOrtoRay.getDistance();
+//
+//            int sampling = 5;
+//
+//            float antialiasingPixelSize = ((directionOrtoRay.getDistance() * 2) / image.width) / sampling;
+//
+//            float antialiasingPixelX = pixelX - (2 * antialiasingPixelSize);
+//            float antialiasingPixelY = pixelY - (2 * antialiasingPixelSize);
+//
+//
+//            Vector rayDirection = directionOrtoRay.getDirection();
+//            float cameraEnd = rayDirection.getX();
+//
+//            finish.setX(cameraEnd);
+//            finish.setY(pixelY);
+//            finish.setZ(pixelX);
+//
+//            float cameraPoint = cameraPositionOrto.getX();
+//            start.setX(cameraPoint);
+//            start.setY(pixelY);
+//            start.setZ(pixelX);
+//
+//            rayOrthographic.setOrigin(start);
+//            rayOrthographic.setDestination(finish);
+//
+//
+//            // ANTYALIASING
+//
+//            Vector raySamplingOrigin(0, antialiasingPixelY, antialiasingPixelX);
+//            raySampling.setOrigin(raySamplingOrigin);
+//            Vector raySamplingDestination(100, antialiasingPixelY, antialiasingPixelX);
+//            raySampling.setDestination(raySamplingDestination);
+//
+//            Material meanColor = OrtogonalCamera::antyaliasingOrto(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic);
+//            image.setPixel(x, y, meanColor.diffuse_colour); //todo: zmienic kolor na material
+//        }
+//    }
+//
+//    // Create SFML window
+//    sf::RenderWindow window(sf::VideoMode(image.width, image.height), "SFML Image");
+//
+//    // Main loop
+//    while (window.isOpen()) {
+//        // Process events
+//        sf::Event event;
+//        while (window.pollEvent(event)) {
+//            if (event.type == sf::Event::Closed)
+//                window.close();
+//        }
+//
+//        // Clear window
+//        window.clear();
+//
+//        // Draw the image
+//        window.draw(image);
+//
+//        // Display window
+//        window.display();
+//    }
 
 
     // Define the parameters for the camera
@@ -167,7 +167,7 @@ int main() {
     PerspectiveCamera cameraPersp(cameraPositionPersp, lookAtPersp, upPersp, fov);
     Ray directionRay(cameraPositionOrto, lookAtOrto);
     Vector directionVector = directionRay.getDirection();
-    Vector lightPosition(20,-5,5);
+    Vector lightPosition(8,5,0);
     PointLight nowy = PointLight(lightPosition,1,0.2,0);
 
     for (int y = 0; y < image.height; ++y) {
@@ -199,11 +199,19 @@ int main() {
             Vector koniec = PerspectiveCamera::closestIntersection(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic);
 //            cout<<koniec.showCoordinates()<<endl;
             Vector jeden = meanColor.diffuse_colour.calculateIntensity(nowy,koniec);
+//            cout<<nowy.location.showCoordinates()<<endl;
+//            cout<<koniec.showCoordinates()<<endl;
+            float NX = abs(nowy.location.getX()-koniec.getX());
+            float NY = abs(nowy.location.getY()-koniec.getY());
+            float NZ = abs(nowy.location.getZ()-koniec.getZ());
+//            cout<<NX<<", "<<NY<<", "<<NZ<<endl;
+//            cout<<endl;
 //            cout<<jeden.showCoordinates()<<endl;
             float czerwony = meanColor.diffuse_colour.getRed() * jeden.getX();
             float zielony = meanColor.diffuse_colour.getGreen()*jeden.getY();
             float niebieski = meanColor.diffuse_colour.getBlue()*jeden.getZ();
             Intensity Color(czerwony,zielony,niebieski);
+//            cout<<czerwony<<endl;
             image.setPixel(x, y, Color); //todo: zmienic kolor na material
         }
     }

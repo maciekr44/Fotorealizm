@@ -93,8 +93,7 @@ public:
                         return distance;
                     }
                 }
-                Colors[iterator] = closestIntersection.material;
-                iterator++;
+
 
 
             }
