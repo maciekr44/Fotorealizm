@@ -50,9 +50,9 @@ public:
         Vector sum(0, 0, 0);
         for(int s = 0; s<sampling*sampling; ++s){
             meanColor = Colors[s];
-            colorsVector.setX(meanColor.diffuse_colour.getRed());
-            colorsVector.setY(meanColor.diffuse_colour.getGreen());
-            colorsVector.setZ(meanColor.diffuse_colour.getBlue());
+            colorsVector.setX(meanColor.color.getRed());
+            colorsVector.setY(meanColor.color.getGreen());
+            colorsVector.setZ(meanColor.color.getBlue());
 
             sum.add(colorsVector);
 
@@ -61,13 +61,13 @@ public:
 
         sum.div(sampling * sampling);
 
-        meanColor.diffuse_colour.R(sum.getX());
-        meanColor.diffuse_colour.G(sum.getY());
-        meanColor.diffuse_colour.B(sum.getZ());
+        meanColor.color.R(sum.getX());
+        meanColor.color.G(sum.getY());
+        meanColor.color.B(sum.getZ());
 
-        Vector jeden = meanColor.diffuse_colour.calculateIntensity(pointLight, intersection);
+        Vector jeden = meanColor.color.calculateIntensity(pointLight, intersection);
 
-        Intensity newColor(meanColor.diffuse_colour.R()* jeden.getX(),meanColor.diffuse_colour.G()* jeden.getY(),meanColor.diffuse_colour.B()* jeden.getZ());
+        Intensity newColor(meanColor.color.R() * jeden.getX(), meanColor.color.G() * jeden.getY(), meanColor.color.B() * jeden.getZ());
         Material newMaterial(newColor,0,0,0);
         return (newMaterial);
 

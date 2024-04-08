@@ -8,12 +8,12 @@
 class Material{
 public:
     Material();
-    Material(const Intensity diffuse_colour, float specular_amount, float specular_coeff,float reflect_fraction);
+    Material(const Intensity color, float specular, float shineness, float reflect);
 
-    Intensity diffuse_colour;
-    float specular_amount;//[0,infinity]. 0 = matt
-    float specular_coeff;//(0, infinity). for phong lighting
-    float reflect_fraction;//[0,1]. 1 == total reflection, i.e. a.k.a shineness.dloat reflect_fractiona perfect mirror
+    Intensity color;
+    float specular;//[0,infinity]. 0 = matt
+    float shineness;//(0, infinity). for phong lighting a.k.a shineness.
+    float reflect; //[0,1]. 1 == total reflection, i.e. a perfect mirror
 };
 
 #endif //WEKTORY_MATERIAL_H

@@ -17,8 +17,8 @@
 //    color *= (cosTheta / (constAtten + linearAtten * distance + quadAtten * distance * distance));
 //    return color;
 //}
-//
-//// Calculate specular component of lighting
+////
+////// Calculate specular component of lighting
 //Intensity PointLight::getSpecular(Vector cameraPosition, IntersectionResult result) {
 //    float shininess;
 //    Intensity color;

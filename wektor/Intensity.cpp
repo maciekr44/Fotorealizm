@@ -165,9 +165,6 @@ sf::Color Intensity::intensityToSFMLColor() {
 Vector Intensity::calculateIntensity(PointLight pointLight, Vector Op) {
     Ray distance(pointLight.location, Op);
     float I = 1.0 / (pointLight.constAtten + (pointLight.linearAtten * abs(distance.getDistance())));
-//    float Ix = 1.0 / (pointLight.constAtten + (pointLight.linearAtten * abs(Op.getX() - pointLight.location.getX())));
-//    float Iy = 1.0 / (pointLight.constAtten + (pointLight.linearAtten * abs(Op.getY() - pointLight.location.getY())));
-//    float Iz = 1.0 / (pointLight.constAtten + (pointLight.linearAtten * abs(Op.getZ() - pointLight.location.getZ())));
     Vector In(I, I, I);
 //    cout<<I.showCoordinates()<<endl;
     return In;
