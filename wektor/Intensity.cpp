@@ -172,3 +172,9 @@ Vector Intensity::calculateIntensity(PointLight pointLight, Vector Op) {
 //    cout<<I.showCoordinates()<<endl;
     return In;
 }
+
+Vector Intensity::isInShadow(PointLight pointLight, Vector Op) {
+    Vector In(1, 0, 1);
+//    cout<<I.showCoordinates()<<endl;
+    return In;
+}

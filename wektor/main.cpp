@@ -29,14 +29,14 @@ float direction_angle(Vector v1) {
 int main() {
 
     Vector spherePoint1(0, 0, 0);
-    Vector spherePoint2(-5, 10, 5);
+    Vector spherePoint2(12, 18, 0);
     Vector planePoint(100, 0, 0);
     Vector trianglePointA(7, 0, 0);
     Vector trianglePointB(7, 8, 0);
     Vector trianglePointC(7, 0, 8);
 
     Intensity color1(1,0,0);
-    Intensity color2(0,1,0);
+    Intensity color2(0,0,1);
     Intensity color3(1,1,1);
     Intensity color4(1,0,0);
 
@@ -58,9 +58,7 @@ int main() {
     objects.push_back(new Sphere(spherePoint1, 5, material1));
     objects.push_back(new Sphere(spherePoint2, 3, material3));
     objects.push_back(new Plane(Vector(1, 0, 0), planePoint, material2));
-    objects.push_back(new Triangle(trianglePointA, trianglePointB, trianglePointC, material4));
-
-
+   // objects.push_back(new Triangle(trianglePointA, trianglePointB, trianglePointC, material4));
 
     Image image(500, 500);
 
@@ -154,8 +152,8 @@ int main() {
 
 
     // Define the parameters for the camera
-    Vector cameraPositionPersp(-40, 0, 0);  // Set the camera position
-    Vector lookAtPersp(-30, 0, 0);  // Set the point to look at
+    Vector cameraPositionPersp(-80, 0, 0);  // Set the camera position
+    Vector lookAtPersp(-60, 0, 0);  // Set the point to look at
 
     Ray directionPerspRay(cameraPositionPersp, lookAtPersp);
     Vector directionPerspVector = directionPerspRay.getDirection();
@@ -167,18 +165,20 @@ int main() {
     PerspectiveCamera cameraPersp(cameraPositionPersp, lookAtPersp, upPersp, fov);
     Ray directionRay(cameraPositionOrto, lookAtOrto);
     Vector directionVector = directionRay.getDirection();
-    Vector lightPosition(8,5,0);
-    PointLight nowy = PointLight(lightPosition,1,0.2,0);
+    Vector lightPosition(5,6,0);//X działa odwrotnie niż w kamerach tamto -8 to u nas 8
+    PointLight nowy = PointLight(lightPosition,0.8,0.15,0);
 
     for (int y = 0; y < image.height; ++y) {
         for (int x = 0; x < image.width; ++x) {
 
-            float aspectRatio = (float)image.width / image.height;
+            float aspectRatio = (float) image.width / image.height;
             float halfHeight = tan(fov * M_PI / 360.0f);
             float halfWidth = aspectRatio * halfHeight;
 
-            float pixelX = ((2.0f * (x + 0.5f) / (float)image.width - 1) * halfWidth) * directionPerspRay.getDistance();
-            float pixelY = (( 2.0f * (y + 0.5f) / (float)image.height - 1) * halfHeight) * directionPerspRay.getDistance();
+            float pixelX =
+                    ((2.0f * (x + 0.5f) / (float) image.width - 1) * halfWidth) * directionPerspRay.getDistance();
+            float pixelY =
+                    ((2.0f * (y + 0.5f) / (float) image.height - 1) * halfHeight) * directionPerspRay.getDistance();
 
             int sampling = 5;
             float antialiasingPixelSize = ((directionPerspRay.getDistance() * 2) / image.width) / sampling;
@@ -194,27 +194,44 @@ int main() {
             Ray raySampling(cameraPositionOrto, finish);
 
             Ray rayOrthographic(cameraPositionOrto, finish);
+//            Vector koniec = PerspectiveCamera::closestIntersection(sampling, antialiasingPixelY, antialiasingPixelX,
+//                                                                   antialiasingPixelSize, raySampling, objects,
+//                                                                   rayOrthographic);
             // Check for intersections with the sphere
-            Material meanColor = PerspectiveCamera::antyaliasingPersp(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic);
-            Vector koniec = PerspectiveCamera::closestIntersection(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic);
+            Material meanColor = PerspectiveCamera::antyaliasingPersp(sampling, antialiasingPixelY, antialiasingPixelX,
+                                                                      antialiasingPixelSize, raySampling, objects,
+                                                                      rayOrthographic, nowy, finish);
+
+
+
+
+//            Ray objectToLight(koniec, lightPosition);
+////            cout<<"Ray: "<< objectToLight.showCoordinates()<<endl;
+////            cout<<"Obiekt: "<< koniec.showCoordinates()<<endl;
+////            cout<<"Swiatlo: "<< lightPosition.showCoordinates()<<endl;
+////            cout<<endl;
+//
+//
+//            for (auto obj: objects) {  //jednym z obiektow winien byc farplane
+//                IntersectionResult intersection = obj->collision(objectToLight, 0, 1000);
+//                if (intersection.type == HIT && intersection.distance < objectToLight.getDistance()) {
+////                    cout<<"Oleglosc od obiektu do obiektu: "<<intersection.distance<<", odleglosc od swiatla do obiektu: "<<objectToLight.getDistance()<<endl;
+//                    Intensity Color(1, 0, 1);
+//                    image.setPixel(x, y, Color);
+//                } else {
+//                    cout<<"Weszlo do elsa "<<endl;
 //            cout<<koniec.showCoordinates()<<endl;
-            Vector jeden = meanColor.diffuse_colour.calculateIntensity(nowy,koniec);
-//            cout<<nowy.location.showCoordinates()<<endl;
-//            cout<<koniec.showCoordinates()<<endl;
-            float NX = abs(nowy.location.getX()-koniec.getX());
-            float NY = abs(nowy.location.getY()-koniec.getY());
-            float NZ = abs(nowy.location.getZ()-koniec.getZ());
-//            cout<<NX<<", "<<NY<<", "<<NZ<<endl;
-//            cout<<endl;
-//            cout<<jeden.showCoordinates()<<endl;
-            float czerwony = meanColor.diffuse_colour.getRed() * jeden.getX();
-            float zielony = meanColor.diffuse_colour.getGreen()*jeden.getY();
-            float niebieski = meanColor.diffuse_colour.getBlue()*jeden.getZ();
-            Intensity Color(czerwony,zielony,niebieski);
-//            cout<<czerwony<<endl;
-            image.setPixel(x, y, Color); //todo: zmienic kolor na material
-        }
-    }
+//                    Vector jeden = meanColor.diffuse_colour.calculateIntensity(nowy, koniec);
+//                    float czerwony = meanColor.diffuse_colour.getRed() * jeden.getX();
+//                    float zielony = meanColor.diffuse_colour.getGreen() * jeden.getY();
+//                    float niebieski = meanColor.diffuse_colour.getBlue() * jeden.getZ();
+//                    Intensity Color(czerwony, zielony, niebieski);
+//            cout<<Color<<endl;
+                    image.setPixel(x, y, meanColor.diffuse_colour); //todo: zmienic kolor na material
+                }
+            }
+//        }
+//    }
     // Create SFML window
     sf::RenderWindow window1(sf::VideoMode(image.width, image.height), "SFML Image");
 

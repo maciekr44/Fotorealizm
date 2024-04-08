@@ -20,7 +20,7 @@ public:
         return right;
     }
 
-    static Material antyaliasingPersp(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize, Ray raySampling, std::list<Geometry*> objects, Ray rayOrthographic){
+    static Material antyaliasingPersp(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize, Ray raySampling, std::list<Geometry*> objects, Ray rayOrthographic, PointLight pointLight, Vector intersection){
         int iterator = 0;
         IntersectionResult closestIntersection;
         Material Colors[sampling * sampling];
@@ -65,7 +65,11 @@ public:
         meanColor.diffuse_colour.G(sum.getY());
         meanColor.diffuse_colour.B(sum.getZ());
 
-        return (meanColor);
+        Vector jeden = meanColor.diffuse_colour.calculateIntensity(pointLight, intersection);
+
+        Intensity newColor(meanColor.diffuse_colour.R()* jeden.getX(),meanColor.diffuse_colour.G()* jeden.getY(),meanColor.diffuse_colour.B()* jeden.getZ());
+        Material newMaterial(newColor,0,0,0);
+        return (newMaterial);
 
     }
 

@@ -65,6 +65,6 @@ protected:
     float g;
 
 
-
+    Vector isInShadow(PointLight pointLight, Vector Op);
 };
 
