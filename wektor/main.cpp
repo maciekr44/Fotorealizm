@@ -30,11 +30,12 @@ float direction_angle(Vector v1) {
 int main() {
 
     Vector spherePoint1(0, 0, 0);
-    Vector spherePoint2(6, 10, 0);
+    Vector spherePoint2(4, 0, 0);
     Vector planePoint(150, 0, 0);
-    Vector trianglePointA(7, 0, 0);
-    Vector trianglePointB(7, 8, 0);
-    Vector trianglePointC(7, 0, 8);
+//    Vector trianglePointA(7, 0, 0);
+    Vector trianglePointB(-8, 6, 0);
+    Vector trianglePointC(-8, 0, 6);
+    Vector trianglePointA(-8, 0, 0);//X działa odwrotnie niż w kamerach tamto -8 to u nas 8
 
     Intensity color1(1, 0, 0);
     Intensity color2(0, 0, 1);
@@ -57,9 +58,9 @@ int main() {
 
     std::list<Geometry *> objects;
     objects.push_back(new Sphere(spherePoint1, 5, material1));
-    objects.push_back(new Sphere(spherePoint2, 3, material3));
+    objects.push_back(new Sphere(spherePoint2, 2, material3));
     objects.push_back(new Plane(Vector(1, 0, 0), planePoint, material2));
-    // objects.push_back(new Triangle(trianglePointA, trianglePointB, trianglePointC, material4));
+    objects.push_back(new Triangle(trianglePointA, trianglePointB, trianglePointC, material4));
 
     Image image(500, 500);
 
@@ -166,7 +167,7 @@ int main() {
     PerspectiveCamera cameraPersp(cameraPositionPersp, lookAtPersp, upPersp, fov);
     Ray directionRay(cameraPositionOrto, lookAtOrto);
     Vector directionVector = directionRay.getDirection();
-    Vector lightPosition(6, -6, 0);//X działa odwrotnie niż w kamerach tamto -8 to u nas 8
+    Vector lightPosition(7, 0, 0);//X działa odwrotnie niż w kamerach tamto -8 to u nas 8
     PointLight nowy = PointLight(lightPosition, 0.8, 0.15, 0);
 
     for (int y = 0; y < image.height; ++y) {
@@ -196,6 +197,7 @@ int main() {
 
             Ray rayPerspective(cameraPositionPersp, finish);
             Ray objectToLight(finish, nowy.location);
+//            cout<<objectToLight.showCoordinates()<<endl;
 
             IntersectionResult closestIntersection;
             closestIntersection.type = MISS;
@@ -213,7 +215,7 @@ int main() {
 //                cout<<"KUPA"<<endl;
                 image.setPixel(x, y, meanColor.color); //todo: zmienic kolor na material
             } else {
-                Intensity Red(1,0,0);
+                Intensity Red(1,0,1);
                 Material meanColor(Red,0,0,0);
                 image.setPixel(x, y, meanColor.color); //todo: zmienic kolor na material
 //                cout<<"NIE KUPA"<<endl;
