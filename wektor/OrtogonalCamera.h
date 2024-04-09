@@ -1,5 +1,6 @@
 //#include "Geometry.h"
 
+
 class OrtogonalCamera {
 public:
     Vector positionOrto;
@@ -11,7 +12,7 @@ public:
     OrtogonalCamera(Vector positionOrto, Vector lookAtOrto, Vector upOrto) : positionOrto(
             positionOrto), lookAtOrto(lookAtOrto), upOrto(upOrto) {}
 
-    static Material antyaliasingOrto(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize, Ray raySampling, std::list<Geometry*> objects, Ray rayOrthographic){
+    static Material antyaliasingOrto(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize, Ray raySampling, std::list<Geometry*> objects, Ray rayOrthographic, PointLight pointLight, Vector cameraPositionOrto){
         int iterator = 0;
         IntersectionResult closestIntersection;
         Material Colors[sampling * sampling];
@@ -30,11 +31,45 @@ public:
                         closestIntersection = intersection;
                     }
                 }
-                Colors[iterator] = closestIntersection.material;
-                iterator++;
+//                 zakomentowany kod to poczatek pracy nad obliczanie phonga
+                Ray objectToLight(closestIntersection.LPOINT, pointLight.location);  //od punktu przeciecia do zrodla swiatla
+//                std::cout << objectToLight.showCoordinates() << std::endl; //tu jest git
+                //jezeli jest HIT (ray napotkal obiekt) to sprawdzamy czy dany pixel (intersection) jest w cieniu
+                if (closestIntersection.type == HIT){
+                    //sprawdzamy malego nibypixela czy jest zacieniony
+                    IntersectionResult closestIntersectionShadow;
+                    closestIntersectionShadow.type = MISS;
+                    closestIntersectionShadow.distance = std::numeric_limits<float>::infinity(); // jak tu jest nieskonczonosc to jakikolwiek hit bedzie mniejszy
+                    for (auto obj: objects) {  //jednym z obiektow jhest farplane
+                        IntersectionResult intersection = obj->collision(objectToLight, 0, 1000);
+                        if (intersection.type == HIT && intersection.distance < closestIntersectionShadow.distance) {
+//                            std::cout << "siema" << std::endl;
+                            closestIntersectionShadow = intersection;
+                        }
+                    }
+                    if (closestIntersectionShadow.type == MISS) {   // czyli niezacieniony
+                        // tutaj obliczenia jak ten maly pixel wyglada bez cienia, todo: tj robimy phonga
+//                        Intensity colorShadow(0,0,0); //zacienione bedzie czarne
+                        Intensity colorNotShadow = calculatePhong(cameraPositionOrto, closestIntersection, pointLight, false);
+                        Material meanColor(colorNotShadow,0,0,0);
+                        Colors[iterator] = closestIntersection.material;
 
 
+                    } else { //wtedy kiedy okazuje sie ze jest zacieniony punkt todo: tutaj wzor od Michala most likely
+//                        Intensity colorShadow(0,1,1); //zacienione bedzie czarne
+//                        std::cout << "siema" << std::endl;
+//                        Intensity Red(1,1,1);
+                        Intensity colorShadow = colorShadow.calculatePhong(cameraPositionOrto, closestIntersection, pointLight, true);
+                        Material meanColor(colorShadow,0,0,0);
+
+                        Colors[iterator] = meanColor;
+
+                    }
+                }
             }
+//            Colors[iterator] = closestIntersection.material;    // to zakomentowac jak bedzie phong
+            iterator++;
+
         }
         Material meanColor;
         Vector colorsVector(0, 0, 0);

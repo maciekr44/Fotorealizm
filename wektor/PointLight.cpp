@@ -3,6 +3,8 @@
 //
 
 #include "PointLight.h"
+
+
 //
 //// Calculate diffuse component of lighting
 //Intensity PointLight::getDiffuse(Vector cameraPosition, IntersectionResult result) {
@@ -52,5 +54,7 @@
 //    IntersectionResult shadowResult = object->collision(shadowRay, 0.001f, distance);
 //    return (shadowResult.type == IntersectionType::HIT) ? 1 : 0;
 //}
-PointLight::PointLight(Vector location, float constAtten, float linearAtten, float quadAtten) : location(
-        location), constAtten(constAtten), linearAtten(linearAtten), quadAtten(quadAtten) {}
+
+PointLight::PointLight(const Vector& location, float constAtten, float linearAtten, float quadAtten, Intensity color) {
+
+}

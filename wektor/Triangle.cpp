@@ -67,5 +67,57 @@ IntersectionResult Triangle::collision(Ray ray, float t_min, float t_max) const{
     return result;
 }
 
-
-
+//
+//
+//IntersectionResult Triangle::collision(Ray ray, float t_min, float t_max) const {
+//    IntersectionResult result;
+//    const float EPSILON = std::numeric_limits<float>::epsilon();
+//    // Compute the normal of the triangle
+//    Vector AB = Vertex2_;
+//    AB.sub( Vertex1_);
+//    Vector AC = Vertex3_;
+//    AC.sub( Vertex1_);
+//    Vector tmpAB = AB;
+//    tmpAB.cross(AC).normalize();
+//    Vector normal = tmpAB;
+//
+//    // Check for ray-triangle parallelism
+//    float dotProduct = ray.getDirection().dotProduct(normal);
+//    if (fabsf(dotProduct) < EPSILON) {
+//        return result; // Ray is parallel to triangle
+//    }
+//
+//    // Calculate intersection point with the plane containing the triangle
+//    Vector tmpRayOrigin = ray.getOrigin();
+//    Vector tmpVertex1 = Vertex1_;
+//    tmpVertex1.sub(tmpRayOrigin);
+////    float aa = tmpVertex1.dotProduct(normal);
+////    float bb = aa/dotProduct;
+//    float t = tmpVertex1.dotProduct(normal) / dotProduct;
+//    if (t < 0.0f) {
+//        return result; // Intersection point is behind the ray origin
+//    }
+//    Vector intersectionPoint = ray.pointAtParameter(t);
+//
+//    // Check if intersection point lies within the triangle
+//    Vector AP = intersectionPoint;
+//    AP.sub( Vertex1_);
+//    float dotACB = AC.dotProduct(normal);
+//    float dotABAB = AB.dotProduct(AB);
+//    float dotABAP = AB.dotProduct(AP);
+//    float dotACAC = AC.dotProduct(AC);
+//    float dotACAP = AC.dotProduct(AP);
+//    float denominator = dotABAB * dotACAC - dotABAP * dotABAP;
+//    float u = (dotACAC * dotABAP - dotABAB * dotACAP) / denominator;
+//    float v = (dotABAB * dotACAP - dotABAP * dotACB) / denominator;
+//    if (u >= 0.0f && v >= 0.0f && u + v <= 1.0f) {
+//        // Intersection point lies within the triangle
+//        result.type = HIT;
+//        result.LPOINT = intersectionPoint;
+//        result.material = this->Material_;
+//        result.intersectionLPOINTNormal = normal;
+//        result.distance = t;
+//    }
+//
+//    return result;
+//}

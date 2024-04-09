@@ -7,10 +7,12 @@
 
 //#include "Vector.h"
 //#include "Plane.h"
-#include "Ray.h"
-#include "Intensity.h"
-#include "Material.h"
+//#include "Ray.h"
+//#include "Intensity.h"
+//#include "Material.h"
 //#include "Sphere.h"
+//#include "Vector.h"
+#include "Material.h"
 
 enum IntersectionType {
     MISS,

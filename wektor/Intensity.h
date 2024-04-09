@@ -3,6 +3,8 @@
 #include <ostream>
 #include <Graphics/Color.hpp>
 #include "PointLight.h"
+#include "IntersectionResult.h"
+#include "Ray.h"
 
 class Intensity
 {
@@ -58,6 +60,8 @@ public:
         return result;
     }
 
+
+    Intensity calculatePhong(Vector cameraPosition, IntersectionResult result, PointLight light);
 
 protected:
     float r;
