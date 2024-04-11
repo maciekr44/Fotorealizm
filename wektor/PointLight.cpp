@@ -55,7 +55,7 @@ using namespace std;
 //    return (shadowResult.type == IntersectionType::HIT) ? 1 : 0;
 //}
 
-PointLight::PointLight(const Vector& location, float constAtten, float linearAtten, float quadAtten, Intensity color) {
+PointLight::PointLight(Vector location, float constAtten, float linearAtten, float quadAtten, Intensity color) {
 
 }
 
@@ -162,6 +162,8 @@ PointLight::PointLight(const Vector& location, float constAtten, float linearAtt
 
 
 Intensity PointLight::calculatePhong(Vector cameraPosition, IntersectionResult result, PointLight light, bool inShadow, Ray raySampling) {
+//    Ray objectToLight(intersetion, light.location);
+    light.location = Vector(10,0,0);
     Vector I = raySampling.getDirection();
     I.normalize();
     Vector N = result.intersectionLPOINTNormal;
@@ -204,4 +206,8 @@ Vector PointLight::isInShadow(PointLight pointLight, Vector Op) {
     Vector In(1, 0, 1);
 //    cout<<I.showCoordinates()<<endl;
     return In;
+}
+
+PointLight::PointLight() {
+
 }

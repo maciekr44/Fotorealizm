@@ -22,7 +22,7 @@ public:
     Intensity color;
 
     PointLight();
-    PointLight(const Vector& location, float constAtten, float linearAtten, float quadAtten, Intensity color);
+    PointLight( Vector location, float constAtten, float linearAtten, float quadAtten, Intensity color);
 
 //    Intensity getDiffuse(Vector cameraPosition, IntersectionResult result);
 //    Intensity getSpecular(Vector cameraPosition, IntersectionResult result);

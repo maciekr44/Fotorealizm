@@ -1,5 +1,5 @@
 //#include "Geometry.h"
-
+using namespace  std;
 
 class OrtogonalCamera {
 public:
@@ -29,10 +29,12 @@ public:
                     IntersectionResult intersection = obj->collision(raySampling, 0, 1000);
                     if (intersection.type == HIT && intersection.distance < closestIntersection.distance) {
                         closestIntersection = intersection;
+//                        cout<<closestIntersection.LPOINT.showCoordinates()<<endl;
                     }
                 }
 //                 zakomentowany kod to poczatek pracy nad obliczanie phonga
                 Ray objectToLight(closestIntersection.LPOINT, pointLight.location);  //od punktu przeciecia do zrodla swiatla
+//                cout<<pointLight.location.showCoordinates()<<endl;
 //                std::cout << objectToLight.showCoordinates() << std::endl; //tu jest git
                 //jezeli jest HIT (ray napotkal obiekt) to sprawdzamy czy dany pixel (intersection) jest w cieniu
                 if (closestIntersection.type == HIT){
@@ -45,6 +47,7 @@ public:
                         if (intersection.type == HIT && intersection.distance < closestIntersectionShadow.distance) {
 //                            std::cout << "siema" << std::endl;
                             closestIntersectionShadow = intersection;
+//                            cout<<objectToLight.showCoordinates()<<endl;
                         }
                     }
                     if (closestIntersectionShadow.type == MISS) {   // czyli niezacieniony

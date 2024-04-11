@@ -49,10 +49,14 @@ int main() {
     Material material3(color3, 1, 1, 1);
     Material material4(color4, 1, 1, 1);
 
-    Vector lightPosition(15, 1, 1);//X działa odwrotnie niż w kamerach tamto -8 to u nas 8
-//    PointLight pointLight = PointLight(lightPosition, 0.8, 0.15, 0.0, color5);
-    PointLight pointLight = PointLight(lightPosition, 0.8, 0.15, 0.1, color5);
-
+    Vector lightPosition(-8, 1, 1);
+    PointLight pointLight = PointLight();
+    pointLight.location = lightPosition;
+    pointLight.constAtten = 1;
+    pointLight.linearAtten = 0.1;
+    pointLight.color = color2;
+    cout<<lightPosition.showCoordinates()<<endl;
+    cout<<pointLight.location.showCoordinates()<<endl;
 
 
 //    Sphere* sphere1 = new Sphere(spherePoint1, 5, color1);
@@ -68,7 +72,7 @@ int main() {
     objects.push_back(new Sphere(spherePoint1, 3, material1));
     objects.push_back(new Sphere(spherePoint2, 2, material3));
 //    objects.push_back(new Plane(Vector(1, 0, 0), planePoint, material2));
-    objects.push_back(new Triangle(trianglePointA, trianglePointB, trianglePointC, material4));
+//    objects.push_back(new Triangle(trianglePointA, trianglePointB, trianglePointC, material4));
 
     Image image(500, 500);
 
@@ -133,7 +137,6 @@ int main() {
             raySampling.setOrigin(raySamplingOrigin);
             Vector raySamplingDestination(100, antialiasingPixelY, antialiasingPixelX);
             raySampling.setDestination(raySamplingDestination);
-
 
 
             Material meanColor = OrtogonalCamera::antyaliasingOrto(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic, pointLight, cameraPositionOrto);
