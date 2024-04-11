@@ -54,7 +54,8 @@ public:
                         // tutaj obliczenia jak ten maly pixel wyglada bez cienia, todo: tj robimy phonga
 //                        Intensity colorShadow(0,0,0); //zacienione bedzie czarne
                         Intensity colorNotShadow = pointLight.calculatePhong(cameraPositionOrto, closestIntersection, pointLight, false, objectToLight);
-                        Material meanColor(colorNotShadow,0,0,0);
+                        Intensity colorek(1,1,0);
+                        Material meanColor(colorek,0,0,0);
                         Colors[iterator] = closestIntersection.material;
 
 
@@ -63,7 +64,8 @@ public:
 //                        std::cout << "siema" << std::endl;
 //                        Intensity Red(1,1,1);
                         Intensity colorShadow = pointLight.calculatePhong(cameraPositionOrto, closestIntersection, pointLight, true, objectToLight);
-                        Material meanColor(colorShadow,0,0,0);
+                        Intensity colorek(1,0,1);
+                        Material meanColor(colorek,0,0,0);
 
                         Colors[iterator] = meanColor;
 

@@ -30,7 +30,7 @@ float direction_angle(Vector v1) {
 int main() {
 
     Vector spherePoint1(-2, 0, 0);
-    Vector spherePoint2(3, 2, 3);
+    Vector spherePoint2(6, 6, 0);
     Vector planePoint(150, 0, 0);
 //    Vector trianglePointA(7, 0, 0);
     Vector trianglePointB(10, 6, 1);
@@ -49,12 +49,12 @@ int main() {
     Material material3(color3, 1, 1, 1);
     Material material4(color4, 1, 1, 1);
 
-    Vector lightPosition(-8, 1, 1);
+    Vector lightPosition(-6, 6, 0);
     PointLight pointLight = PointLight();
     pointLight.location = lightPosition;
     pointLight.constAtten = 1;
     pointLight.linearAtten = 0.1;
-    pointLight.color = color2;
+    pointLight.color = color5;
     cout<<lightPosition.showCoordinates()<<endl;
     cout<<pointLight.location.showCoordinates()<<endl;
 
