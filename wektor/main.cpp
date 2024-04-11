@@ -15,6 +15,7 @@
 #include "Triangle.h"
 #include "PointLight.h"
 #include "Material.h"
+#include "AmbientLight.h"
 
 using namespace std;
 
@@ -64,6 +65,8 @@ int main() {
 
     Vector finish(0, 0, 0);
     Vector start(0, 0, 0);
+
+    AmbientLight ambientLight = AmbientLight(color3, 0.2);
 
 //
 //// Create an orthographic camera
@@ -158,7 +161,7 @@ int main() {
     PerspectiveCamera cameraPersp(cameraPositionPersp, lookAtPersp, upPersp, fov);
     Ray directionRay(cameraPositionOrto, lookAtOrto);
     Vector directionVector = directionRay.getDirection();
-    Vector lightPosition(0, 0, 0);//X działa odwrotnie niż w kamerach tamto -8 to u nas 8
+    Vector lightPosition(-2, -3, 0);//X działa odwrotnie niż w kamerach tamto -8 to u nas 8
     PointLight nowy = PointLight();
     nowy.location = lightPosition;
     nowy.constAtten = 0.7;
@@ -208,7 +211,9 @@ int main() {
             Material meanColor = PerspectiveCamera::antyaliasingPersp(sampling, antialiasingPixelY,
                                                                       antialiasingPixelX,
                                                                       antialiasingPixelSize, raySampling, objects,
-                                                                      rayPerspective, nowy, start, finish);
+                                                                      rayPerspective, nowy, start, finish,
+                                                                      ambientLight);
+
             image.setPixel(x, y, meanColor.color); //todo: zmienic kolor na material
 //            } else {
 //                Intensity Red(1,0,1);
