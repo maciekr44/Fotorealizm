@@ -1,7 +1,7 @@
 #include "Geometry.h"
 #include "PointLight.h"
 #include <list>
-
+using namespace std;
 
 class PerspectiveCamera {
 private:
@@ -12,7 +12,50 @@ private:
 
 public:
     PerspectiveCamera(Vector position, Vector lookAt, Vector up, float fov) : position(position), lookAt(lookAt), up(up), fov(fov){}
-    
+
+    static Vector calculateIntensity2(PointLight pointLight, Vector Op) {
+        Ray distance(pointLight.location, Op);
+        float I = 1.0 / (pointLight.constAtten + (pointLight.linearAtten * abs(distance.getDistance())));
+        Vector In(I, I, I);
+//    cout<<I.showCoordinates()<<endl;
+        return In;
+    }
+
+
+
+    static Intensity calculatePhong(Vector cameraPosition, IntersectionResult result, PointLight light, bool inShadow, Ray raySampling) {
+//    Ray objectToLight(intersetion, light.location);
+//        light.location = Vector(10,0,0);
+        Vector I = raySampling.getDirection();
+        I.normalize();
+        Vector N = result.intersectionLPOINTNormal;
+        N.normalize();
+
+        // Calculate reflection vector
+        Vector R = N;
+        float TMPR = R.dotProduct(I);
+        R.mag(TMPR);
+        R.mag(2);
+        R.sub(I);
+        R.normalize();
+
+        // Calculate specular component
+        float ss = std::max(0.0f, raySampling.getDirection().dotProduct(R));
+        float specular = (ss > 0) ? std::pow(ss, result.material.shineness) * result.material.specular : 0;
+        Intensity sIntensity = light.color;
+        sIntensity *= specular;
+
+        // Calculate diffuse component
+        float cosinus = std::max(0.0f, raySampling.getDirection().dotProduct(N));
+        Intensity diffuseIntensity = result.material.color;
+        diffuseIntensity *=  cosinus;
+
+        // Combine specular and diffuse intensities
+        Intensity finalIntensity = sIntensity + diffuseIntensity;
+
+        return finalIntensity;
+    }
+
     // Calculate the right vector based on the up vector and the direction from camera position to lookAt
     Vector right() const {
         Vector direction = lookAt;
@@ -21,20 +64,22 @@ public:
         return right;
     }
 
-    static Material antyaliasingPersp(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize, Ray raySampling, std::list<Geometry*> objects, Ray rayOrthographic, PointLight pointLight, Vector intersection){
+    static Material antyaliasingPersp(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize, Ray raySampling, std::list<Geometry*> objects, Ray rayOrthographic, PointLight pointLight, Vector start, Vector intersection) {
         int iterator = 0;
         IntersectionResult closestIntersection;
         Material Colors[sampling * sampling];
-        for(int t = 0; t<sampling; ++t){
-            for(int p = 0; p<sampling; ++p){
 
-                Vector samplingDestination(0, antialiasingPixelX + (antialiasingPixelSize * t), antialiasingPixelY + (antialiasingPixelSize * p));
+        for (int t = 0; t < sampling; ++t) {
+            for (int p = 0; p < sampling; ++p) {
+
+                Vector samplingDestination(0, antialiasingPixelX + (antialiasingPixelSize * t),
+                                           antialiasingPixelY + (antialiasingPixelSize * p));
                 raySampling.setDestination(samplingDestination);
                 // Check for intersections with the sphere
 
                 closestIntersection.distance = std::numeric_limits<float>::infinity(); // jak tu jest nieskonczonosc to jakikolwiek hit bedzie mniejszy
 
-                for (auto obj : objects) {  //jednym z obiektow winien byc farplane
+                for (auto obj: objects) {  //jednym z obiektow winien byc farplane
                     IntersectionResult intersection = obj->collision(raySampling, 0, 1000);
                     if (intersection.type == HIT && intersection.distance < closestIntersection.distance) {
                         closestIntersection = intersection;
@@ -49,15 +94,13 @@ public:
         Material meanColor;
         Vector colorsVector(0, 0, 0);
         Vector sum(0, 0, 0);
-        for(int s = 0; s<sampling*sampling; ++s){
+        for (int s = 0; s < sampling * sampling; ++s) {
             meanColor = Colors[s];
             colorsVector.setX(meanColor.color.getRed());
             colorsVector.setY(meanColor.color.getGreen());
             colorsVector.setZ(meanColor.color.getBlue());
 
             sum.add(colorsVector);
-
-
         }
 
         sum.div(sampling * sampling);
@@ -67,42 +110,17 @@ public:
         meanColor.color.B(sum.getZ());
 
 //        Vector jeden = meanColor.color.calculateIntensity(pointLight, intersection);
-        Vector jeden = pointLight.calculateIntensity(pointLight, intersection);
+        Vector dwa = calculateIntensity2(pointLight, intersection);
 
-        Intensity newColor(meanColor.color.R() * jeden.getX(), meanColor.color.G() * jeden.getY(), meanColor.color.B() * jeden.getZ());
-        Material newMaterial(newColor,0,0,0);
+
+        Intensity newColor(meanColor.color.R() * dwa.getX(), meanColor.color.G() * dwa.getY(),
+                           meanColor.color.B() * dwa.getZ());
+//            cout<<pointLight.location.showCoordinates()<<endl;
+        Ray objectToLight(closestIntersection.LPOINT, pointLight.location);
+        Intensity final = calculatePhong(start, closestIntersection, pointLight, true, objectToLight);
+        Material newMaterial(final, 0, 0, 0);
         return (newMaterial);
 
-    }
 
-    static Vector closestIntersection(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize, Ray raySampling, std::list<Geometry*> objects, Ray rayOrthographic) {
-        int iterator = 0;
-        IntersectionResult closestIntersection;
-        Material Colors[sampling * sampling];
-        for (int t = 0; t < sampling; ++t) {
-            for (int p = 0; p < sampling; ++p) {
-                Vector samplingOrigin(0, antialiasingPixelX + (antialiasingPixelSize * t),
-                                      antialiasingPixelY + (antialiasingPixelSize * p));
-                raySampling.setOrigin(samplingOrigin);
-                Vector samplingDestination(100, antialiasingPixelX + (antialiasingPixelSize * t),
-                                           antialiasingPixelY + (antialiasingPixelSize * p));
-                raySampling.setDestination(samplingDestination);
-
-                closestIntersection.distance = std::numeric_limits<float>::infinity(); // jak tu jest nieskonczonosc to jakikolwiek hit bedzie mniejszy
-
-                for (auto obj: objects) {  //jednym z obiektow winien byc farplane
-                    IntersectionResult intersection = obj->collision(raySampling, 0, 1000);
-                    if (intersection.type == HIT && intersection.distance < closestIntersection.distance) {
-                        closestIntersection = intersection;
-                        Vector distance = closestIntersection.LPOINT;
-//                        std::cout<<distance.showCoordinates()<<std::endl;
-                        return distance;
-                    }
-                }
-
-
-
-            }
-        }
     }
 };
