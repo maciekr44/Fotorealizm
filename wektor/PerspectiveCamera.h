@@ -1,4 +1,5 @@
 #include "Geometry.h"
+#include "PointLight.h"
 #include <list>
 
 
@@ -65,7 +66,8 @@ public:
         meanColor.color.G(sum.getY());
         meanColor.color.B(sum.getZ());
 
-        Vector jeden = meanColor.color.calculateIntensity(pointLight, intersection);
+//        Vector jeden = meanColor.color.calculateIntensity(pointLight, intersection);
+        Vector jeden = pointLight.calculateIntensity(pointLight, intersection);
 
         Intensity newColor(meanColor.color.R() * jeden.getX(), meanColor.color.G() * jeden.getY(), meanColor.color.B() * jeden.getZ());
         Material newMaterial(newColor,0,0,0);

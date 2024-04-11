@@ -7,6 +7,7 @@
 
 #include "Vector.h"
 #include "Intensity.h"
+#include "IntersectionResult.h"
 //#include "Intensity.h"
 //#include "Intensity.h"
 //#include "IntersectionResult.h"
@@ -26,7 +27,9 @@ public:
 //    Intensity getDiffuse(Vector cameraPosition, IntersectionResult result);
 //    Intensity getSpecular(Vector cameraPosition, IntersectionResult result);
 //    int isInShadow(IntersectionResult iInfo, Geometry* object);
-
+    Vector calculateIntensity(PointLight pointLight, Vector Op);
+    Vector isInShadow(PointLight pointLight, Vector Op);
+    Intensity calculatePhong(Vector cameraPosition, IntersectionResult result, PointLight light, bool inShadow);
 };
 
 

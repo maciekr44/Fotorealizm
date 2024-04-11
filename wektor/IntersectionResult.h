@@ -11,7 +11,7 @@
 //#include "Intensity.h"
 //#include "Material.h"
 //#include "Sphere.h"
-//#include "Vector.h"
+#include "Vector.h"
 #include "Material.h"
 
 enum IntersectionType {

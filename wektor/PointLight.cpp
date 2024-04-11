@@ -3,7 +3,7 @@
 //
 
 #include "PointLight.h"
-
+using namespace std;
 
 //
 //// Calculate diffuse component of lighting
@@ -57,4 +57,73 @@
 
 PointLight::PointLight(const Vector& location, float constAtten, float linearAtten, float quadAtten, Intensity color) {
 
+}
+
+
+
+
+Intensity PointLight::calculatePhong(Vector cameraPosition, IntersectionResult result, PointLight light, bool inShadow) {
+    // Compute ambient component (usually a fraction of the object's color)
+    Intensity ambientColor = result.material.color;
+
+    // calculate distance:
+    Ray distanceRay(result.LPOINT, light.location);
+    float distance = distanceRay.getDistance();
+//    cout << distance << endl;
+
+
+    // Calculate attenuation
+    float attenuation = 1.0f / (light.constAtten + light.linearAtten * distance + light.quadAtten * distance * distance);
+    // Apply attenuation to the actual color of the light
+    Intensity intensity = light.color;
+//    cout << intensity << endl;
+    intensity *= attenuation;
+//    cout << intensity << endl;
+
+    // Compute diffuse component
+    Vector lightDirectionTMP = light.location;
+    lightDirectionTMP.sub(result.LPOINT);
+    Vector lightDirection = lightDirectionTMP;
+    lightDirection.normalize();
+    float diffuseFactor = std::max(0.0f, result.intersectionLPOINTNormal.dotProduct(lightDirection));
+    Intensity diffuseColor = result.material.color;
+    diffuseColor = diffuseColor*intensity;
+    diffuseColor*=diffuseFactor;
+
+    // Compute reflection vector and specular component
+    float reflection = 2 * result.intersectionLPOINTNormal.dotProduct(lightDirection);
+    Vector reflectionVector = result.intersectionLPOINTNormal;
+    reflectionVector.mag(reflection);
+    reflectionVector.sub(lightDirection);
+
+    reflectionVector.normalize();
+    Vector viewDirection = cameraPosition;
+    viewDirection.sub(result.LPOINT);
+    viewDirection.normalize();
+    float specularFactor = std::pow(std::max(0.0f, reflectionVector.dotProduct(viewDirection)), result.material.shineness);
+    Intensity specularColor = intensity * result.material.color;
+    specularColor *= specularFactor;
+
+    // Check for shadow and adjust components if necessary
+    if (inShadow) {
+        diffuseColor = Intensity(); // Set diffuse color to black or attenuate it
+        specularColor = Intensity(); // Set specular color to black or attenuate it
+    }
+
+    // Combine components to get final pixel color
+    return ambientColor + diffuseColor + specularColor;
+}
+
+Vector PointLight::calculateIntensity(PointLight pointLight, Vector Op) {
+    Ray distance(pointLight.location, Op);
+    float I = 1.0 / (pointLight.constAtten + (pointLight.linearAtten * abs(distance.getDistance())));
+    Vector In(I, I, I);
+//    cout<<I.showCoordinates()<<endl;
+    return In;
+}
+
+Vector PointLight::isInShadow(PointLight pointLight, Vector Op) {
+    Vector In(1, 0, 1);
+//    cout<<I.showCoordinates()<<endl;
+    return In;
 }

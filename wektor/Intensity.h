@@ -2,8 +2,8 @@
 
 #include <ostream>
 #include <Graphics/Color.hpp>
-#include "PointLight.h"
-#include "IntersectionResult.h"
+//#include "PointLight.h"
+//#include "IntersectionResult.h"
 #include "Ray.h"
 
 class Intensity
@@ -42,7 +42,7 @@ public:
     Intensity& operator*=(float num);
     Intensity& operator/=(float num);
 
-    Vector calculateIntensity(PointLight pointLight, Vector);
+
 
     sf::Color intensityToSFMLColor();
 
@@ -61,14 +61,11 @@ public:
     }
 
 
-    Intensity calculatePhong(Vector cameraPosition, IntersectionResult result, PointLight light);
-
 protected:
     float r;
     float b;
     float g;
 
 
-    Vector isInShadow(PointLight pointLight, Vector Op);
 };
 
