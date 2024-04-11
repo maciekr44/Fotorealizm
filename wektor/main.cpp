@@ -49,7 +49,7 @@ int main() {
     Material material3(color3, 1, 1, 1);
     Material material4(color4, 1, 1, 1);
 
-    Vector lightPosition(13, 1, 1);//X działa odwrotnie niż w kamerach tamto -8 to u nas 8
+    Vector lightPosition(15, 1, 1);//X działa odwrotnie niż w kamerach tamto -8 to u nas 8
 //    PointLight pointLight = PointLight(lightPosition, 0.8, 0.15, 0.0, color5);
     PointLight pointLight = PointLight(lightPosition, 0.8, 0.15, 0.1, color5);
 

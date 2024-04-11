@@ -81,7 +81,11 @@ Vector Vector::abs(Vector v) {
 void Vector::normalize() {
     float n = this->length();
     if (n != 0) this->div(n);
-    else cout << "Can't divide by 0 [Normalize]" << endl;
+//    else cout << "Can't divide by 0 [Normalize]" << endl;
+    else{
+        n = 0.001;
+        this->div(n);
+    }
 }
 
 Vector Vector::dot(Vector v) {

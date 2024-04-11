@@ -29,7 +29,7 @@ public:
 //    int isInShadow(IntersectionResult iInfo, Geometry* object);
     Vector calculateIntensity(PointLight pointLight, Vector Op);
     Vector isInShadow(PointLight pointLight, Vector Op);
-    Intensity calculatePhong(Vector cameraPosition, IntersectionResult result, PointLight light, bool inShadow);
+    Intensity calculatePhong(Vector cameraPosition, IntersectionResult result, PointLight light, bool inShadow, Ray raySampling);
 };
 
 
