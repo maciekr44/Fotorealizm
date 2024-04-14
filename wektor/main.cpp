@@ -30,13 +30,13 @@ float direction_angle(Vector v1) {
 
 int main() {
 
-    Vector spherePoint1(12, 3, -1);
-    Vector spherePoint2(6, 5, 1);
+    Vector spherePoint1(10, 3, -1);
+    Vector spherePoint2(4, 0, 0);
     Vector planePoint(15, 0, 0);
-    Vector planePoint1(13, 7, 0);
-    Vector planePoint2(13, -7, 0);
-    Vector planePoint3(13, 0, 9);
-    Vector planePoint4(13, 0, -9);
+    Vector planePoint1(14, 7, 0);
+    Vector planePoint2(14, -7, 0);
+    Vector planePoint3(14, 0, 7);
+    Vector planePoint4(14, 0, -7);
 
 
 
@@ -46,16 +46,18 @@ int main() {
     Vector trianglePointA(-8, 0, 0);//X działa odwrotnie niż w kamerach tamto -8 to u nas 8
 
     Intensity color1(1, 0, 0);
-    Intensity color2(1, 1, 0);
+    Intensity color2(0, 0.5, 0.5);
     Intensity color3(1, 1, 1);
     Intensity color4(1, 0, 0);
     Intensity color5(0, 0.5, 0);
     Intensity color6(0.5, 0, 0.5);
 
 
-
-    Material material1(color1, 1, 1, 1);
-    Material material2(color2, 1, 1, 1);
+    // mniejsze specular to wieksza matowosc
+    // mniejsze shininess to ostrzejsza krawedz swiatla
+    // reflect nic nie robi narazie
+    Material material1(color1, 0.1, 1, 1);
+    Material material2(color2, 10, 10, 1);
     Material material3(color3, 1, 1, 1);
     Material material4(color4, 1, 1, 1);
     Material material5(color5, 1, 1, 1);
@@ -63,12 +65,12 @@ int main() {
 
     std::list<Geometry *> objects;
     objects.push_back(new Sphere(spherePoint1, 4, material1));
-    objects.push_back(new Sphere(spherePoint2, 1.5, material3));
-    objects.push_back(new Plane(Vector(1, 0, 0), planePoint, material3));
-    objects.push_back(new Plane(Vector(-0.5, -1, 0), planePoint1, material3)); //podloga
-    objects.push_back(new Plane(Vector(-0.5, 1, 0), planePoint2, material3)); //sufit
-    objects.push_back(new Plane(Vector(-1, 0, -1), planePoint3, material3)); //lewa sciana
-    objects.push_back(new Plane(Vector(-1, 0, 1), planePoint4, material3)); // prawa sciana
+    objects.push_back(new Sphere(spherePoint2, 1.5, material2));
+    objects.push_back(new Plane(Vector(-1, 0, 0), planePoint, material3));
+    objects.push_back(new Plane(Vector(-0.8, -1, 0), planePoint1, material3)); //podloga
+    objects.push_back(new Plane(Vector(-0.8, 1, 0), planePoint2, material3)); //sufit
+    objects.push_back(new Plane(Vector(-1, 0, -0.8), planePoint3, material3)); //lewa sciana
+    objects.push_back(new Plane(Vector(-1, 0, 0.8), planePoint4, material3)); // prawa sciana
 
 
 
@@ -88,7 +90,7 @@ int main() {
     Vector start(0, 0, 0);
 
     AmbientLight ambientLight = AmbientLight(color3, 0.0);
-    Vector lightPosition(-20, 4, 3);
+    Vector lightPosition(-1,-1,2);
 
 
 //
@@ -188,7 +190,7 @@ int main() {
     nowy.location = lightPosition;
     nowy.constAtten = 0.7; // jak mniejsze to ciemniej
     nowy.linearAtten = 0.05; // jak mniejsze to jasniej
-    nowy.color = color6;
+    nowy.color = color3;
 
 
     for (int y = 0; y < image.height; ++y) {

@@ -84,59 +84,35 @@ public:
         float distanceToLightFloat = distanceToLight.length();
 //        distanceToLightFloat.normalize();
 
-        // Calculate attenuation
+        // attenuation
         float attenuation = 1.0f / (light.constAtten + light.linearAtten * distanceToLightFloat);
 
-        // Calculate specular component
+        // specular component
         float ss = std::max(0.0f, raySampling.getDirection().dotProduct(R));
         float specular = (ss > 0) ? std::pow(ss, result.material.shineness) * result.material.specular : 0;
         Intensity sIntensity = light.color; // Apply attenuation to specular intensity
         sIntensity *= attenuation;
         sIntensity *= specular;
 
-        // Calculate diffuse component
+        //diffuse component
         float cosinus = std::max(0.0f, raySampling.getDirection().dotProduct(N));
         Intensity diffuseIntensity = result.material.color; // Apply attenuation to diffuse intensity
         diffuseIntensity *= cosinus;
         diffuseIntensity *= attenuation;
 
-//        // Combine specular and diffuse intensities-----------------------------
-//        Intensity finalIntensity = sIntensity + diffuseIntensity;
-//
-//        Intensity ambientColor = ambientLight.getColor();
-//        finalIntensity = finalIntensity * ambientColor;--------------------------
-
-//        if(result.type == HIT){
-//            if(finalIntensity.R() == 0) finalIntensity.R(0.02);
-//            if(finalIntensity.R() == 0) finalIntensity.G(0.02);
-//            if(finalIntensity.R() == 0) finalIntensity.B(0.02);
-//
-//            float newR = finalIntensity.R() * ambientLight.getIntensity();
-//            float newG = finalIntensity.G() * ambientLight.getIntensity();
-//            float newB = finalIntensity.B() * ambientLight.getIntensity();
-//
-//            finalIntensity.R(newR);
-//            finalIntensity.G(newG);
-//            finalIntensity.B(newB);
-//        }
-
-
-        // Combine specular and diffuse intensities
+        //specular and diffuse intensities
         Intensity finalIntensity = sIntensity + diffuseIntensity;
 
-        // Apply ambient light
+        //ambient light
         Intensity ambientColor = ambientLight.getColor();
         float tmp = ambientLight.getIntensity();
         ambientColor*=tmp;
         finalIntensity += ambientColor;
 
-        if (inShadow) finalIntensity *= 0.6; // Adjust this value as needed
+        if (inShadow) finalIntensity *= 0.6;
 
         return finalIntensity;
 
-//        finalIntensity *= ambientLight.getIntensity();-------------------------
-
-        return finalIntensity;
     }
 
     static Material antyaliasingPersp(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize,
