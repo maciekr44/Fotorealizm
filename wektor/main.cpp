@@ -30,13 +30,13 @@ float direction_angle(Vector v1) {
 
 int main() {
 
-    Vector spherePoint1(8, 2, -2);
-    Vector spherePoint2(2, 7, 1);
-    Vector planePoint(13, 0, 0);
+    Vector spherePoint1(12, 3, -1);
+    Vector spherePoint2(6, 5, 1);
+    Vector planePoint(15, 0, 0);
     Vector planePoint1(13, 7, 0);
-    Vector planePoint2(13, -12, 0);
-    Vector planePoint3(13, 0, 10);
-    Vector planePoint4(13, 0, -10);
+    Vector planePoint2(13, -7, 0);
+    Vector planePoint3(13, 0, 9);
+    Vector planePoint4(13, 0, -9);
 
 
 
@@ -62,8 +62,8 @@ int main() {
 
 
     std::list<Geometry *> objects;
-    objects.push_back(new Sphere(spherePoint1, 5, material1));
-    objects.push_back(new Sphere(spherePoint2, 2, material3));
+    objects.push_back(new Sphere(spherePoint1, 4, material1));
+    objects.push_back(new Sphere(spherePoint2, 1.5, material3));
     objects.push_back(new Plane(Vector(1, 0, 0), planePoint, material3));
     objects.push_back(new Plane(Vector(-0.5, -1, 0), planePoint1, material3)); //podloga
     objects.push_back(new Plane(Vector(-0.5, 1, 0), planePoint2, material3)); //sufit
@@ -171,7 +171,7 @@ int main() {
 
 
     // Define the parameters for the camera
-    Vector cameraPositionPersp(-40, 0, 0);  // Set the camera position
+    Vector cameraPositionPersp(-39, 0, 0);  // Set the camera position
     Vector lookAtPersp(-30, 0, 0);  // Set the point to look at
 
     Ray directionPerspRay(cameraPositionPersp, lookAtPersp);
