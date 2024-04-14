@@ -71,15 +71,11 @@ int main() {
     objects.push_back(new Plane(Vector(-0.8, 1, 0), planePoint2, material3)); //sufit
     objects.push_back(new Plane(Vector(-1, 0, -0.8), planePoint3, material3)); //lewa sciana
     objects.push_back(new Plane(Vector(-1, 0, 0.8), planePoint4, material3)); // prawa sciana
-
-
-
-
 //    objects.push_back(new Triangle(trianglePointA, trianglePointB, trianglePointC, material4));
 
     Image image(500, 500);
 
-    Vector cameraPositionOrto(-40, 0, 0);  // Set the camera position
+    Vector cameraPositionOrto(-45, 0, 0);  // Set the camera position
     Vector lookAtOrto(-30, 0, 0);  // Set the point to look at
     Ray directionOrtoRay(cameraPositionOrto, lookAtOrto);
     Vector directionOrtoVector = directionOrtoRay.getDirection();
@@ -89,91 +85,96 @@ int main() {
     Vector finish(0, 0, 0);
     Vector start(0, 0, 0);
 
-    AmbientLight ambientLight = AmbientLight(color3, 0.0);
-    Vector lightPosition(-1,-1,2);
+    AmbientLight ambientLight = AmbientLight(color3, 0);
+    Vector lightPosition(-1, -1, 2);
+    PointLight nowy = PointLight();
+    nowy.location = lightPosition;
+    nowy.constAtten = 0.7; // jak mniejsze to ciemniej
+    nowy.linearAtten = 0.05; // jak mniejsze to jasniej
+    nowy.color = color6;
 
+// Create an orthographic camera
+    OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, upOrto);
+    Ray rayOrthographic(cameraPositionOrto, lookAtOrto);
 
-//
-//// Create an orthographic camera
-//    OrtogonalCamera cameraOrto(cameraPositionOrto, lookAtOrto, upOrto);
-//    Ray rayOrthographic (cameraPositionOrto,lookAtOrto);
-//
-//    //ray uzywany do antyaliasingu
-//    Ray raySampling(Vector(0, 0, 0), Vector(100, 0, 0));
-//
-//
-//    // Iterate over each pixel in the image
-//    for (int y = 0; y < image.height; ++y) {
-//        for (int x = 0; x < image.width; ++x) {
-//
-//            directionOrtoRay.setOrigin(cameraPositionOrto);
-//            directionOrtoRay.setDestination(lookAtOrto);
-//
-//
-//            float pixelX = (-1.0f + 2.0f * x / (image.width - 1.0f)) * directionOrtoRay.getDistance();
-//            float pixelY = (-1.0f + 2.0f * y / (image.height - 1.0f)) * directionOrtoRay.getDistance();
-//
-//            int sampling = 5;
-//
-//            float antialiasingPixelSize = ((directionOrtoRay.getDistance() * 2) / image.width) / sampling;
-//
-//            float antialiasingPixelX = pixelX - (2 * antialiasingPixelSize);
-//            float antialiasingPixelY = pixelY - (2 * antialiasingPixelSize);
-//
-//
-//            Vector rayDirection = directionOrtoRay.getDirection();
-//            float cameraEnd = rayDirection.getX();
-//
-//            finish.setX(cameraEnd);
-//            finish.setY(pixelY);
-//            finish.setZ(pixelX);
-//
-//            float cameraPoint = cameraPositionOrto.getX();
-//            start.setX(cameraPoint);
-//            start.setY(pixelY);
-//            start.setZ(pixelX);
-//
-//            rayOrthographic.setOrigin(start);
-//            rayOrthographic.setDestination(finish);
-//
-//
-//            // ANTYALIASING
-//
-//            Vector raySamplingOrigin(0, antialiasingPixelY, antialiasingPixelX);
-//            raySampling.setOrigin(raySamplingOrigin);
-//            Vector raySamplingDestination(100, antialiasingPixelY, antialiasingPixelX);
-//            raySampling.setDestination(raySamplingDestination);
-//
-//            Material meanColor = OrtogonalCamera::antyaliasingOrto(sampling, antialiasingPixelY, antialiasingPixelX, antialiasingPixelSize, raySampling, objects, rayOrthographic);
-//            image.setPixel(x, y, meanColor.color); //todo: zmienic kolor na material
-//        }
-//    }
-//
-//    // Create SFML window
-//    sf::RenderWindow window(sf::VideoMode(image.width, image.height), "SFML Image");
-//
-//    // Main loop
-//    while (window.isOpen()) {
-//        // Process events
-//        sf::Event event;
-//        while (window.pollEvent(event)) {
-//            if (event.type == sf::Event::Closed)
-//                window.close();
-//        }
-//
-//        // Clear window
-//        window.clear();
-//
-//        // Draw the image
-//        window.draw(image);
-//
-//        // Display window
-//        window.display();
-//    }
+    //ray uzywany do antyaliasingu
+    Ray raySampling(Vector(0, 0, 0), Vector(100, 0, 0));
+
+    // Iterate over each pixel in the image
+    for (int y = 0; y < image.height; ++y) {
+        for (int x = 0; x < image.width; ++x) {
+
+            directionOrtoRay.setOrigin(cameraPositionOrto);
+            directionOrtoRay.setDestination(lookAtOrto);
+
+            float pixelX = (-1.0f + 2.0f * x / (image.width - 1.0f)) * directionOrtoRay.getDistance();
+            float pixelY = (-1.0f + 2.0f * y / (image.height - 1.0f)) * directionOrtoRay.getDistance();
+
+            int sampling = 5;
+
+            float antialiasingPixelSize = ((directionOrtoRay.getDistance() * 2) / image.width) / sampling;
+
+            float antialiasingPixelX = pixelX - (2 * antialiasingPixelSize);
+            float antialiasingPixelY = pixelY - (2 * antialiasingPixelSize);
+
+            Vector rayDirection = directionOrtoRay.getDirection();
+            float cameraEnd = rayDirection.getX();
+
+            finish.setX(cameraEnd);
+            finish.setY(pixelY);
+            finish.setZ(pixelX);
+
+            float cameraPoint = cameraPositionOrto.getX();
+            start.setX(cameraPoint);
+            start.setY(pixelY);
+            start.setZ(pixelX);
+
+            rayOrthographic.setOrigin(start);
+            rayOrthographic.setDestination(finish);
+
+            // ANTYALIASING
+
+            Vector raySamplingOrigin(0, antialiasingPixelY, antialiasingPixelX);
+            raySampling.setOrigin(raySamplingOrigin);
+            Vector raySamplingDestination(100, antialiasingPixelY, antialiasingPixelX);
+            raySampling.setDestination(raySamplingDestination);
+
+            Material meanColor = OrtogonalCamera::antyaliasingOrto(sampling, antialiasingPixelY,
+                                                                      antialiasingPixelX,
+                                                                      antialiasingPixelSize, raySampling, objects,
+                                                                      rayOrthographic
+                                                                      , nowy, start, finish,
+                                                                      ambientLight
+                                                                      );
+            image.setPixel(x, y, meanColor.color); //todo: zmienic kolor na material
+        }
+    }
+
+    // Create SFML window
+    sf::RenderWindow window(sf::VideoMode(image.width, image.height), "SFML Image");
+
+    // Main loop
+    while (window.isOpen()) {
+        // Process events
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        // Clear window
+        window.clear();
+
+        // Draw the image
+        window.draw(image);
+
+        // Display window
+        window.display();
+    }
 
 
     // Define the parameters for the camera
-    Vector cameraPositionPersp(-39, 0, 0);  // Set the camera position
+    Vector cameraPositionPersp(-45, 0, 0);  // Set the camera position
     Vector lookAtPersp(-30, 0, 0);  // Set the point to look at
 
     Ray directionPerspRay(cameraPositionPersp, lookAtPersp);
@@ -186,12 +187,6 @@ int main() {
     PerspectiveCamera cameraPersp(cameraPositionPersp, lookAtPersp, upPersp, fov);
     Ray directionRay(cameraPositionOrto, lookAtOrto);
     Vector directionVector = directionRay.getDirection();
-    PointLight nowy = PointLight();
-    nowy.location = lightPosition;
-    nowy.constAtten = 0.7; // jak mniejsze to ciemniej
-    nowy.linearAtten = 0.05; // jak mniejsze to jasniej
-    nowy.color = color3;
-
 
     for (int y = 0; y < image.height; ++y) {
         for (int x = 0; x < image.width; ++x) {
@@ -238,14 +233,7 @@ int main() {
                                                                       rayPerspective, nowy, start, finish,
                                                                       ambientLight);
 
-            image.setPixel(x, y, meanColor.color); //todo: zmienic kolor na material
-//            } else {
-//                Intensity Red(1,0,1);
-//                Material meanColor(Red,0,0,0);
-//                image.setPixel(x, y, meanColor.color); //todo: zmienic kolor na material
-////                cout<<"NIE KUPA"<<endl;
-//            }
-
+            image.setPixel(x, y, meanColor.color);
 
         }
     }

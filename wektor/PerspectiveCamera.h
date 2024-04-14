@@ -22,46 +22,6 @@ public:
         return In;
     }
 
-
-
-//    static Intensity calculatePhong(Vector cameraPosition, IntersectionResult result, PointLight light, bool inShadow, Ray raySampling) {
-//        Vector I = raySampling.getDirection();
-//        I.normalize();
-//        Vector N = result.intersectionLPOINTNormal;
-//        N.normalize();
-//
-//        // Calculate reflection vector
-//        Vector R = N;
-//        float TMPR = R.dotProduct(I);
-//        R.mag(TMPR);
-//        R.mag(2);
-//        R.sub(I);
-//        R.normalize();
-//
-//        // Calculate specular component
-//        float ss = std::max(0.0f, raySampling.getDirection().dotProduct(R));
-//        float specular = (ss > 0) ? std::pow(ss, result.material.shineness) * result.material.specular : 0;
-//        Intensity sIntensity = light.color;
-//        sIntensity *= specular;
-//
-//        // Calculate diffuse component
-//        float cosinus = std::max(0.0f, raySampling.getDirection().dotProduct(N));
-//        Intensity diffuseIntensity = result.material.color;
-//        diffuseIntensity *=  cosinus;
-//
-//        // Combine specular and diffuse intensities
-//        Intensity finalIntensity = sIntensity + diffuseIntensity;
-//
-//        return finalIntensity;
-//    }
-//
-//    // Calculate the right vector based on the up vector and the direction from camera position to lookAt
-//    Vector right() const {
-//        Vector direction = lookAt;
-//        direction.sub(position);
-//        Vector right = direction.cross(up);
-//        return right;
-//    }
     static Intensity calculatePhong(Vector cameraPosition, IntersectionResult result, PointLight light, bool inShadow, Ray raySampling, AmbientLight ambientLight) {
         Vector I = raySampling.getDirection();
         I.normalize();
@@ -100,7 +60,11 @@ public:
         diffuseIntensity *= cosinus;
         diffuseIntensity *= attenuation;
 
+
         //specular and diffuse intensities
+
+        // Combine specular and diffuse intensities
+
         Intensity finalIntensity = sIntensity + diffuseIntensity;
 
         //ambient light
@@ -140,14 +104,10 @@ public:
                         closestIntersection = intersection;
                     }
                 }
-//                Colors[iterator] = closestIntersection.material;
-//                iterator++;
 
                 //phong, sprawdzanie czy jestesmy w cieniu
                 Ray objectToLight(closestIntersection.LPOINT,
                                   pointLight.location);  //od punktu przeciecia do zrodla swiatla
-//                cout<<pointLight.location.showCoordinates()<<endl;
-//                std::cout << objectToLight.showCoordinates() << std::endl; //tu jest git
                 //jezeli jest HIT (ray napotkal obiekt) to sprawdzamy czy dany pixel (intersection) jest w cieniu
                 if (closestIntersection.type == HIT) {
                     //sprawdzamy malego nibypixela czy jest zacieniony
@@ -155,7 +115,9 @@ public:
                     closestIntersectionShadow.type = MISS;
                     closestIntersectionShadow.distance = std::numeric_limits<float>::infinity(); // jak tu jest nieskonczonosc to jakikolwiek hit bedzie mniejszy
                     for (auto obj: objects) {  //jednym z obiektow jhest farplane
-                        IntersectionResult intersection = obj->collision(objectToLight, 0.001, objectToLight.getDistance());
+
+                        IntersectionResult intersection = obj->collision(objectToLight, 0.001, objectToLight.getDistance()+0.001);
+
                         if (intersection.type == HIT && intersection.distance < closestIntersectionShadow.distance) {
 //                            std::cout << "siema" << std::endl;
                             closestIntersectionShadow = intersection;
@@ -173,27 +135,17 @@ public:
 //                        std::cout << meanColor.color.R() << meanColor.color.G() << meanColor.color.B() << std::endl;
 
 
-                    } else { //wtedy kiedy okazuje sie ze jest zacieniony punkt
-//                        Intensity colorShadow(0,1,1); //zacienione bedzie czarne
-//                        std::cout << "siema" << std::endl;
-//                        Intensity Red(1,1,1);
-// todo: w tego elsa wchodzi zbyt czesto
+                    } else {
                         Intensity colorShadow = calculatePhong(cameraPositionPersp, closestIntersection,
                                                                pointLight, true, objectToLight, ambientLight);
-//                        Intensity kupa(0,0,0);
+
                         Material meanColor(colorShadow, 0, 0, 0);
 
                         Colors[iterator] = meanColor;
-//                        std::cout << meanColor.color.R() << meanColor.color.G() << meanColor.color.B() << std::endl;
-
-
                     }
                 }
-//                std::cout << to_string(iterator) << std::endl;
-//                std::cout << Colors[iterator].color.R() << Colors[iterator].color.G() << Colors[iterator].color.B() << std::endl; // tu sa dobrze kolorki
                 iterator++;
             }
-
         }
 
         Material meanColor1;
@@ -216,18 +168,7 @@ public:
         meanColor1.color.G(sum.getY());
         meanColor1.color.B(sum.getZ());
 
-//        Vector jeden = meanColor.color.calculateIntensity(pointLight, intersection);
-//        Vector dwa = calculateIntensity2(pointLight, intersection);
-
-
-//        Intensity newColor(meanColor.color.R() * dwa.getX(), meanColor.color.G() * dwa.getY(),
-//                           meanColor.color.B() * dwa.getZ());
-//            cout<<pointLight.location.showCoordinates()<<endl;
-//        Ray objectToLight(closestIntersection.LPOINT, pointLight.location);
-//        Intensity final = calculatePhong(start, closestIntersection, pointLight, true, objectToLight, ambientLight);
-//        Material newMaterial(final, 0, 0, 0);
         return (meanColor1);
-
 
     }
 };
