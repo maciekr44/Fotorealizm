@@ -161,7 +161,7 @@ int main() {
     PerspectiveCamera cameraPersp(cameraPositionPersp, lookAtPersp, upPersp, fov);
     Ray directionRay(cameraPositionOrto, lookAtOrto);
     Vector directionVector = directionRay.getDirection();
-    Vector lightPosition(-7, 2, 2);
+    Vector lightPosition(-7, -2, 2);
     PointLight nowy = PointLight();
     nowy.location = lightPosition;
     nowy.constAtten = 0.7;

@@ -177,7 +177,7 @@ public:
                     closestIntersectionShadow.type = MISS;
                     closestIntersectionShadow.distance = std::numeric_limits<float>::infinity(); // jak tu jest nieskonczonosc to jakikolwiek hit bedzie mniejszy
                     for (auto obj: objects) {  //jednym z obiektow jhest farplane
-                        IntersectionResult intersection = obj->collision(objectToLight, 0, 1000);
+                        IntersectionResult intersection = obj->collision(objectToLight, 0.001, 1000);
                         if (intersection.type == HIT && intersection.distance < closestIntersectionShadow.distance) {
 //                            std::cout << "siema" << std::endl;
                             closestIntersectionShadow = intersection;
@@ -201,7 +201,8 @@ public:
 //                        Intensity Red(1,1,1);
                         Intensity colorShadow = calculatePhong(cameraPositionPersp, closestIntersection,
                                                                pointLight, true, objectToLight, ambientLight);
-                        Material meanColor(colorShadow, 0, 0, 0);
+                        Intensity kupa(0,0,0);
+                        Material meanColor(kupa, 0, 0, 0);
 
                         Colors[iterator] = meanColor;
 //                        std::cout << meanColor.color.R() << meanColor.color.G() << meanColor.color.B() << std::endl;
