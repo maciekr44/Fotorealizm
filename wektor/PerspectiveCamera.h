@@ -130,7 +130,7 @@ public:
         ambientColor*=tmp;
         finalIntensity += ambientColor;
 
-        if (inShadow) finalIntensity *= 0.4; // Adjust this value as needed
+        if (inShadow) finalIntensity *= 0.6; // Adjust this value as needed
 
         return finalIntensity;
 
@@ -201,6 +201,7 @@ public:
 //                        Intensity colorShadow(0,1,1); //zacienione bedzie czarne
 //                        std::cout << "siema" << std::endl;
 //                        Intensity Red(1,1,1);
+// todo: w tego elsa wchodzi zbyt czesto
                         Intensity colorShadow = calculatePhong(cameraPositionPersp, closestIntersection,
                                                                pointLight, true, objectToLight, ambientLight);
 //                        Intensity kupa(0,0,0);

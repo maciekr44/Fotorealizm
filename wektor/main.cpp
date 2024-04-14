@@ -30,11 +30,14 @@ float direction_angle(Vector v1) {
 
 int main() {
 
-    Vector spherePoint1(8, -2, 0);
-    Vector spherePoint2(-2, 1, 1);
-    Vector planePoint(15, 0, 0);
-    Vector planePoint1(0, 7, 0);
-    Vector planePoint2(0, -12, 0);
+    Vector spherePoint1(8, 2, -2);
+    Vector spherePoint2(2, 7, 1);
+    Vector planePoint(13, 0, 0);
+    Vector planePoint1(13, 7, 0);
+    Vector planePoint2(13, -12, 0);
+    Vector planePoint3(13, 0, 10);
+    Vector planePoint4(13, 0, -10);
+
 
 
 
@@ -46,18 +49,28 @@ int main() {
     Intensity color2(1, 1, 0);
     Intensity color3(1, 1, 1);
     Intensity color4(1, 0, 0);
+    Intensity color5(0, 0.5, 0);
+    Intensity color6(0.5, 0, 0.5);
+
+
 
     Material material1(color1, 1, 1, 1);
     Material material2(color2, 1, 1, 1);
     Material material3(color3, 1, 1, 1);
     Material material4(color4, 1, 1, 1);
+    Material material5(color5, 1, 1, 1);
+
 
     std::list<Geometry *> objects;
     objects.push_back(new Sphere(spherePoint1, 5, material1));
     objects.push_back(new Sphere(spherePoint2, 2, material3));
-    objects.push_back(new Plane(Vector(1, 0, 0), planePoint, material2));
-    objects.push_back(new Plane(Vector(-0.3, -1, 0), planePoint1, material2));
-    objects.push_back(new Plane(Vector(-0.3, 1, 0), planePoint2, material2));
+    objects.push_back(new Plane(Vector(1, 0, 0), planePoint, material3));
+    objects.push_back(new Plane(Vector(-0.5, -1, 0), planePoint1, material3)); //podloga
+    objects.push_back(new Plane(Vector(-0.5, 1, 0), planePoint2, material3)); //sufit
+    objects.push_back(new Plane(Vector(-1, 0, -1), planePoint3, material3)); //lewa sciana
+    objects.push_back(new Plane(Vector(-1, 0, 1), planePoint4, material3)); // prawa sciana
+
+
 
 
 //    objects.push_back(new Triangle(trianglePointA, trianglePointB, trianglePointC, material4));
@@ -75,7 +88,7 @@ int main() {
     Vector start(0, 0, 0);
 
     AmbientLight ambientLight = AmbientLight(color3, 0.0);
-    Vector lightPosition(-15, 1, 1);
+    Vector lightPosition(-20, 4, 3);
 
 
 //
@@ -173,9 +186,9 @@ int main() {
     Vector directionVector = directionRay.getDirection();
     PointLight nowy = PointLight();
     nowy.location = lightPosition;
-    nowy.constAtten = 0.7;
-    nowy.linearAtten = 0.15;
-    nowy.color = color2;
+    nowy.constAtten = 0.7; // jak mniejsze to ciemniej
+    nowy.linearAtten = 0.05; // jak mniejsze to jasniej
+    nowy.color = color6;
 
 
     for (int y = 0; y < image.height; ++y) {
