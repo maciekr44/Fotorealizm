@@ -30,9 +30,9 @@ float direction_angle(Vector v1) {
 
 int main() {
 
-    Vector spherePoint1(6, -6, 0);
-    Vector spherePoint2(6, 6, 0);
-    Vector planePoint(150, 0, 0);
+    Vector spherePoint1(8, -2, 0);
+    Vector spherePoint2(-2, 1, 1);
+    Vector planePoint(15, 0, 0);
 
     Vector trianglePointB(-8, 6, 0);
     Vector trianglePointC(-8, 0, 6);
@@ -161,7 +161,7 @@ int main() {
     PerspectiveCamera cameraPersp(cameraPositionPersp, lookAtPersp, upPersp, fov);
     Ray directionRay(cameraPositionOrto, lookAtOrto);
     Vector directionVector = directionRay.getDirection();
-    Vector lightPosition(-2, -3, 0);//X działa odwrotnie niż w kamerach tamto -8 to u nas 8
+    Vector lightPosition(-6, 2, 2);
     PointLight nowy = PointLight();
     nowy.location = lightPosition;
     nowy.constAtten = 0.7;

@@ -137,14 +137,14 @@ public:
         return finalIntensity;
     }
 
-    static Material
-    antyaliasingPersp(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize,
+    static Material antyaliasingPersp(int sampling, float antialiasingPixelX, float antialiasingPixelY, float antialiasingPixelSize,
                       Ray raySampling, list<Geometry *> objects, Ray rayOrthographic, PointLight pointLight,
                       Vector start,
                       Vector intersection, AmbientLight ambientLight) {
         int iterator = 0;
         IntersectionResult closestIntersection;
         Material Colors[sampling * sampling];
+        Vector cameraPositionPersp = rayOrthographic.getOrigin();
 
         for (int t = 0; t < sampling; ++t) {
             for (int p = 0; p < sampling; ++p) {
@@ -162,41 +162,86 @@ public:
                         closestIntersection = intersection;
                     }
                 }
-                Colors[iterator] = closestIntersection.material;
-                iterator++;
+//                Colors[iterator] = closestIntersection.material;
+//                iterator++;
+
+                //phong, sprawdzanie czy jestesmy w cieniu
+                Ray objectToLight(closestIntersection.LPOINT, pointLight.location);  //od punktu przeciecia do zrodla swiatla
+//                cout<<pointLight.location.showCoordinates()<<endl;
+//                std::cout << objectToLight.showCoordinates() << std::endl; //tu jest git
+                //jezeli jest HIT (ray napotkal obiekt) to sprawdzamy czy dany pixel (intersection) jest w cieniu
+                if (closestIntersection.type == HIT){
+                    //sprawdzamy malego nibypixela czy jest zacieniony
+                    IntersectionResult closestIntersectionShadow;
+                    closestIntersectionShadow.type = MISS;
+                    closestIntersectionShadow.distance = std::numeric_limits<float>::infinity(); // jak tu jest nieskonczonosc to jakikolwiek hit bedzie mniejszy
+                    for (auto obj: objects) {  //jednym z obiektow jhest farplane
+                        IntersectionResult intersection = obj->collision(objectToLight, 0, 1000);
+                        if (intersection.type == HIT && intersection.distance < closestIntersectionShadow.distance) {
+//                            std::cout << "siema" << std::endl;
+                            closestIntersectionShadow = intersection;
+//                            cout<<objectToLight.showCoordinates()<<endl;
+                        }
+                    }
+                    if (closestIntersectionShadow.type == MISS) {   // czyli niezacieniony
+                        // tutaj obliczenia jak ten maly pixel wyglada bez cienia,
+//                        Intensity colorShadow(0,0,0); //zacienione bedzie czarne
+                        Intensity colorNotShadow = calculatePhong(cameraPositionPersp, closestIntersection, pointLight, false, objectToLight, ambientLight);
+                        Material meanColor(colorNotShadow,0,0,0);
+
+                        Colors[iterator] = meanColor;
 
 
+
+                    } else { //wtedy kiedy okazuje sie ze jest zacieniony punkt
+//                        Intensity colorShadow(0,1,1); //zacienione bedzie czarne
+//                        std::cout << "siema" << std::endl;
+//                        Intensity Red(1,1,1);
+                        Intensity colorShadow = calculatePhong(cameraPositionPersp, closestIntersection,
+                                                                          pointLight, true, objectToLight, ambientLight);
+                        Material meanColor(colorShadow, 0, 0, 0);
+
+                        Colors[iterator] = meanColor;
+//                        std::cout << meanColor.color.R() << meanColor.color.G() << meanColor.color.B() << std::endl;
+
+
+                    }
             }
         }
-        Material meanColor;
+            iterator++;
+            }
+
+        Material meanColor1;
         Vector colorsVector(0, 0, 0);
         Vector sum(0, 0, 0);
         for (int s = 0; s < sampling * sampling; ++s) {
-            meanColor = Colors[s];
-            colorsVector.setX(meanColor.color.getRed());
-            colorsVector.setY(meanColor.color.getGreen());
-            colorsVector.setZ(meanColor.color.getBlue());
+//            std::cout << Colors[s].color.R() << Colors[s].color.G() << Colors[s].color.B() << std::endl;
+
+            meanColor1 = Colors[s];
+            colorsVector.setX(meanColor1.color.getRed());
+            colorsVector.setY(meanColor1.color.getGreen());
+            colorsVector.setZ(meanColor1.color.getBlue());
 
             sum.add(colorsVector);
         }
 
         sum.div(sampling * sampling);
 
-        meanColor.color.R(sum.getX());
-        meanColor.color.G(sum.getY());
-        meanColor.color.B(sum.getZ());
+        meanColor1.color.R(sum.getX());
+        meanColor1.color.G(sum.getY());
+        meanColor1.color.B(sum.getZ());
 
 //        Vector jeden = meanColor.color.calculateIntensity(pointLight, intersection);
-        Vector dwa = calculateIntensity2(pointLight, intersection);
+//        Vector dwa = calculateIntensity2(pointLight, intersection);
 
 
-        Intensity newColor(meanColor.color.R() * dwa.getX(), meanColor.color.G() * dwa.getY(),
-                           meanColor.color.B() * dwa.getZ());
+//        Intensity newColor(meanColor.color.R() * dwa.getX(), meanColor.color.G() * dwa.getY(),
+//                           meanColor.color.B() * dwa.getZ());
 //            cout<<pointLight.location.showCoordinates()<<endl;
-        Ray objectToLight(closestIntersection.LPOINT, pointLight.location);
-        Intensity final = calculatePhong(start, closestIntersection, pointLight, true, objectToLight, ambientLight);
-        Material newMaterial(final, 0, 0, 0);
-        return (newMaterial);
+//        Ray objectToLight(closestIntersection.LPOINT, pointLight.location);
+//        Intensity final = calculatePhong(start, closestIntersection, pointLight, true, objectToLight, ambientLight);
+//        Material newMaterial(final, 0, 0, 0);
+        return (meanColor1);
 
 
     }
