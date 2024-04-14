@@ -130,6 +130,8 @@ public:
         ambientColor*=tmp;
         finalIntensity += ambientColor;
 
+        if (inShadow) finalIntensity *= 0.4; // Adjust this value as needed
+
         return finalIntensity;
 
 //        finalIntensity *= ambientLight.getIntensity();-------------------------
@@ -201,8 +203,8 @@ public:
 //                        Intensity Red(1,1,1);
                         Intensity colorShadow = calculatePhong(cameraPositionPersp, closestIntersection,
                                                                pointLight, true, objectToLight, ambientLight);
-                        Intensity kupa(0,0,0);
-                        Material meanColor(kupa, 0, 0, 0);
+//                        Intensity kupa(0,0,0);
+                        Material meanColor(colorShadow, 0, 0, 0);
 
                         Colors[iterator] = meanColor;
 //                        std::cout << meanColor.color.R() << meanColor.color.G() << meanColor.color.B() << std::endl;

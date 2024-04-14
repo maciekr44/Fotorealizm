@@ -33,6 +33,10 @@ int main() {
     Vector spherePoint1(8, -2, 0);
     Vector spherePoint2(-2, 1, 1);
     Vector planePoint(15, 0, 0);
+    Vector planePoint1(0, 7, 0);
+    Vector planePoint2(0, -12, 0);
+
+
 
     Vector trianglePointB(-8, 6, 0);
     Vector trianglePointC(-8, 0, 6);
@@ -52,6 +56,10 @@ int main() {
     objects.push_back(new Sphere(spherePoint1, 5, material1));
     objects.push_back(new Sphere(spherePoint2, 2, material3));
     objects.push_back(new Plane(Vector(1, 0, 0), planePoint, material2));
+    objects.push_back(new Plane(Vector(-0.3, -1, 0), planePoint1, material2));
+    objects.push_back(new Plane(Vector(-0.3, 1, 0), planePoint2, material2));
+
+
 //    objects.push_back(new Triangle(trianglePointA, trianglePointB, trianglePointC, material4));
 
     Image image(500, 500);
@@ -66,7 +74,9 @@ int main() {
     Vector finish(0, 0, 0);
     Vector start(0, 0, 0);
 
-    AmbientLight ambientLight = AmbientLight(color3, 0.2);
+    AmbientLight ambientLight = AmbientLight(color3, 0.0);
+    Vector lightPosition(-15, 1, 1);
+
 
 //
 //// Create an orthographic camera
@@ -161,7 +171,6 @@ int main() {
     PerspectiveCamera cameraPersp(cameraPositionPersp, lookAtPersp, upPersp, fov);
     Ray directionRay(cameraPositionOrto, lookAtOrto);
     Vector directionVector = directionRay.getDirection();
-    Vector lightPosition(-7, -2, 2);
     PointLight nowy = PointLight();
     nowy.location = lightPosition;
     nowy.constAtten = 0.7;
