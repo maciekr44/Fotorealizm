@@ -42,7 +42,7 @@ int main() {
     Intensity color2(1, 1, 0);
     Intensity color3(1, 1, 1);
     Intensity color4(1, 0, 0);
-//titis
+
     Material material1(color1, 1, 1, 1);
     Material material2(color2, 1, 1, 1);
     Material material3(color3, 1, 1, 1);
@@ -161,7 +161,7 @@ int main() {
     PerspectiveCamera cameraPersp(cameraPositionPersp, lookAtPersp, upPersp, fov);
     Ray directionRay(cameraPositionOrto, lookAtOrto);
     Vector directionVector = directionRay.getDirection();
-    Vector lightPosition(-6, 2, 2);
+    Vector lightPosition(-7, 2, 2);
     PointLight nowy = PointLight();
     nowy.location = lightPosition;
     nowy.constAtten = 0.7;

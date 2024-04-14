@@ -166,11 +166,12 @@ public:
 //                iterator++;
 
                 //phong, sprawdzanie czy jestesmy w cieniu
-                Ray objectToLight(closestIntersection.LPOINT, pointLight.location);  //od punktu przeciecia do zrodla swiatla
+                Ray objectToLight(closestIntersection.LPOINT,
+                                  pointLight.location);  //od punktu przeciecia do zrodla swiatla
 //                cout<<pointLight.location.showCoordinates()<<endl;
 //                std::cout << objectToLight.showCoordinates() << std::endl; //tu jest git
                 //jezeli jest HIT (ray napotkal obiekt) to sprawdzamy czy dany pixel (intersection) jest w cieniu
-                if (closestIntersection.type == HIT){
+                if (closestIntersection.type == HIT) {
                     //sprawdzamy malego nibypixela czy jest zacieniony
                     IntersectionResult closestIntersectionShadow;
                     closestIntersectionShadow.type = MISS;
@@ -186,11 +187,12 @@ public:
                     if (closestIntersectionShadow.type == MISS) {   // czyli niezacieniony
                         // tutaj obliczenia jak ten maly pixel wyglada bez cienia,
 //                        Intensity colorShadow(0,0,0); //zacienione bedzie czarne
-                        Intensity colorNotShadow = calculatePhong(cameraPositionPersp, closestIntersection, pointLight, false, objectToLight, ambientLight);
-                        Material meanColor(colorNotShadow,0,0,0);
+                        Intensity colorNotShadow = calculatePhong(cameraPositionPersp, closestIntersection, pointLight,
+                                                                  false, objectToLight, ambientLight);
+                        Material meanColor(colorNotShadow, 0, 0, 0);
 
                         Colors[iterator] = meanColor;
-
+//                        std::cout << meanColor.color.R() << meanColor.color.G() << meanColor.color.B() << std::endl;
 
 
                     } else { //wtedy kiedy okazuje sie ze jest zacieniony punkt
@@ -198,7 +200,7 @@ public:
 //                        std::cout << "siema" << std::endl;
 //                        Intensity Red(1,1,1);
                         Intensity colorShadow = calculatePhong(cameraPositionPersp, closestIntersection,
-                                                                          pointLight, true, objectToLight, ambientLight);
+                                                               pointLight, true, objectToLight, ambientLight);
                         Material meanColor(colorShadow, 0, 0, 0);
 
                         Colors[iterator] = meanColor;
@@ -206,16 +208,19 @@ public:
 
 
                     }
+                }
+//                std::cout << to_string(iterator) << std::endl;
+//                std::cout << Colors[iterator].color.R() << Colors[iterator].color.G() << Colors[iterator].color.B() << std::endl; // tu sa dobrze kolorki
+                iterator++;
             }
+
         }
-            iterator++;
-            }
 
         Material meanColor1;
         Vector colorsVector(0, 0, 0);
         Vector sum(0, 0, 0);
         for (int s = 0; s < sampling * sampling; ++s) {
-//            std::cout << Colors[s].color.R() << Colors[s].color.G() << Colors[s].color.B() << std::endl;
+//            std::cout << Colors[s].color.R() << Colors[s].color.G() << Colors[s].color.B() << std::endl;    // tu juz nie es
 
             meanColor1 = Colors[s];
             colorsVector.setX(meanColor1.color.getRed());
